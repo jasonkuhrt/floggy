@@ -724,7 +724,7 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
-"@types/lodash@^4.14.150":
+"@types/lodash@4.14.150":
   version "4.14.150"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.150.tgz#649fe44684c3f1fcb6164d943c5a61977e8cf0bd"
   integrity sha512-kMNLM5JBcasgYscD9x/Gvr6lTAv2NVgsKtet/hm93qMyf/D1pt+7jeEZklKJKxMVmXjxbRVQQGfqDSfipYCO6w==
@@ -763,7 +763,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pino@^6.0.0":
+"@types/pino@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.0.0.tgz#9c255a87e127b34a368e9f8498ed25943040b809"
   integrity sha512-V/ygB0a3bkuNMT+MgRd5wahC3dwgEtWyZG7eY2c9gJZZFoZbIQj8vo/h9h8A+iWJfXpzvm97XtydYvKuW2kt1Q==
