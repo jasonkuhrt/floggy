@@ -43,7 +43,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "lodash": "^4.17.15",
-    "pino": "5",
+    "pino": "6",
     "strip-ansi": "^6.0.0"
   }
 }
