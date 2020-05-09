@@ -3,7 +3,6 @@ import { chalk } from './chalk'
 import * as Level from './level'
 import * as Logger from './logger'
 import * as Output from './output'
-import * as Pino from './pino'
 import { casesHandled } from './utils'
 
 // todo jsdoc
@@ -101,7 +100,7 @@ export type RootLogger = Logger.Logger & {
 }
 
 export type State = {
-  pino: Pino.Logger
+  settings: Settings
 }
 
 /**
@@ -117,14 +116,13 @@ export function create(opts?: Options): RootLogger {
     }
   }
 
-  const state = {} as State
-  const loggerLink = Logger.create(state, [opts?.name ?? 'root'], {})
-  const logger = loggerLink.logger as RootLogger
-
-  logger.settings = ((newSettings: SettingsInput) => {
+  const settings = ((newSettings: SettingsInput) => {
     if ('pretty' in newSettings) {
       // @ts-ignore
       logger.settings.pretty = processSettingInputPretty(newSettings.pretty, logger.settings.pretty)
+      // Sync chalk
+      // Assume true color support, not doing all that -> https://github.com/chalk/chalk#256-and-truecolor-color-support
+      chalk.level = logger.settings.pretty.color ? 3 : 0
     }
 
     if ('level' in newSettings) {
@@ -132,34 +130,19 @@ export function create(opts?: Options): RootLogger {
       logger.settings.level = newSettings.level
     }
 
-    // sync pino
-
-    if ('pretty' in newSettings) {
-      // Pino does not support updating pretty setting, so we have to recreate it
-      state.pino = Pino.create(logger.settings)
-    }
-
-    if ('level' in newSettings) {
-      state.pino.level = logger.settings.level
-    }
-
-    // sync chalk
-    if ('pretty' in newSettings) {
-      // todo do not assume true color support
-      // https://github.com/chalk/chalk#256-and-truecolor-color-support
-      chalk.level = newSettings.pretty ? 3 : 0
-    }
-
     return logger
   }) as Settings
 
-  Object.assign(logger.settings, {
+  const state = { settings } as State
+  const loggerLink = Logger.create(state, [opts?.name ?? 'root'], {})
+  const logger = loggerLink.logger as RootLogger
+  logger.settings = settings
+
+  Object.assign(state.settings, {
     pretty: processSettingInputPretty(opts?.pretty, null),
     level,
     output: opts?.output ?? process.stdout,
   })
-
-  state.pino = Pino.create(logger.settings)
 
   return logger
 }

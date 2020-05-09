@@ -102,10 +102,7 @@ export const separators = {
 type Options = {
   levelLabel: boolean
   timeDiff: boolean
-}
-
-export function create(options: Options) {
-  return render.bind(null, options)
+  color: boolean
 }
 
 export function render(opts: Options, logRecord: Logger.LogRecord): string {
@@ -201,7 +198,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
 
     const valueRendered = `${util.inspect(value, {
       breakLength: availableSinglelineContextColumns,
-      colors: true,
+      colors: opts.color,
       getters: true,
       depth: 20,
     })}`
@@ -246,7 +243,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // put it together
   //
 
-  return `${gutterRendered}${preContextRendered}${contextRendered}\n`
+  return `${gutterRendered}${preContextRendered}${contextRendered}`
 }
 
 type El = {

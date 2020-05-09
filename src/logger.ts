@@ -1,19 +1,20 @@
 import * as Lo from 'lodash'
-import { Level } from './level'
+import * as OS from 'os'
+import { Level, LEVELS } from './level'
+import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
 // TODO JSON instead of unknown type
 type Context = Record<string, unknown>
 
 export type LogRecord = {
+  level: 10 | 20 | 30 | 40 | 50 | 60
   path: string[]
   event: string
-  level: 10 | 20 | 30 | 40 | 50 | 60
+  context: Context
   time: number
   pid: number
   hostname: string
-  context: Context
-  v: number
 }
 
 type Log = (event: string, context?: Context) => void
@@ -50,13 +51,28 @@ export function create(
     })
   }
 
-  function forwardToPino(level: Level, event: string, localContext: undefined | Context) {
-    // Avoid mutating the passed local context
-    const context = localContext
-      ? Lo.merge({}, state.pinnedAndParentContext, localContext)
-      : state.pinnedAndParentContext
-
-    rootState.pino[level]({ path, context }, event)
+  function send(level: Level, event: string, localContext: undefined | Context) {
+    const thisLevel = LEVELS[level].number
+    const levelSetting = LEVELS[rootState.settings.level].number
+    if (thisLevel >= levelSetting) {
+      // Avoid mutating the passed local context
+      const context = localContext
+        ? Lo.merge({}, state.pinnedAndParentContext, localContext)
+        : state.pinnedAndParentContext
+      const logRec: LogRecord = {
+        path,
+        context,
+        event,
+        level: thisLevel,
+        time: Date.now(),
+        hostname: OS.hostname(),
+        pid: process.pid,
+      }
+      const logMsg = rootState.settings.pretty.enabled
+        ? Prettifier.render(rootState.settings.pretty, logRec)
+        : JSON.stringify(logRec)
+      rootState.settings.output.write(logMsg + OS.EOL)
+    }
   }
 
   const link: Link = {
@@ -75,22 +91,22 @@ export function create(
 
   const logger: Logger = {
     fatal(event, context) {
-      forwardToPino('fatal', event, context)
+      send('fatal', event, context)
     },
     error(event, context) {
-      forwardToPino('error', event, context)
+      send('error', event, context)
     },
     warn(event, context) {
-      forwardToPino('warn', event, context)
+      send('warn', event, context)
     },
     info(event, context) {
-      forwardToPino('info', event, context)
+      send('info', event, context)
     },
     debug(event, context) {
-      forwardToPino('debug', event, context)
+      send('debug', event, context)
     },
     trace(event, context) {
-      forwardToPino('trace', event, context)
+      send('trace', event, context)
     },
     addToContext(context: Context) {
       // Can safely mutate here, save some electricity...
