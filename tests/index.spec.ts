@@ -9,6 +9,7 @@
 require('os').hostname = () => 'mock-host'
 
 import * as Lo from 'lodash'
+import * as OS from 'os'
 import * as Logger from '../src'
 import * as Output from '../src/output'
 import * as Prettifier from '../src/prettifier'
@@ -570,5 +571,5 @@ function stringValueEntryWithin(keyName: string, size: number): Record<any, any>
  * Remove traiing newline. Strict alternative to .trim().
  */
 function trimTrailingNewline(s: string): string {
-  return s.replace(/\n$/, '')
+  return s.replace(new RegExp(OS.EOL + '$'), '')
 }
