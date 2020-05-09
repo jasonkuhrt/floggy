@@ -255,8 +255,9 @@ describe('settings', () => {
         log.info('a') // prep the next delta, this too unreliable to test
         log.info('b')
         log.info('c')
-        expect(output.memory.jsonOrRaw[1]).toMatch(/^   \d.*/)
-        expect(output.memory.jsonOrRaw[2]).toMatch(/^   \d.*/)
+        const pattern = /^  (?:\d| )\d.*/ // non-deterministic timing here, allow for 1-2 digit ms timings
+        expect(output.memory.jsonOrRaw[1]).toMatch(pattern)
+        expect(output.memory.jsonOrRaw[2]).toMatch(pattern)
       })
       // todo these tests as unit level to some pure logic functions would be
       // easy... e.g. prettifier.spec.ts ... But then we run the risk of sliding

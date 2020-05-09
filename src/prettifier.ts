@@ -203,6 +203,8 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
       depth: 20,
     })}`
 
+    // todo probably not cheap, calculate instead by running a context columns consumed tally
+    // this is also the only use-case for stripAnsi and then we can drop the dep
     contextColumnsConsumed += stripAnsi(valueRendered).length
 
     return [key, valueRendered]
