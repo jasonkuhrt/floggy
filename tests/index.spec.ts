@@ -9,6 +9,7 @@
 require('os').hostname = () => 'mock-host'
 
 import * as Lo from 'lodash'
+import * as OS from 'os'
 import * as Logger from '../src'
 import * as Output from '../src/output'
 import * as Prettifier from '../src/prettifier'
@@ -255,8 +256,9 @@ describe('settings', () => {
         log.info('a') // prep the next delta, this too unreliable to test
         log.info('b')
         log.info('c')
-        expect(output.memory.jsonOrRaw[1]).toMatch(/^   \d.*/)
-        expect(output.memory.jsonOrRaw[2]).toMatch(/^   \d.*/)
+        const pattern = /^  (?:\d| )\d.*/ // non-deterministic timing here, allow for 1-2 digit ms timings
+        expect(output.memory.jsonOrRaw[1]).toMatch(pattern)
+        expect(output.memory.jsonOrRaw[2]).toMatch(pattern)
       })
       // todo these tests as unit level to some pure logic functions would be
       // easy... e.g. prettifier.spec.ts ... But then we run the risk of sliding
@@ -569,5 +571,5 @@ function stringValueEntryWithin(keyName: string, size: number): Record<any, any>
  * Remove traiing newline. Strict alternative to .trim().
  */
 function trimTrailingNewline(s: string): string {
-  return s.replace(/\n$/, '')
+  return s.replace(new RegExp(OS.EOL + '$'), '')
 }

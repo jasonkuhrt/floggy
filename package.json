@@ -10,10 +10,11 @@
   ],
   "scripts": {
     "format": "prettier --write .",
-    "dev": "tsc --build --watch",
+    "dev": "yarn -s clean && tsc --build --watch",
+    "dev:test": "jest --watch",
     "build": "tsc",
     "test": "jest",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && git clean -fx",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",
@@ -23,7 +24,6 @@
     "@prisma-labs/prettier-config": "0.1.0",
     "@types/jest": "25.2.1",
     "@types/lodash": "4.14.150",
-    "@types/pino": "6.0.0",
     "dripip": "0.9.0",
     "jest": "25.5.0",
     "jest-watch-typeahead": "0.5.0",
@@ -43,7 +43,6 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "lodash": "^4.17.15",
-    "pino": "5",
     "strip-ansi": "^6.0.0"
   }
 }

@@ -16,7 +16,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -28,7 +27,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -45,7 +43,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -57,7 +54,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -69,7 +65,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -81,7 +76,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -93,7 +87,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {},
@@ -105,7 +98,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -127,7 +119,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -149,7 +140,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -170,7 +160,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -191,7 +180,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -209,7 +197,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -227,7 +214,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -248,7 +234,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {
@@ -264,7 +249,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
   Object {
     "context": Object {
@@ -280,7 +264,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -298,7 +281,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
@@ -315,7 +297,6 @@ Array [
     ],
     "pid": 0,
     "time": 0,
-    "v": 1,
   },
 ]
 `;
