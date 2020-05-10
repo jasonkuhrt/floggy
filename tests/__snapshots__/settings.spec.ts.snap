@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`settings pretty .color controls if pretty logs have color or not 1`] = `
+Array [
+  "● root foo  --  qux: true
+",
+]
+`;
+
+exports[`settings pretty .levelLabel controls if label is spelt out or not 1`] = `
+Array [
+  "✕ fatal root foo
+",
+  "■ error root foo
+",
+  "▲ warn  root foo
+",
+  "● info  root foo
+",
+  "○ debug root foo
+",
+]
+`;

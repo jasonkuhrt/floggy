@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`multiline used if context does fit singleline (multiple key-values) 1`] = `
+"— root foo
+  | ke1  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  | ke2  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
+`;
+
+exports[`multiline used if context does not fit singleline 1`] = `
+"— root foo
+  | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
+`;
+
+exports[`singleline used if context does fit singleline (multiple key-values) 1`] = `"— root foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`;
+
+exports[`singleline used if context does fit singleline 1`] = `"— root foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`;
