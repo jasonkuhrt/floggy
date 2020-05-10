@@ -58,62 +58,6 @@ describe('output', () => {
   })
 })
 
-describe('level', () => {
-  describe('precedence', () => {
-    it('considers instance time config first', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'fatal' })
-      l.settings({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
-    })
-
-    it('then considers construction time config', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
-    })
-
-    it('then considers LOG_LEVEL env var', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'trace'
-      const l = Logger.create()
-      expect(l.settings.level).toEqual('trace')
-    })
-
-    it('then considers NODE_ENV=production', () => {
-      process.env.NODE_ENV = 'production'
-      const l = Logger.create()
-      expect(l.settings.level).toEqual('info')
-    })
-
-    it('then defaults to debug', () => {
-      const l = Logger.create()
-      expect(l.settings.level).toEqual('debug')
-    })
-  })
-
-  it('logs below set level are not output', () => {
-    log.settings({ level: 'warn' }).info('foo')
-    expect(output.memory.jsonOrRaw).toEqual([])
-  })
-
-  it('LOG_LEVEL env var config is treated case insensitive', () => {
-    process.env.NODE_ENV = 'production'
-    process.env.LOG_LEVEL = 'TRACE'
-    const l = Logger.create()
-    expect(l.settings.level).toEqual('trace')
-  })
-
-  it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {
-    process.env.LOG_LEVEL = 'ttrace'
-    expect(() => Logger.create()).toThrowErrorMatchingInlineSnapshot(
-      `"Could not parse environment variable LOG_LEVEL into LogLevel. The environment variable was: ttrace. A valid environment variable must be like: fatal, error, warn, info, debug, trace"`
-    )
-  })
-})
-
 describe('.<level> log methods', () => {
   it('accept an event name and optional context', () => {
     log.info('hi', { user: { id: 1 } })
