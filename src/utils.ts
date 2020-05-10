@@ -77,3 +77,12 @@ export function range(times: number): number[] {
   }
   return list
 }
+
+/**
+ * Strip keys from object whose value is undefined.
+ */
+export function omitUndefinedKeys<T extends Record<string, unknown>>(data: T): T {
+  return Object.entries(data ?? {})
+    .filter(([k, v]) => v !== undefined)
+    .reduce((acc, [k, v]) => Object.assign(acc, { [k]: v }), {} as T)
+}
