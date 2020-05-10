@@ -1,8 +1,10 @@
 import * as Logger from '../src'
-import { createMockOutput, MockOutput } from './__helpers'
+import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
 
 let log: Logger.RootLogger
 let output: MockOutput
+
+resetBeforeEachTest(process, 'env')
 
 beforeEach(() => {
   process.env.LOG_PRETTY = 'false'

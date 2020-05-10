@@ -8,9 +8,8 @@
 // shows up in snapshots of json-mode logs
 require('os').hostname = () => 'mock-host'
 
-import * as Lo from 'lodash'
 import * as Logger from '../src'
-import { createMockOutput, MockOutput } from './__helpers'
+import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
 
 resetBeforeEachTest(process, 'env')
 resetBeforeEachTest(process.stdout, 'isTTY')
@@ -175,22 +174,3 @@ describe('.child', () => {
     expect((log.child('b') as any).setLevel).toBeUndefined()
   })
 })
-
-//
-// Helpers
-//
-
-/**
- * Restore the key on given object before each test. Useful for permiting tests
- * to modify the environment and so on.
- */
-function resetBeforeEachTest(object: any, key: string) {
-  const orig = object[key]
-  beforeEach(() => {
-    if (typeof orig === 'object') {
-      object[key] = Lo.cloneDeep(orig)
-    } else {
-      object[key] = orig
-    }
-  })
-}
