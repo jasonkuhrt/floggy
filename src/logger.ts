@@ -12,9 +12,9 @@ export type LogRecord = {
   path: string[]
   event: string
   context: Context
-  time: number
-  pid: number
-  hostname: string
+  time?: number
+  pid?: number
+  hostname?: string
 }
 
 type Log = (event: string, context?: Context) => void
@@ -51,10 +51,10 @@ export function create(
     })
   }
 
-  function send(level: Level, event: string, localContext: undefined | Context) {
-    const thisLevel = LEVELS[level].number
+  function send(levelLabel: Level, event: string, localContext: undefined | Context) {
+    const level = LEVELS[levelLabel].number
     const levelSetting = LEVELS[rootState.settings.level].number
-    if (thisLevel >= levelSetting) {
+    if (level >= levelSetting) {
       // Avoid mutating the passed local context
       const context = localContext
         ? Lo.merge({}, state.pinnedAndParentContext, localContext)
@@ -63,10 +63,16 @@ export function create(
         path,
         context,
         event,
-        level: thisLevel,
-        time: Date.now(),
-        hostname: OS.hostname(),
-        pid: process.pid,
+        level,
+      }
+      if (rootState.settings?.data.hostname) {
+        logRec.hostname = OS.hostname()
+      }
+      if (rootState.settings?.data.pid) {
+        logRec.pid = process.pid
+      }
+      if (rootState.settings?.data.time) {
+        logRec.time = Date.now()
       }
       const logMsg = rootState.settings.pretty.enabled
         ? Prettifier.render(rootState.settings.pretty, logRec)

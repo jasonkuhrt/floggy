@@ -3,9 +3,12 @@ import { chalk } from './chalk'
 import * as Level from './level'
 import * as Logger from './logger'
 import * as Output from './output'
-import { casesHandled } from './utils'
+import { casesHandled, omitUndefinedKeys } from './utils'
 
-// todo jsdoc
+/**
+ * The normalized settings. Unlike settings input there are no shorthands here.
+ * This data is read-only, it is not intended to be mutated directly.
+ */
 export type SettingsData = Readonly<{
   level: Level.Level
   pretty: Readonly<{
@@ -14,6 +17,11 @@ export type SettingsData = Readonly<{
     levelLabel: boolean
     timeDiff: boolean
   }>
+  data: {
+    time: boolean
+    pid: boolean
+    hostname: boolean
+  }
   output: Output.Output
 }>
 
@@ -83,6 +91,31 @@ export type SettingsInput = {
          */
         timeDiff?: boolean
       }
+  /**
+   * Toggle pieces of data that should or should not be logged.
+   */
+  data?: {
+    /**
+     * The Unix timestamp in milliseconds when the log was written to the
+     * output.
+     *
+     * @defualt `true` if NODE_ENV="production"
+     */
+    time?: boolean
+    /**
+     * The current node process ID assigned by the operating system. Acquired
+     * via `process.pid`.
+     *
+     * @defualt `true` if NODE_ENV="production"
+     */
+    pid?: boolean
+    /**
+     * The host name of the machine this process is running on. Acquired via `OS.hostname()`.
+     *
+     * @defualt `true` if NODE_ENV="production"
+     */
+    hostname?: boolean
+  }
 }
 
 type Settings = SettingsData & {
@@ -125,6 +158,11 @@ export function create(opts?: Options): RootLogger {
       chalk.level = logger.settings.pretty.color ? 3 : 0
     }
 
+    if ('data' in newSettings) {
+      // @ts-ignore
+      logger.settings.data = processSettingInputData(newSettings.data, logger.settings.data)
+    }
+
     if ('level' in newSettings) {
       // @ts-ignore
       logger.settings.level = newSettings.level
@@ -142,6 +180,7 @@ export function create(opts?: Options): RootLogger {
     pretty: processSettingInputPretty(opts?.pretty, null),
     level,
     output: opts?.output ?? process.stdout,
+    data: processSettingInputData(opts?.data, null),
   })
 
   return logger
@@ -172,6 +211,42 @@ function parseFromEnvironment<T>(
   }
 
   return result
+}
+
+/**
+ * Process data setting input.
+ */
+function processSettingInputData(
+  data: SettingsInput['data'],
+  previous: null | SettingsData['data']
+): SettingsData['data'] {
+  if (!previous) {
+    return {
+      ...getDefaultSettingDataValue(),
+      ...omitUndefinedKeys(data ?? {}),
+    }
+  }
+
+  return {
+    ...previous,
+    ...omitUndefinedKeys(data ?? {}),
+  }
+}
+
+function getDefaultSettingDataValue(): SettingsData['data'] {
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      hostname: true,
+      pid: true,
+      time: true,
+    }
+  } else {
+    return {
+      hostname: false,
+      pid: false,
+      time: false,
+    }
+  }
 }
 
 /**

@@ -240,3 +240,84 @@ describe('level', () => {
     )
   })
 })
+
+describe('data', () => {
+  it('all defaults to false if process.NODE_ENV is not production', () => {
+    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": false,
+      }
+    `)
+    process.env.NODE_ENV = 'not production'
+    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": false,
+      }
+    `)
+
+    process.env.NODE_ENV = 'production'
+    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": true,
+        "pid": true,
+        "time": true,
+      }
+    `)
+  })
+
+  it('merges initial setting with defaults', () => {
+    expect(Logger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": true,
+      }
+    `)
+    process.env.NODE_ENV = 'not production'
+    expect(Logger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": true,
+      }
+    `)
+    process.env.NODE_ENV = 'production'
+    expect(Logger.create({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": true,
+        "pid": true,
+        "time": false,
+      }
+    `)
+  })
+
+  it('merges incremental changes with previous state', () => {
+    expect(Logger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": true,
+      }
+    `)
+    process.env.NODE_ENV = 'not production'
+    expect(Logger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": false,
+        "pid": false,
+        "time": true,
+      }
+    `)
+    process.env.NODE_ENV = 'production'
+    expect(Logger.create().settings({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
+      Object {
+        "hostname": true,
+        "pid": true,
+        "time": false,
+      }
+    `)
+  })
+})

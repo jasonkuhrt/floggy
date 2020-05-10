@@ -46,7 +46,9 @@ describe('singleline', () => {
       key: { size: terminalContextWidth },
     })
     const l = render()
-    expect(l).toMatchSnapshot()
+    expect(l).toMatchInlineSnapshot(
+      `"— root foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
+    )
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
   it('used if context does fit singleline (multiple key-values)', () => {
@@ -55,7 +57,9 @@ describe('singleline', () => {
       ke2: { size: terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length },
     })
     const l = render()
-    expect(l).toMatchSnapshot()
+    expect(l).toMatchInlineSnapshot(
+      `"— root foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
+    )
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
   // it('objects are formatted by util.inspect compact: yes', () => {
