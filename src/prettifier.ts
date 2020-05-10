@@ -99,7 +99,7 @@ export const separators = {
   },
 }
 
-type Options = {
+export type Options = {
   levelLabel: boolean
   timeDiff: boolean
   color: boolean

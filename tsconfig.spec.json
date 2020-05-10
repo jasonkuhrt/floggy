@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "composite": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.spec.ts", "tests"]
+}

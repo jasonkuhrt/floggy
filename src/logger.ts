@@ -1,6 +1,6 @@
 import * as Lo from 'lodash'
 import * as OS from 'os'
-import { Level, LEVELS } from './level'
+import { Level, LevelNum, LEVELS } from './level'
 import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
@@ -8,7 +8,7 @@ import * as RootLogger from './root-logger'
 type Context = Record<string, unknown>
 
 export type LogRecord = {
-  level: 10 | 20 | 30 | 40 | 50 | 60
+  level: LevelNum
   path: string[]
   event: string
   context: Context
