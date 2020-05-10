@@ -42,19 +42,18 @@ beforeEach(() => {
 
 describe('singleline', () => {
   it('used if context does fit singleline', () => {
-    rec.context = stringValueEntryWithin('key', terminalContextWidth)
+    rec.context = createContext({
+      key: { size: terminalContextWidth },
+    })
     const l = render()
     expect(l).toMatchSnapshot()
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
   it('used if context does fit singleline (multiple key-values)', () => {
-    rec.context = {
-      ...stringValueEntryWithin('ke1', terminalContextWidth / 2),
-      ...stringValueEntryWithin(
-        'ke2',
-        terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length
-      ),
-    }
+    rec.context = createContext({
+      ke1: { size: terminalContextWidth / 2 },
+      ke2: { size: terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length },
+    })
     const l = render()
     expect(l).toMatchSnapshot()
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
@@ -68,20 +67,30 @@ describe('singleline', () => {
 
 describe('multiline', () => {
   it('used if context does not fit singleline', () => {
-    rec.context = stringValueEntryWithin('key', terminalContextWidth + 1 /* force multi */)
-    expect(render()).toMatchSnapshot()
+    rec.context = createContext({ key: { size: terminalContextWidth + 1 /* force multi */ } })
+    expect(render()).toMatchInlineSnapshot(`
+      "— root foo
+        | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
+    `)
   })
 
   it('used if context does fit singleline (multiple key-values)', () => {
-    rec.context = {
-      ...stringValueEntryWithin('ke1', terminalContextWidth / 2),
-      ...stringValueEntryWithin(
-        'ke2',
-        terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length + 1 /* force multi */
-      ),
-    }
-    expect(render()).toMatchSnapshot()
+    rec.context = createContext({
+      ke1: { size: terminalContextWidth / 2 },
+      ke2: {
+        size:
+          terminalContextWidth / 2 -
+          Prettifier.separators.contextEntry.singleLine.length +
+          1 /* force multi */,
+      },
+    })
+    expect(render()).toMatchInlineSnapshot(`
+      "— root foo
+        | ke1  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        | ke2  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
+    `)
   })
+
   // it('objects are formatted by util.inspect compact: yes', () => {
   //   if (!process.version.match(/^v12/)) return
   //   log.info('foo', {
@@ -100,17 +109,24 @@ describe('multiline', () => {
 
 // helpers for building content for tests against log formatting
 
-function stringValueWithin(size: number): string {
+function stringSpan(size: number): string {
   const actualSize = size - 2 // -2 for quote rendering "'...'"
   const value = spanChar(actualSize, 'x')
   return value
 }
 
-function stringValueEntryWithin(keyName: string, size: number): Record<any, any> {
+function createContext(spec: Record<string, { size: number }>) {
+  return Object.entries(spec).reduce((acc, [k, v]) => {
+    return {
+      ...acc,
+      [k]: stringSpanKey(k, v.size),
+    }
+  }, {})
+}
+
+function stringSpanKey(keyName: string, size: number): string {
   const KeyWidth = keyName.length + Prettifier.separators.contextKeyVal.singleLine.symbol.length
-  return {
-    [keyName]: stringValueWithin(size - KeyWidth),
-  }
+  return stringSpan(size - KeyWidth)
 }
 
 /**
