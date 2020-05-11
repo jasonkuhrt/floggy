@@ -192,32 +192,32 @@ describe('level', () => {
       process.env.LOG_LEVEL = 'fatal'
       const l = Logger.create({ filter: { minLevel: 'fatal' } })
       l.settings({ filter: { minLevel: 'trace' } })
-      expect(l.settings.filter[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
       const l = Logger.create({ filter: { minLevel: 'trace' } })
-      expect(l.settings.filter[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'trace'
       const l = Logger.create()
-      expect(l.settings.filter[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
       process.env.NODE_ENV = 'production'
       const l = Logger.create()
-      expect(l.settings.filter[0].level.value).toEqual('info')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('info')
     })
 
     it('then defaults to debug', () => {
       const l = Logger.create()
-      expect(l.settings.filter[0].level.value).toEqual('debug')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('debug')
     })
   })
 
@@ -230,7 +230,7 @@ describe('level', () => {
     process.env.NODE_ENV = 'production'
     process.env.LOG_LEVEL = 'TRACE'
     const l = Logger.create()
-    expect(l.settings.filter[0].level.value).toEqual('trace')
+    expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {

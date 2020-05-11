@@ -65,7 +65,7 @@ describe('.<level> log methods', () => {
   })
 
   it('one for each log level', () => {
-    log.settings({ level: 'trace' })
+    log.settings({ filter: { minLevel: 'trace' } })
     log.fatal('hi')
     log.error('hi')
     log.warn('hi')
@@ -136,8 +136,11 @@ describe('.child', () => {
   })
 
   it('inherits level from parent', () => {
-    expect(log.settings.level).toBe('debug')
-    log.settings({ level: 'trace' }).child('tim').trace('hi')
+    expect(log.settings.filter.patterns[0].level.value).toBe('debug')
+    log
+      .settings({ filter: { minLevel: 'trace' } })
+      .child('tim')
+      .trace('hi')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.
     expect(output.memory.jsonOrRaw).toMatchSnapshot()
@@ -145,7 +148,7 @@ describe('.child', () => {
 
   it('reacts to level changes in root logger', () => {
     const b = log.child('b')
-    log.settings({ level: 'trace' })
+    log.settings({ filter: { minLevel: 'trace' } })
     b.trace('foo')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.

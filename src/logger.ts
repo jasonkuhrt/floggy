@@ -63,7 +63,7 @@ export function create(
 
     if (Filter.test(rootState.settings.filter.patterns, logRec)) {
       // Avoid mutating the passed local context
-      const context = localContext
+      logRec.context = localContext
         ? Lo.merge({}, state.pinnedAndParentContext, localContext)
         : state.pinnedAndParentContext
 
