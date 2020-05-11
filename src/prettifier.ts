@@ -11,7 +11,7 @@ const stopWatch = createStopWatch()
 // - https://jrgraphix.net/r/Unicode/2600-26FF
 // - https://graphemica.com/
 
-const LEVEL_STYLES: Record<Level.Level, { badge: string; color: Chalk }> = {
+const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
   fatal: {
     // badge: '⚰',
     // badge: '☠',

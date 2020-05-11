@@ -1,16 +1,23 @@
 import { format } from 'util'
 import { chalk } from './chalk'
+import * as Filter from './filter'
 import * as Level from './level'
 import * as Logger from './logger'
 import * as Output from './output'
 import { casesHandled, omitUndefinedKeys } from './utils'
+
+export const validPathSegmentNameRegex = /^[A-z_]+[A-z_0-9]*$/
 
 /**
  * The normalized settings. Unlike settings input there are no shorthands here.
  * This data is read-only, it is not intended to be mutated directly.
  */
 export type SettingsData = Readonly<{
-  level: Level.Level
+  filter: Readonly<{
+    originalInput: string
+    criteriaDefaults: Filter.CriteriaDefaults
+    patterns: Filter.Parsed[]
+  }>
   pretty: Readonly<{
     enabled: boolean
     color: boolean
@@ -26,19 +33,70 @@ export type SettingsData = Readonly<{
 }>
 
 export type SettingsInput = {
-  /**
-   * Set the level of this and all descedent loggers. This level setting has
-   * highest precedence of all logger level configuration tiers.
-   *
-   * The level config takes the first value found, searching tiers as follows:
-   *
-   *  1. logger instance setting
-   *  2. logger constructor setting
-   *  3. LOG_LEVEL environment variable setting
-   *  3. NODE_ENV=production -> info
-   *  4. otherwise -> debug
-   */
-  level?: Level.Level
+  filter?: {
+    /**
+     * Filter logs based on given criteria.
+     *
+     * The level to filter by can be specified. If set, it overrides `filter.minLevel`.
+     *
+     * @default '*''
+     *
+     * @examples
+     *
+     * Logs from 'foo'
+     *
+     *    'foo'
+     *
+     * Logs from 'foo' _or_ 'bar'
+     *
+     *    'foo,bar'
+     *
+     * Logs from _not_ 'foo'
+     *
+     *    '!foo'
+     *
+     * Logs from 'foo' level 3 and up
+     *
+     *    'foo@3+'
+     *
+     * Logs at level 3 and up
+     *
+     *    '*@3+'
+     *
+     * Logs from 'foo' level 3 and down
+     *
+     *    'foo@3-'
+     *
+     * Logs from 'foo:sub'
+     *
+     *    'foo:sub'
+     *
+     * Logs from any descendents of 'foo:sub'
+     *
+     *    'foo:sub:*'
+     *
+     * Logs from any descendents of 'foo:sub' _and_ 'foo:sub' itself
+     *
+     *    'foo:sub*'
+     *
+     */
+    pattern?: string
+    /**
+     * Set the minimum level a log must be at for it to be written to output.
+     *
+     * This level setting has highest precedence of all logger level configuration
+     * tiers.
+     *
+     * @default
+     *
+     * Takes the first value found, searching in the following order:
+     *
+     *  1. LOG_LEVEL envar if set
+     *  2. 'info' if NODE_ENV envar set to 'production'
+     *  3. 'debug'
+     */
+    minLevel?: Level.Name
+  }
   /**
    * Control pretty mode.
    *
@@ -136,17 +194,25 @@ export type State = {
   settings: Settings
 }
 
+function processFilterSettingInput(filter: SettingsInput['filter']) {}
+
 /**
  * Create a root logger.
  */
 export function create(opts?: Options): RootLogger {
-  let level = opts?.level
+  let level = opts?.filter?.minLevel
   if (level === undefined) {
     if (process.env.LOG_LEVEL) {
-      level = parseFromEnvironment<Level.Level>('LOG_LEVEL', Level.parser)
+      level = parseFromEnvironment<Level.Name>('LOG_LEVEL', Level.parser)
     } else {
       level = process.env.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
     }
+  }
+
+  let filter: SettingsData['filter'] = {
+    originalInput: '*',
+    criteriaDefaults: { level: { value: level, comp: 'gte' } },
+    patterns: Filter.parse({ level: { value: level, comp: 'gte' } }, opts?.filter?.pattern ?? '*'),
   }
 
   const settings = ((newSettings: SettingsInput) => {
@@ -163,9 +229,17 @@ export function create(opts?: Options): RootLogger {
       logger.settings.data = processSettingInputData(newSettings.data, logger.settings.data)
     }
 
-    if ('level' in newSettings) {
+    if ('filter' in newSettings) {
+      const pattern = newSettings.filter?.pattern ?? logger.settings.filter.originalInput
+      const criteriaDefaults = newSettings.filter?.minLevel
+        ? ({ level: { value: newSettings.filter?.minLevel, comp: 'gte' } } as const)
+        : logger.settings.filter.criteriaDefaults
       // @ts-ignore
-      logger.settings.level = newSettings.level
+      logger.settings.filter = {
+        criteriaDefaults,
+        originalInput: pattern,
+        patterns: Filter.parse(criteriaDefaults, pattern),
+      }
     }
 
     return logger
@@ -178,7 +252,7 @@ export function create(opts?: Options): RootLogger {
 
   Object.assign(state.settings, {
     pretty: processSettingInputPretty(opts?.pretty, null),
-    level,
+    filter,
     output: opts?.output ?? process.stdout,
     data: processSettingInputData(opts?.data, null),
   })

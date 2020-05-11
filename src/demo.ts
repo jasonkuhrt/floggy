@@ -6,8 +6,8 @@ export function demo(log?: RootLogger.RootLogger) {
   console.log('LOGGER DEMO')
   console.log('-----------')
   log = log ?? RootLogger.create()
-  const origLevel = log.settings.level
-  log.settings({ level: 'trace', pretty: true })
+  const origLevel = log.settings.filter.criteriaDefaults.level.value
+  log.settings({ filter: { minLevel: 'trace' }, pretty: true })
   log.fatal('foo', { lib: /see/ })
   log.error('foo', {
     har: { mar: 'tek' },
@@ -54,7 +54,7 @@ export function demo(log?: RootLogger.RootLogger) {
   })
   log.debug('foo', { foo: 'bar' })
   log.trace('foo', { a: 1, b: 2, c: 'three' })
-  log.settings({ level: origLevel })
+  log.settings({ filter: { minLevel: origLevel } })
   console.log('-----------')
   console.log('')
 }

@@ -14,7 +14,7 @@
     "dev:test": "jest --watch",
     "build": "tsc",
     "test": "jest",
-    "clean": "rm -rf dist && git clean -fx",
+    "clean": "rm -rf dist",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",

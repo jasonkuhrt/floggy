@@ -9,7 +9,7 @@ function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
     hostname: 'host',
     pid: 0,
     time: 0,
-    level: 10,
+    level: 1,
     path: ['root'],
     context: {},
     ...data,

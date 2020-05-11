@@ -65,7 +65,7 @@ describe('pretty', () => {
   })
 
   describe('.color', () => {
-    it('controls if pretty logs have color or not', () => {
+    it.only('controls if pretty logs have color or not', () => {
       log.settings({ pretty: { enabled: true, color: false } })
       log.info('foo', { qux: true })
       expect(output.memory.jsonOrRaw).toMatchSnapshot()
@@ -190,39 +190,39 @@ describe('level', () => {
     it('considers instance time config first', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'fatal' })
-      l.settings({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
+      const l = Logger.create({ filter: { minLevel: 'fatal' } })
+      l.settings({ filter: { minLevel: 'trace' } })
+      expect(l.settings.filter[0].level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
+      const l = Logger.create({ filter: { minLevel: 'trace' } })
+      expect(l.settings.filter[0].level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'trace'
       const l = Logger.create()
-      expect(l.settings.level).toEqual('trace')
+      expect(l.settings.filter[0].level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
       process.env.NODE_ENV = 'production'
       const l = Logger.create()
-      expect(l.settings.level).toEqual('info')
+      expect(l.settings.filter[0].level.value).toEqual('info')
     })
 
     it('then defaults to debug', () => {
       const l = Logger.create()
-      expect(l.settings.level).toEqual('debug')
+      expect(l.settings.filter[0].level.value).toEqual('debug')
     })
   })
 
   it('logs below set level are not output', () => {
-    log.settings({ level: 'warn' }).info('foo')
+    log.settings({ filter: { minLevel: 'warn' } }).info('foo')
     expect(output.memory.jsonOrRaw).toEqual([])
   })
 
@@ -230,7 +230,7 @@ describe('level', () => {
     process.env.NODE_ENV = 'production'
     process.env.LOG_LEVEL = 'TRACE'
     const l = Logger.create()
-    expect(l.settings.level).toEqual('trace')
+    expect(l.settings.filter[0].level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {

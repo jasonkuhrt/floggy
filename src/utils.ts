@@ -55,7 +55,7 @@ export const spanSpaceRight = span.bind(null, 'padBefore', ' ')
  * union have been accounted for.
  */
 export function casesHandled(x: never): never {
-  throw new Error(`A case was not handled for value: ${x}`)
+  throw new Error(`A case of value was not handled: ${x}`)
 }
 
 /**
@@ -85,4 +85,11 @@ export function omitUndefinedKeys<T extends Record<string, unknown>>(data: T): T
   return Object.entries(data ?? {})
     .filter(([k, v]) => v !== undefined)
     .reduce((acc, [k, v]) => Object.assign(acc, { [k]: v }), {} as T)
+}
+
+/**
+ * Get the last item of an array.
+ */
+export function last<T>(xs: T[]): T {
+  return xs[xs.length - 1]
 }
