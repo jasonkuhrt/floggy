@@ -27,6 +27,8 @@ describe('parse', () => {
   it('a:b', () => { expect(parse('a:b')).toMatchSnapshot() })
   // lists
   it('a,b', () => { expect(parse('a,b')).toMatchSnapshot() })
+  it(',,a,b', () => { expect(parse(',,a,b')).toMatchSnapshot() })
+  it(', ,  a,', () => { expect(parse(', ,  a')).toMatchSnapshot() })
   // levels
   it.each([
     ['a@trace', { comp:'eq', value:'trace' }],
@@ -45,9 +47,25 @@ describe('parse', () => {
     ['a@6+', { comp:'gte', value:'fatal' }],
     ['a@*', { comp:'eq', value:'*' }],
   ] as ([string,Filter.Parsed['level']])[])
-  ('%i', (pattern, expectedLevel) => { expect(parse(pattern)[0].level).toEqual(expectedLevel) })
+  ('%s', (pattern, expectedLevel) => { expect(parse(pattern)[0].level).toEqual(expectedLevel) })
 })
 
-describe('parse syntax errors', () => {})
+// prettier-ignore
+describe('parse syntax errors', () => {
+  it('<empty>', () => { expect(() => parse('')).toThrowErrorMatchingSnapshot() })
+  it('**', () => { expect(() => parse('**')).toThrowErrorMatchingSnapshot() })
+  it('*a', () => { expect(() => parse('*a')).toThrowErrorMatchingSnapshot() })
+  it('*+', () => { expect(() => parse('*+')).toThrowErrorMatchingSnapshot() })
+  it('a@', () => { expect(() => parse('a@')).toThrowErrorMatchingSnapshot() })
+  it('@', () => { expect(() => parse('@')).toThrowErrorMatchingSnapshot() })
+  it('a@*-', () => { expect(() => parse('a@*-')).toThrowErrorMatchingSnapshot() })
+  it('a@*+', () => { expect(() => parse('a@*+')).toThrowErrorMatchingSnapshot() })
+  it(',', () => { expect(() => parse(',')).toThrowErrorMatchingSnapshot() })
+  it('a@+*', () => { expect(() => parse('a@+*')).toThrowErrorMatchingSnapshot() })
+  it('a+', () => { expect(() => parse('a+')).toThrowErrorMatchingSnapshot() })
+  it('!', () => { expect(() => parse('!')).toThrowErrorMatchingSnapshot() })
+  it('a!', () => { expect(() => parse('a!')).toThrowErrorMatchingSnapshot() })
+  it('a@*!', () => { expect(() => parse('a@*!')).toThrowErrorMatchingSnapshot() })
+})
 
 describe('test', () => {})
