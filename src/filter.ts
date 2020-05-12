@@ -37,7 +37,6 @@ export type Parsed = {
 /**
  * Some of the criteria a pattern can specify are optional. When such criteria
  * are not specified, then these defaults are used.
- * hold.
  */
 export type CriteriaDefaults = {
   level: {
@@ -57,10 +56,40 @@ export function parse(criteriaDefaults: CriteriaDefaults, pattern: string): Pars
     .filter((p) => p !== '')
 
   if (!patterns.length) {
-    throw new Error(`Invalid filter pattern: "${pattern}". There must be at least one pattern present.`)
+    throw createInvalidPattern(pattern, 'There must be at least one pattern present.')
   }
 
   return patterns.map((p) => parseOne(criteriaDefaults, p))
+}
+
+function createInvalidPattern(pattern: string, hint?: string): SyntaxError {
+  return new SyntaxError(
+    `Invalid filter pattern: "${pattern}".${hint ? ` Hint: ${hint}` : ''}
+
+Syntax:
+
+  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+
+  <path>       = ${validPathSegmentNameRegex}
+  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+  <levelLabel> = trace | debug | info | warn | error | fatal
+
+Examples:
+
+    *           all paths at default level
+    *@*         all paths at all levels
+    *@info      all paths at info level
+    *@3         all paths at info level
+    *@3+        all paths at info level or higher
+    *@3-        all paths at info level or lower
+    app@*       app path at all levels
+    app:foo     app:foo path at default level
+    app,nexus   app and nexus paths at default level
+    app:*       descendent paths of app at defualt level
+    app:*@2+    descendent paths of app at debug level or higher
+    app*@2+     app & descendent paths of app at debug level or higher
+`
+  )
 }
 
 /**
@@ -127,7 +156,7 @@ export function parseOne(criteriaDefaults: CriteriaDefaults, pattern: string): P
         level.comp = 'eq'
       }
     } else {
-      throw new Error(`Invalid filter pattern: "${pattern}"`)
+      throw createInvalidPattern(pattern)
     }
   }
 
@@ -139,16 +168,13 @@ export function parseOne(criteriaDefaults: CriteriaDefaults, pattern: string): P
       .filter((pathPart) => !pathPart.match(validPathSegmentNameRegex))
 
     if (invalidPathPartNames.length) {
-      throw new Error(
-        `Invalid filter pattern: "${pattern}". Path segment names must only contain ${String(
-          validPathSegmentNameRegex
-        )}.`
+      throw createInvalidPattern(
+        pattern,
+        `Path segment names must only contain ${String(validPathSegmentNameRegex)}.`
       )
     }
   } else if (path.value === '' && !path.descendents) {
-    throw new Error(
-      `Invalid filter pattern: "${pattern}". Must pass path ("foo") or descendent matcher ("*")`
-    )
+    throw createInvalidPattern(pattern, `Must pass a path (e.g. "foo") or descendent matcher ("*")`)
   }
 
   return {
