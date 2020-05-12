@@ -1,3 +1,4 @@
+import { format } from 'util'
 /**
  * Guarantee the length of a given string, padding before or after with the
  * given character. If the given string is longer than  the span target, then it
@@ -92,4 +93,36 @@ export function omitUndefinedKeys<T extends Record<string, unknown>>(data: T): T
  */
 export function last<T>(xs: T[]): T {
   return xs[xs.length - 1]
+}
+
+export function isEmpty(x?: object): boolean {
+  if (x === undefined) return true
+  return Object.values(x).filter((val) => val !== undefined).length === 0
+}
+
+/**
+ * Run a given parser over an environment variable. If parsing fails, throw a
+ * contextual error message.
+ */
+export function parseFromEnvironment<T>(
+  key: string,
+  parser: {
+    info: { valid: string; typeName: string }
+    run: (raw: string) => null | T
+  }
+): T {
+  const envVarValue = process.env[key]! // assumes env presence handled before
+  const result = parser.run(envVarValue)
+
+  if (result === null) {
+    throw new Error(
+      `Could not parse environment variable ${key} into ${
+        parser.info.typeName
+      }. The environment variable was: ${format(envVarValue)}. A valid environment variable must be like: ${
+        parser.info.valid
+      }`
+    )
+  }
+
+  return result
 }

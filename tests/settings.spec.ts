@@ -65,7 +65,7 @@ describe('pretty', () => {
   })
 
   describe('.color', () => {
-    it.only('controls if pretty logs have color or not', () => {
+    it('controls if pretty logs have color or not', () => {
       log.settings({ pretty: { enabled: true, color: false } })
       log.info('foo', { qux: true })
       expect(output.memory.jsonOrRaw).toMatchSnapshot()
