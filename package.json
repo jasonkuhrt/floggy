@@ -6,19 +6,20 @@
   "author": "Prisma Labs Team",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "dist-esm"
   ],
   "scripts": {
     "format": "prettier --write .",
-    "dev": "yarn -s clean && tsc --build --watch",
+    "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
     "dev:test": "jest --watch",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test": "jest",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist* *.tsbuildinfo",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",
-    "prepublishOnly": "yarn -s build"
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@prisma-labs/prettier-config": "0.1.0",
@@ -26,6 +27,7 @@
     "@types/lodash": "4.14.150",
     "dripip": "0.9.0",
     "jest": "26.0.1",
+    "jest-watch-suspend": "^1.1.2",
     "jest-watch-typeahead": "0.6.0",
     "prettier": "2.0.5",
     "ts-jest": "25.5.1",
@@ -37,7 +39,8 @@
     "testEnvironment": "node",
     "watchPlugins": [
       "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
+      "jest-watch-typeahead/testname",
+      "jest-watch-suspend"
     ]
   },
   "prettier": "@prisma-labs/prettier-config",
