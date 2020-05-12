@@ -190,15 +190,15 @@ describe('level', () => {
     it('considers instance time config first', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ filter: { minLevel: 'fatal' } })
-      l.settings({ filter: { minLevel: 'trace' } })
+      const l = Logger.create({ filter: { level: 'fatal' } })
+      l.settings({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ filter: { minLevel: 'trace' } })
+      const l = Logger.create({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
@@ -222,7 +222,7 @@ describe('level', () => {
   })
 
   it('logs below set level are not output', () => {
-    log.settings({ filter: { minLevel: 'warn' } }).info('foo')
+    log.settings({ filter: { level: 'warn' } }).info('foo')
     expect(output.memory.jsonOrRaw).toEqual([])
   })
 

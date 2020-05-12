@@ -15,7 +15,7 @@ export type Manager = Data & {
 export type Data = Readonly<{
   filter: Readonly<{
     originalInput: string
-    criteriaDefaults: Filter.Defaults
+    defaults: Filter.Defaults
     patterns: Filter.Parsed[]
   }>
   pretty: Readonly<{
@@ -37,8 +37,6 @@ export type Input = {
   filter?: {
     /**
      * Filter logs based on given criteria.
-     *
-     * The level to filter by can be specified. If set, it overrides `filter.minLevel`.
      *
      * @default '*''
      *
@@ -83,6 +81,7 @@ export type Input = {
      */
     pattern?: string
     /**
+     * todo revise jsdoc, the concept of this has changed
      * Set the minimum level a log must be at for it to be written to output.
      *
      * This level setting has highest precedence of all logger level configuration
@@ -96,7 +95,7 @@ export type Input = {
      *  2. 'info' if NODE_ENV envar set to 'production'
      *  3. 'debug'
      */
-    minLevel?: Level.Name
+    level?: Level.Name
   }
   /**
    * Control pretty mode.
@@ -302,11 +301,11 @@ export function processSettingInputFilter(
 ): Data['filter'] {
   if (!prev) prev = defaultFilterSetting()
   const pattern = newSettingsFilter.pattern ?? prev.originalInput
-  const criteriaDefaults = newSettingsFilter?.minLevel
-    ? ({ level: { value: newSettingsFilter.minLevel, comp: 'gte' } } as const)
-    : prev.criteriaDefaults
+  const criteriaDefaults = newSettingsFilter?.level
+    ? ({ level: { value: newSettingsFilter.level, comp: 'gte' } } as const)
+    : prev.defaults
   return {
-    criteriaDefaults: criteriaDefaults,
+    defaults: criteriaDefaults,
     originalInput: pattern,
     patterns: Filter.parse(criteriaDefaults, pattern),
   }
@@ -321,7 +320,7 @@ export function defaultFilterSetting(): Data['filter'] {
   }
   return {
     originalInput: '*',
-    criteriaDefaults: { level: { value: level, comp: 'gte' } },
+    defaults: { level: { value: level, comp: 'gte' } },
     patterns: Filter.parse({ level: { value: level, comp: 'gte' } }, '*'),
   }
 }
