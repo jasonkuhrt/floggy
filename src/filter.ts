@@ -38,7 +38,7 @@ export type Parsed = {
  * Some of the criteria a pattern can specify are optional. When such criteria
  * are not specified, then these defaults are used.
  */
-export type CriteriaDefaults = {
+export type Defaults = {
   level: {
     value: Level.Name
     comp: Parsed['level']['comp']
@@ -48,7 +48,7 @@ export type CriteriaDefaults = {
 /**
  * Parse a full pattern. This accounts for lists of patterns. This the parsing entrypoint.
  */
-export function parse(criteriaDefaults: CriteriaDefaults, pattern: string): Parsed[] {
+export function parse(criteriaDefaults: Defaults, pattern: string): Parsed[] {
   // Allow sloppy lists so long as there is at least one pattern given
   const patterns = pattern
     .split(symbols.patternDelim)
@@ -96,7 +96,7 @@ Examples:
  * Parse a single pattern. This assumes parsing of "," has already been handled
  * including whitespace trimming around the pattern.
  */
-export function parseOne(criteriaDefaults: CriteriaDefaults, pattern: string): Parsed {
+export function parseOne(criteriaDefaults: Defaults, pattern: string): Parsed {
   let pattern_ = pattern
   // todo maybe level default should be wildcard instead...
   let level = { ...criteriaDefaults.level } as Parsed['level']

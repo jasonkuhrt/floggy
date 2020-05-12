@@ -15,7 +15,7 @@ export type Manager = Data & {
 export type Data = Readonly<{
   filter: Readonly<{
     originalInput: string
-    criteriaDefaults: Filter.CriteriaDefaults
+    criteriaDefaults: Filter.Defaults
     patterns: Filter.Parsed[]
   }>
   pretty: Readonly<{

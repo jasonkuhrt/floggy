@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse !a 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": true,
+    "originalInput": "!a",
+    "path": Object {
+      "descendents": false,
+      "value": "a",
+    },
+  },
+]
+`;
+
+exports[`parse * 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": false,
+      },
+      "value": "",
+    },
+  },
+]
+`;
+
+exports[`parse *@* 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "*@*",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": false,
+      },
+      "value": "",
+    },
+  },
+]
+`;
+
+exports[`parse *@1 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*@1",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": false,
+      },
+      "value": "",
+    },
+  },
+]
+`;
+
+exports[`parse a 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": Object {
+      "descendents": false,
+      "value": "a",
+    },
+  },
+]
+`;
+
+exports[`parse a,b 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": Object {
+      "descendents": false,
+      "value": "a",
+    },
+  },
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "b",
+    "path": Object {
+      "descendents": false,
+      "value": "b",
+    },
+  },
+]
+`;
+
+exports[`parse a:b 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b",
+    "path": Object {
+      "descendents": false,
+      "value": "a:b",
+    },
+  },
+]
+`;
+
+exports[`parse app* 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app*",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": true,
+      },
+      "value": "app",
+    },
+  },
+]
+`;
+
+exports[`parse app*@* 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app*@*",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": true,
+      },
+      "value": "app",
+    },
+  },
+]
+`;
+
+exports[`parse app*@1 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app*@*",
+    "path": Object {
+      "descendents": Object {
+        "includeParent": true,
+      },
+      "value": "app",
+    },
+  },
+]
+`;
+
+exports[`parse app@* 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app@*",
+    "path": Object {
+      "descendents": false,
+      "value": "app",
+    },
+  },
+]
+`;
