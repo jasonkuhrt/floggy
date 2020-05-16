@@ -1,6 +1,15 @@
 import * as Filter from './filter'
+import { LogRecord } from './logger'
+
+/**
+ * State
+ */
 
 let defaults: Filter.Defaults = { level: { comp: 'gte', value: 'trace' } }
+
+/**
+ * Primary helpers
+ */
 
 function parse(pattern: string) {
   return Filter.parse(defaults, pattern)
@@ -8,26 +17,28 @@ function parse(pattern: string) {
 
 function test() {}
 
+/**
+ * Tests
+ */
+
 // prettier-ignore
 describe('parse', () => {
-  const p: Record<string, string> = {}
-
   // wildcards
-  it('*', () => { expect(parse('*')).toMatchSnapshot() })
-  it('*@*', () => { expect(parse('*@*')).toMatchSnapshot() })
-  it('*@1', () => { expect(parse('*@1')).toMatchSnapshot() })
-  it('app@*', () => { expect(parse('app@*')).toMatchSnapshot() })
-  it('app*', () => { expect(parse('app*')).toMatchSnapshot() })
-  it('app*@*', () => { expect(parse('app*@*')).toMatchSnapshot() })
-  it('app*@1', () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('*',       () => { expect(parse('*')).toMatchSnapshot() })
+  it('*@*',     () => { expect(parse('*@*')).toMatchSnapshot() })
+  it('*@1',     () => { expect(parse('*@1')).toMatchSnapshot() })
+  it('app@*',   () => { expect(parse('app@*')).toMatchSnapshot() })
+  it('app*',    () => { expect(parse('app*')).toMatchSnapshot() })
+  it('app*@*',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('app*@1',  () => { expect(parse('app*@*')).toMatchSnapshot() })
   // negate
-  it('!a', () => { expect(parse('!a')).toMatchSnapshot() })
+  it('!a',      () => { expect(parse('!a')).toMatchSnapshot() })
   // paths
-  it('a', () => { expect(parse('a')).toMatchSnapshot() })
-  it('a:b', () => { expect(parse('a:b')).toMatchSnapshot() })
+  it('a',       () => { expect(parse('a')).toMatchSnapshot() })
+  it('a:b',     () => { expect(parse('a:b')).toMatchSnapshot() })
   // lists
-  it('a,b', () => { expect(parse('a,b')).toMatchSnapshot() })
-  it(',,a,b', () => { expect(parse(',,a,b')).toMatchSnapshot() })
+  it('a,b',     () => { expect(parse('a,b')).toMatchSnapshot() })
+  it(',,a,b',   () => { expect(parse(',,a,b')).toMatchSnapshot() })
   it(', ,  a,', () => { expect(parse(', ,  a')).toMatchSnapshot() })
   // levels
   it.each([
@@ -52,6 +63,7 @@ describe('parse', () => {
 
 // prettier-ignore
 describe('parse syntax errors', () => {
+
   it('<empty>', () => { expect(() => parse('')).toThrowErrorMatchingSnapshot() })
   it('**', () => { expect(() => parse('**')).toThrowErrorMatchingSnapshot() })
   it('*a', () => { expect(() => parse('*a')).toThrowErrorMatchingSnapshot() })
@@ -68,4 +80,61 @@ describe('parse syntax errors', () => {
   it('a@*!', () => { expect(() => parse('a@*!')).toThrowErrorMatchingSnapshot() })
 })
 
-describe('test', () => {})
+describe('test', () => {
+  type Cases = [Filter.Defaults, string, LogRecord, boolean][]
+
+  it.each([
+    // wildcard
+    [defaults, '*', rec(), true],
+    [defaults, '*@*', rec(), true],
+    // negate
+    [defaults, '!foo', rec({ path: ['foo'] }), false],
+    [defaults, '!foo', rec({ path: ['foo', 'bar'] }), true],
+    // negate + wildcard
+    [defaults, '!foo*', rec({ path: ['foo'] }), false],
+    [defaults, '!foo:*', rec({ path: ['foo'] }), true],
+    [defaults, '!foo:*', rec({ path: ['foo', 'bar'] }), false],
+    // level
+    [defaults, '*@2', rec({ level: 1 }), false],
+    [defaults, '*@fatal', rec({ level: 6 }), true],
+    [defaults, '*@fatal-', rec({ level: 1 }), true],
+    [defaults, '*@warn+,app@debug+', rec({ level: 4 }), true],
+    [defaults, '*@warn+,app@debug+', rec({ level: 3 }), false],
+    [defaults, '*@warn+,app@debug+', rec({ level: 3, path: ['app'] }), true],
+    // path
+    [defaults, 'foo', rec({ path: ['bar'] }), false],
+    // path + wildcard
+    [defaults, 'foo:*', rec({ path: ['foo', 'bar'] }), true],
+    [defaults, 'foo:*', rec({ path: ['foo'] }), false],
+    [defaults, 'foo*', rec({ path: ['foo'] }), true],
+    // list
+    [defaults, 'foo,bar', rec({ path: ['bar'] }), true],
+    // misc
+    // filtered out by later pattern
+    [defaults, 'foo:*,!foo:bar', rec({ path: ['foo', 'bar'] }), false],
+    [defaults, 'foo,!foo', rec({ path: ['foo'] }), false],
+    // defaults
+    [{ level: { comp: 'eq', value: 'debug' } }, '*', rec({ level: 1 }), false],
+    [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
+    [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 2 }), true],
+  ] as Cases)('%j %s %j %s', (defaults, pattern, rec, shouldPassOrNot) => {
+    expect(Filter.test(Filter.parse(defaults, pattern), rec)).toBe(shouldPassOrNot)
+  })
+})
+
+/**
+ * Secondary Helpers
+ */
+
+function rec(data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord {
+  return {
+    // overridable
+    path: ['root'],
+    level: 1,
+    // overrides
+    ...data,
+    // not overridable
+    event: 'foo',
+    context: {},
+  }
+}
