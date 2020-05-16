@@ -3,9 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src",
     "module": "commonjs"
-  },
-  "include": ["src"],
-  "exclude": ["tests", "src/**/*.spec.ts"]
+  }
 }

@@ -6,7 +6,11 @@
     "declarationMap": true,
     "importHelpers": true,
     "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "rootDir": "src",
     "strict": true,
     "target": "ES2018"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["tests", "src/**/*.spec.ts"]
 }
