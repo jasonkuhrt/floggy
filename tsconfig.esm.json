@@ -3,10 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist-esm",
-    "rootDir": "src",
-    "module": "ES2015",
-    "moduleResolution": "Node"
-  },
-  "include": ["src"],
-  "exclude": ["tests", "src/**/*.spec.ts"]
+    "module": "ES2015"
+  }
 }
