@@ -185,6 +185,39 @@ describe('pretty', () => {
   })
 })
 
+describe('filter', () => {
+  describe('precedence', () => {
+    it('considers instance time config first', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      l.settings({ filter: { pattern: 'foo' } })
+      expect(l.settings.filter.patterns).toMatchSnapshot()
+    })
+
+    it('then considers construction time config', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+
+    it('then considers LOG_FILTER env var', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create()
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+
+    it('then defaults to "*', () => {
+      const l = Logger.create()
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+  })
+
+  it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
+    process.env.LOG_FILTER = '**'
+    expect(() => Logger.create()).toThrowErrorMatchingSnapshot()
+  })
+})
+
 describe('level', () => {
   describe('precedence', () => {
     it('considers instance time config first', () => {

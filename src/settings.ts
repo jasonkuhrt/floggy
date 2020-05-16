@@ -318,9 +318,15 @@ export function defaultFilterSetting(): Data['filter'] {
   } else {
     level = process.env.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
   }
+  let pattern: string
+  if (process.env.LOG_FILTER) {
+    pattern = process.env.LOG_FILTER
+  } else {
+    pattern = '*'
+  }
   return {
-    originalInput: '*',
+    originalInput: pattern,
     defaults: { level: { value: level, comp: 'gte' } },
-    patterns: Filter.parse({ level: { value: level, comp: 'gte' } }, '*'),
+    patterns: Filter.parse({ level: { value: level, comp: 'gte' } }, pattern),
   }
 }

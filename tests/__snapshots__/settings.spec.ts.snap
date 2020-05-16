@@ -1,5 +1,160 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filter LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
+"Invalid filter pattern: \\"**\\".
+
+Syntax:
+
+  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+
+  <path>       = /^[A-z_]+[A-z_0-9]*$/
+  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+  <levelLabel> = trace | debug | info | warn | error | fatal
+
+Examples:
+
+    *           all paths at default level
+    *@*         all paths at all levels
+    *@info      all paths at info level
+    *@3         all paths at info level
+    *@3+        all paths at info level or higher
+    *@3-        all paths at info level or lower
+    app@*       app path at all levels
+    app:foo     app:foo path at default level
+    app,nexus   app and nexus paths at default level
+    app:*       descendent paths of app at defualt level
+    app:*@2+    descendent paths of app at debug level or higher
+    app*@2+     app & descendent paths of app at debug level or higher
+"
+`;
+
+exports[`filter LOG_FILTER envar config when invalid triggers thrown readable error 1`] = `
+"Invalid filter pattern: \\"**\\".
+
+Syntax:
+
+  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+
+  <path>       = /^[A-z_]+[A-z_0-9]*$/
+  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+  <levelLabel> = trace | debug | info | warn | error | fatal
+
+Examples:
+
+    *           all paths at default level
+    *@*         all paths at all levels
+    *@info      all paths at info level
+    *@3         all paths at info level
+    *@3+        all paths at info level or higher
+    *@3-        all paths at info level or lower
+    app@*       app path at all levels
+    app:foo     app:foo path at default level
+    app,nexus   app and nexus paths at default level
+    app:*       descendent paths of app at defualt level
+    app:*@2+    descendent paths of app at debug level or higher
+    app*@2+     app & descendent paths of app at debug level or higher
+"
+`;
+
+exports[`filter precedence considers instance time config first 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+    "negate": false,
+    "originalInput": "foo",
+    "path": Object {
+      "descendents": false,
+      "value": "foo",
+    },
+  },
+]
+`;
+
+exports[`filter precedence then considers LOG_FILTER env var 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": "from_env_var",
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "debug",
+      },
+      "negate": false,
+      "originalInput": "from_env_var",
+      "path": Object {
+        "descendents": false,
+        "value": "from_env_var",
+      },
+    },
+  ],
+}
+`;
+
+exports[`filter precedence then considers construction time config 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": "*@fatal",
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "fatal",
+      },
+      "negate": false,
+      "originalInput": "*@fatal",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  ],
+}
+`;
+
+exports[`filter precedence then defaults to "* 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": "*",
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "debug",
+      },
+      "negate": false,
+      "originalInput": "*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  ],
+}
+`;
+
 exports[`pretty .color controls if pretty logs have color or not 1`] = `
 Array [
   "● root foo  --  qux: true
