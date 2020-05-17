@@ -1,5 +1,11 @@
 import * as Logger from '../src'
-import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
+import {
+  createMockOutput,
+  mockConsoleLog,
+  MockOutput,
+  resetBeforeEachTest,
+  unmockConsoleLog,
+} from './__helpers'
 
 let log: Logger.RootLogger
 let output: MockOutput
@@ -213,13 +219,11 @@ describe('filter', () => {
   })
 
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
-    const orig = console.log
-    const calls = [] as Array<Array<any>>
-    console.log = (...args: any[]) => calls.push(args)
+    const calls = mockConsoleLog()
     process.env.LOG_FILTER = '**'
     Logger.create()
     expect(calls).toMatchSnapshot()
-    console.log = orig
+    unmockConsoleLog()
   })
 })
 

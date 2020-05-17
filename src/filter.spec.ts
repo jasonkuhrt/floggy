@@ -1,5 +1,6 @@
 import { map, right } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
+import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers'
 import * as Filter from './filter'
 import { LogRecord } from './logger'
 import { rightOrThrow } from './utils'
@@ -125,10 +126,26 @@ describe('test', () => {
   })
 })
 
-describe('processLogFilterInput', () => {
-  it.todo('renders sensitive to 1 pattern 1 error')
-  it.todo('renders sensitive to n patterns 1 error')
-  it.todo('renders sensitive to n patterns <n errors')
+describe('processLogFilterInput renders log when invalid filter given', () => {
+  let calls: any[][]
+  beforeEach(() => {
+    calls = mockConsoleLog()
+  })
+  afterEach(() => {
+    unmockConsoleLog()
+  })
+  it('renders sensitive to 1 pattern 1 error', () => {
+    Filter.processLogFilterInput(defaults, '!')
+    expect(calls).toMatchSnapshot()
+  })
+  it('renders sensitive to n patterns 1 error', () => {
+    Filter.processLogFilterInput(defaults, '!,a')
+    expect(calls).toMatchSnapshot()
+  })
+  it('renders sensitive to n patterns <n errors', () => {
+    Filter.processLogFilterInput(defaults, '!,a,3')
+    expect(calls).toMatchSnapshot()
+  })
   it.todo('renders sensitive to n patterns =n errors')
   it.todo('if some of the given filter patterns are valid and invalid, only valid are returned')
   it.todo('if all of the given filter patterns are invalid, null is returned')

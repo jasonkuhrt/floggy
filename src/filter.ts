@@ -298,11 +298,11 @@ export function renderSyntaxError(input: {
     const pattern = getLeft(input.errPatterns[0])?.context.pattern
     message = `One of the patterns in your log filter${foundIn} was invalid: "${pattern}"\n\n${renderSyntaxManual()}`
   } else {
-    const patterns = input.errPatterns
-      .filter(isLeft)
-      .map((e) => `    ${e.left.context.pattern}`)
-      .join('\n')
-    message = `Some of the patterns in your log filter${foundIn} were invalid:\n\n${patterns}${renderSyntaxManual()}`
+    const badOnes = input.errPatterns.filter(isLeft)
+    const patterns = badOnes.map((e) => `    ${e.left.context.pattern}`).join('\n')
+    message = `${
+      badOnes.length
+    } of the patterns in your log filter${foundIn} were invalid:\n\n${patterns}\n\n${renderSyntaxManual()}`
   }
 
   return message
