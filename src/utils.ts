@@ -128,14 +128,6 @@ export function parseFromEnvironment<T>(
   return result
 }
 
-export function rightOrThrow<A, B>(x: Either<A, B>): B {
-  if (isLeft(x))
-    throw new Error(
-      `Failed to get right value of either type because it was actually left. The left value was:\n\n${x.left}`
-    )
-  return x.right
-}
-
 /**
  * An error with additional contextual data.
  */
@@ -168,12 +160,29 @@ export function createContextualError<Context extends Record<string, unknown>>(
   return e
 }
 
+/**
+ * Extract the left value from an Either.
+ */
 export function getLeft<A, B>(e: Either<A, B>): A | undefined {
   if (isLeft(e)) return e.left
   return undefined
 }
 
+/**
+ * Extract the right value from an Either.
+ */
 export function getRight<A, B>(e: Either<A, B>): B | undefined {
   if (isRight(e)) return e.right
   return undefined
+}
+
+/**
+ * Extract the right value from an Either or throw.
+ */
+export function rightOrThrow<A, B>(x: Either<A, B>): B {
+  if (isLeft(x))
+    throw new Error(
+      `Failed to get right value of either type because it was actually left. The left value was:\n\n${x.left}`
+    )
+  return x.right
 }

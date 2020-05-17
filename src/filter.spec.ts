@@ -18,8 +18,6 @@ function parse(pattern: string) {
   return Filter.parse(defaults, pattern)
 }
 
-function test() {}
-
 /**
  * Tests
  */
@@ -125,6 +123,15 @@ describe('test', () => {
   ] as Cases)('%j %s %j %s', (defaults, pattern, rec, shouldPassOrNot) => {
     expect(Filter.test(Filter.parse(defaults, pattern).map(rightOrThrow), rec)).toBe(shouldPassOrNot)
   })
+})
+
+describe('processLogFilterInput', () => {
+  it.todo('renders sensitive to 1 pattern 1 error')
+  it.todo('renders sensitive to n patterns 1 error')
+  it.todo('renders sensitive to n patterns <n errors')
+  it.todo('renders sensitive to n patterns =n errors')
+  it.todo('if some of the given filter patterns are valid and invalid, only valid are returned')
+  it.todo('if all of the given filter patterns are invalid, null is returned')
 })
 
 /**
