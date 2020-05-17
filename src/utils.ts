@@ -1,3 +1,4 @@
+import { Either, isLeft, isRight } from 'fp-ts/lib/Either'
 import { format } from 'util'
 /**
  * Guarantee the length of a given string, padding before or after with the
@@ -125,4 +126,54 @@ export function parseFromEnvironment<T>(
   }
 
   return result
+}
+
+export function rightOrThrow<A, B>(x: Either<A, B>): B {
+  if (isLeft(x))
+    throw new Error(
+      `Failed to get right value of either type because it was actually left. The left value was:\n\n${x.left}`
+    )
+  return x.right
+}
+
+/**
+ * An error with additional contextual data.
+ */
+export type ContextualError<Context extends Record<string, unknown> = {}> = Error & {
+  context: Context
+}
+
+/**
+ * Create an error with contextual data about it.
+ *
+ * @remarks
+ *
+ * This is handy with fp-ts Either<...> because, unlike try-catch, errors are
+ * strongly typed with the Either contstruct, making it so the error contextual
+ * data flows with inference through your program.
+ */
+export function createContextualError<Context extends Record<string, unknown>>(
+  message: string,
+  context: Context
+): ContextualError<Context> {
+  const e = new Error(message) as ContextualError<Context>
+
+  Object.defineProperty(e, 'message', {
+    enumerable: true,
+    value: e.message,
+  })
+
+  e.context = context
+
+  return e
+}
+
+export function getLeft<A, B>(e: Either<A, B>): A | undefined {
+  if (isLeft(e)) return e.left
+  return undefined
+}
+
+export function getRight<A, B>(e: Either<A, B>): B | undefined {
+  if (isRight(e)) return e.right
+  return undefined
 }

@@ -3,15 +3,18 @@
 exports[`parse !a 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": true,
-    "originalInput": "!a",
-    "path": Object {
-      "descendents": false,
-      "value": "a",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": true,
+      "originalInput": "!a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
     },
   },
 ]
@@ -20,17 +23,20 @@ Array [
 exports[`parse * 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "*",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": false,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
       },
-      "value": "",
+      "negate": false,
+      "originalInput": "*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
     },
   },
 ]
@@ -39,17 +45,20 @@ Array [
 exports[`parse *@* 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "eq",
-      "value": "*",
-    },
-    "negate": false,
-    "originalInput": "*@*",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": false,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
       },
-      "value": "",
+      "negate": false,
+      "originalInput": "*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
     },
   },
 ]
@@ -58,17 +67,20 @@ Array [
 exports[`parse *@1 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "eq",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "*@1",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": false,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "trace",
       },
-      "value": "",
+      "negate": false,
+      "originalInput": "*@1",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
     },
   },
 ]
@@ -77,15 +89,18 @@ Array [
 exports[`parse , ,  a, 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "a",
-    "path": Object {
-      "descendents": false,
-      "value": "a",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
     },
   },
 ]
@@ -94,27 +109,33 @@ Array [
 exports[`parse ,,a,b 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "a",
-    "path": Object {
-      "descendents": false,
-      "value": "a",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
     },
   },
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "b",
-    "path": Object {
-      "descendents": false,
-      "value": "b",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "b",
+      "path": Object {
+        "descendents": false,
+        "value": "b",
+      },
     },
   },
 ]
@@ -123,15 +144,18 @@ Array [
 exports[`parse a 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "a",
-    "path": Object {
-      "descendents": false,
-      "value": "a",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
     },
   },
 ]
@@ -140,27 +164,33 @@ Array [
 exports[`parse a,b 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "a",
-    "path": Object {
-      "descendents": false,
-      "value": "a",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
     },
   },
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "b",
-    "path": Object {
-      "descendents": false,
-      "value": "b",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "b",
+      "path": Object {
+        "descendents": false,
+        "value": "b",
+      },
     },
   },
 ]
@@ -169,15 +199,18 @@ Array [
 exports[`parse a:b 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "a:b",
-    "path": Object {
-      "descendents": false,
-      "value": "a:b",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a:b",
+      "path": Object {
+        "descendents": false,
+        "value": "a:b",
+      },
     },
   },
 ]
@@ -186,17 +219,20 @@ Array [
 exports[`parse app* 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "gte",
-      "value": "trace",
-    },
-    "negate": false,
-    "originalInput": "app*",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": true,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
       },
-      "value": "app",
+      "negate": false,
+      "originalInput": "app*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
     },
   },
 ]
@@ -205,17 +241,20 @@ Array [
 exports[`parse app*@* 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "eq",
-      "value": "*",
-    },
-    "negate": false,
-    "originalInput": "app*@*",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": true,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
       },
-      "value": "app",
+      "negate": false,
+      "originalInput": "app*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
     },
   },
 ]
@@ -224,17 +263,20 @@ Array [
 exports[`parse app*@1 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "eq",
-      "value": "*",
-    },
-    "negate": false,
-    "originalInput": "app*@*",
-    "path": Object {
-      "descendents": Object {
-        "includeParent": true,
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
       },
-      "value": "app",
+      "negate": false,
+      "originalInput": "app*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
     },
   },
 ]
@@ -243,408 +285,131 @@ Array [
 exports[`parse app@* 1`] = `
 Array [
   Object {
-    "level": Object {
-      "comp": "eq",
-      "value": "*",
-    },
-    "negate": false,
-    "originalInput": "app@*",
-    "path": Object {
-      "descendents": false,
-      "value": "app",
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
+      },
+      "negate": false,
+      "originalInput": "app@*",
+      "path": Object {
+        "descendents": false,
+        "value": "app",
+      },
     },
   },
 ]
 `;
 
 exports[`parse syntax errors ! 1`] = `
-"Invalid filter pattern: \\"!\\". Hint: Must pass a path (e.g. \\"foo\\") or descendent matcher (\\"*\\")
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "!". Hint: Must pass a path (e.g. "foo") or descendent matcher ("*")],
+  },
+]
 `;
 
 exports[`parse syntax errors ** 1`] = `
-"Invalid filter pattern: \\"**\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "**".],
+  },
+]
 `;
 
 exports[`parse syntax errors *+ 1`] = `
-"Invalid filter pattern: \\"*+\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "*+".],
+  },
+]
 `;
 
 exports[`parse syntax errors *a 1`] = `
-"Invalid filter pattern: \\"*a\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "*a".],
+  },
+]
 `;
 
-exports[`parse syntax errors , 1`] = `
-"Invalid filter pattern: \\",\\". Hint: There must be at least one pattern present.
+exports[`parse syntax errors , 1`] = `Array []`;
 
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
-`;
-
-exports[`parse syntax errors <empty> 1`] = `
-"Invalid filter pattern: \\"\\". Hint: There must be at least one pattern present.
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
-`;
+exports[`parse syntax errors <empty> 1`] = `Array []`;
 
 exports[`parse syntax errors @ 1`] = `
-"Invalid filter pattern: \\"@\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "@".],
+  },
+]
 `;
 
 exports[`parse syntax errors a! 1`] = `
-"Invalid filter pattern: \\"a!\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a!".],
+  },
+]
 `;
 
 exports[`parse syntax errors a+ 1`] = `
-"Invalid filter pattern: \\"a+\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a+".],
+  },
+]
 `;
 
 exports[`parse syntax errors a@ 1`] = `
-"Invalid filter pattern: \\"a@\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@".],
+  },
+]
 `;
 
 exports[`parse syntax errors a@*! 1`] = `
-"Invalid filter pattern: \\"a@*!\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*!".],
+  },
+]
 `;
 
 exports[`parse syntax errors a@*+ 1`] = `
-"Invalid filter pattern: \\"a@*+\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*+".],
+  },
+]
 `;
 
 exports[`parse syntax errors a@*- 1`] = `
-"Invalid filter pattern: \\"a@*-\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*-".],
+  },
+]
 `;
 
 exports[`parse syntax errors a@+* 1`] = `
-"Invalid filter pattern: \\"a@+*\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
-
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@+*".],
+  },
+]
 `;

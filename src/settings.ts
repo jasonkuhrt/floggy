@@ -301,13 +301,16 @@ export function processSettingInputFilter(
 ): Data['filter'] {
   if (!prev) prev = defaultFilterSetting()
   const pattern = newSettingsFilter.pattern ?? prev.originalInput
-  const criteriaDefaults = newSettingsFilter?.level
+  const defaults = newSettingsFilter?.level
     ? ({ level: { value: newSettingsFilter.level, comp: 'gte' } } as const)
     : prev.defaults
+
+  const patterns = Filter.processLogFilterInput(defaults, pattern) || Filter.parseUnsafe(defaults, '*')
+
   return {
-    defaults: criteriaDefaults,
+    defaults,
     originalInput: pattern,
-    patterns: Filter.parse(criteriaDefaults, pattern),
+    patterns,
   }
 }
 
@@ -318,15 +321,25 @@ export function defaultFilterSetting(): Data['filter'] {
   } else {
     level = process.env.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
   }
-  let pattern: string
+  let originalInput: string
+  let patterns
+
   if (process.env.LOG_FILTER) {
-    pattern = process.env.LOG_FILTER
-  } else {
-    pattern = '*'
+    patterns = Filter.processLogFilterInput(
+      { level: { value: level, comp: 'gte' } },
+      process.env.LOG_FILTER,
+      'environment variable LOG_FILTER.'
+    )
   }
+
+  if (!patterns) {
+    originalInput = '*'
+    patterns = Filter.parseUnsafe({ level: { value: level, comp: 'gte' } }, originalInput)
+  }
+
   return {
-    originalInput: pattern,
+    originalInput: originalInput!,
     defaults: { level: { value: level, comp: 'gte' } },
-    patterns: Filter.parse({ level: { value: level, comp: 'gte' } }, pattern),
+    patterns,
   }
 }

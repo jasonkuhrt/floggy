@@ -1,59 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`filter LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
-"Invalid filter pattern: \\"**\\".
+Array [
+  Array [
+    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: \\"**\\"
 
-Syntax:
+Log Filtering Syntax Manual
+===========================
 
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+Grammar:
 
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
+    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
 
-Examples:
-
-    *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
-    app:*       descendent paths of app at defualt level
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
-`;
-
-exports[`filter LOG_FILTER envar config when invalid triggers thrown readable error 1`] = `
-"Invalid filter pattern: \\"**\\".
-
-Syntax:
-
-  (<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
-
-  <path>       = /^[A-z_]+[A-z_0-9]*$/
-  <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-  <levelLabel> = trace | debug | info | warn | error | fatal
+    <path>       = /^[A-z_]+[A-z_0-9]*$/
+    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+    <levelLabel> = trace | debug | info | warn | error | fatal
 
 Examples:
 
+    Paths:
+    app         app path at default level
+    app:router  app router path at default level
+
+    Wildcards Paths:
     *           all paths at default level
-    *@*         all paths at all levels
-    *@info      all paths at info level
-    *@3         all paths at info level
-    *@3+        all paths at info level or higher
-    *@3-        all paths at info level or lower
-    app@*       app path at all levels
-    app:foo     app:foo path at default level
-    app,nexus   app and nexus paths at default level
     app:*       descendent paths of app at defualt level
+    app*        app path and its descendent paths at defualt level
+
+    Negate:
+    !app        all paths expect app at default level 
+
+    Lists:
+    app,nexus   app and nexus paths at default level
+
+    Levels:
+    *@info      all paths at info level
+    *@error-    all paths at error level or lower
+    *@debug+    all paths at debug level or higher
+    *@3         all paths at info level
+    *@4-        all paths at error level or lower
+    *@2+        all paths at debug level or higher
+
+    Wildcard Paths:
+    *@*         all paths at all levels
+
+    Mixed:
+    app@*       app path at all levels
     app:*@2+    descendent paths of app at debug level or higher
-    app*@2+     app & descendent paths of app at debug level or higher
-"
+    app*@2-     app & descendent paths of app at debug level or lower  
+  ",
+  ],
+]
 `;
 
 exports[`filter precedence considers instance time config first 1`] = `
@@ -81,7 +78,7 @@ Object {
       "value": "debug",
     },
   },
-  "originalInput": "from_env_var",
+  "originalInput": undefined,
   "patterns": Array [
     Object {
       "level": Object {

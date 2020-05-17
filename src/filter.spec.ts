@@ -1,5 +1,8 @@
+import { map, right } from 'fp-ts/lib/Either'
+import { pipe } from 'fp-ts/lib/pipeable'
 import * as Filter from './filter'
 import { LogRecord } from './logger'
+import { rightOrThrow } from './utils'
 
 /**
  * State
@@ -58,26 +61,28 @@ describe('parse', () => {
     ['a@6+', { comp:'gte', value:'fatal' }],
     ['a@*', { comp:'eq', value:'*' }],
   ] as ([string,Filter.Parsed['level']])[])
-  ('%s', (pattern, expectedLevel) => { expect(parse(pattern)[0].level).toEqual(expectedLevel) })
+  ('%s', (pattern, expectedLevel) => {
+    expect(pipe(parse(pattern)[0], map(p => p.level))).toEqual(right(expectedLevel))
+  })
 })
 
 // prettier-ignore
 describe('parse syntax errors', () => {
 
-  it('<empty>', () => { expect(() => parse('')).toThrowErrorMatchingSnapshot() })
-  it('**', () => { expect(() => parse('**')).toThrowErrorMatchingSnapshot() })
-  it('*a', () => { expect(() => parse('*a')).toThrowErrorMatchingSnapshot() })
-  it('*+', () => { expect(() => parse('*+')).toThrowErrorMatchingSnapshot() })
-  it('a@', () => { expect(() => parse('a@')).toThrowErrorMatchingSnapshot() })
-  it('@', () => { expect(() => parse('@')).toThrowErrorMatchingSnapshot() })
-  it('a@*-', () => { expect(() => parse('a@*-')).toThrowErrorMatchingSnapshot() })
-  it('a@*+', () => { expect(() => parse('a@*+')).toThrowErrorMatchingSnapshot() })
-  it(',', () => { expect(() => parse(',')).toThrowErrorMatchingSnapshot() })
-  it('a@+*', () => { expect(() => parse('a@+*')).toThrowErrorMatchingSnapshot() })
-  it('a+', () => { expect(() => parse('a+')).toThrowErrorMatchingSnapshot() })
-  it('!', () => { expect(() => parse('!')).toThrowErrorMatchingSnapshot() })
-  it('a!', () => { expect(() => parse('a!')).toThrowErrorMatchingSnapshot() })
-  it('a@*!', () => { expect(() => parse('a@*!')).toThrowErrorMatchingSnapshot() })
+  it('<empty>', () => { expect(parse('')).toMatchSnapshot() })
+  it('**', () => { expect(parse('**')).toMatchSnapshot() })
+  it('*a', () => { expect(parse('*a')).toMatchSnapshot() })
+  it('*+', () => { expect(parse('*+')).toMatchSnapshot() })
+  it('a@', () => { expect(parse('a@')).toMatchSnapshot() })
+  it('@', () => { expect(parse('@')).toMatchSnapshot() })
+  it('a@*-', () => { expect(parse('a@*-')).toMatchSnapshot() })
+  it('a@*+', () => { expect(parse('a@*+')).toMatchSnapshot() })
+  it(',', () => { expect(parse(',')).toMatchSnapshot() })
+  it('a@+*', () => { expect(parse('a@+*')).toMatchSnapshot() })
+  it('a+', () => { expect(parse('a+')).toMatchSnapshot() })
+  it('!', () => { expect(parse('!')).toMatchSnapshot() })
+  it('a!', () => { expect(parse('a!')).toMatchSnapshot() })
+  it('a@*!', () => { expect(parse('a@*!')).toMatchSnapshot() })
 })
 
 describe('test', () => {
@@ -118,7 +123,7 @@ describe('test', () => {
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 2 }), true],
   ] as Cases)('%j %s %j %s', (defaults, pattern, rec, shouldPassOrNot) => {
-    expect(Filter.test(Filter.parse(defaults, pattern), rec)).toBe(shouldPassOrNot)
+    expect(Filter.test(Filter.parse(defaults, pattern).map(rightOrThrow), rec)).toBe(shouldPassOrNot)
   })
 })
 

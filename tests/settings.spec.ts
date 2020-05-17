@@ -213,8 +213,13 @@ describe('filter', () => {
   })
 
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
+    const orig = console.log
+    const calls = []
+    console.log = (...args) => calls.push(args)
     process.env.LOG_FILTER = '**'
-    expect(() => Logger.create()).toThrowErrorMatchingSnapshot()
+    Logger.create()
+    expect(calls).toMatchSnapshot()
+    console.log = orig
   })
 })
 
