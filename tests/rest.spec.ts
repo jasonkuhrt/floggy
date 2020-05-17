@@ -9,6 +9,7 @@
 require('os').hostname = () => 'mock-host'
 
 import * as Logger from '../src'
+import { validPathSegmentNameRegex } from '../src/logger'
 import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
 
 resetBeforeEachTest(process, 'env')
@@ -33,6 +34,16 @@ describe('name', () => {
   it('defaults to "root"', () => {
     log.info('bar')
     expect(output.memory.json[0].path).toEqual(['root'])
+  })
+  describe(`must conform to ${validPathSegmentNameRegex}`, () => {
+    it.each([['a'], ['a_a'], ['_a'], ['a_'], ['a1'], ['A']])('%s is valid', (name) => {
+      expect(() => Logger.create({ name })).not.toThrowError()
+      expect(() => log.child(name)).not.toThrowError()
+    })
+    it.each([[''], ['1'], ['-'], ['g%s'], ['!'], ['a-b']])('%s is invalid', (name) => {
+      expect(() => Logger.create({ name })).toThrowError()
+      expect(() => log.child(name)).toThrowError()
+    })
   })
 })
 

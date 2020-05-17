@@ -31,7 +31,6 @@
     "jest-watch-typeahead": "0.6.0",
     "prettier": "2.0.5",
     "ts-jest": "^26.0.0",
-    "type-fest": "^0.13.1",
     "typescript": "3.8.3"
   },
   "jest": {
@@ -48,6 +47,7 @@
     "chalk": "^4.0.0",
     "fp-ts": "^2.6.1",
     "lodash": "^4.17.15",
-    "strip-ansi": "^6.0.0"
+    "strip-ansi": "^6.0.0",
+    "type-fest": "^0.13.1"
   }
 }

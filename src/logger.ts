@@ -1,12 +1,14 @@
 import * as Lo from 'lodash'
 import * as OS from 'os'
+import { JsonObject } from 'type-fest'
 import * as Filter from './filter'
 import { LEVELS, Name, Num } from './level'
 import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
-// TODO JSON instead of unknown type
-type Context = Record<string, unknown>
+type Context = JsonObject
+
+export const validPathSegmentNameRegex = /^[A-z_]+[A-z_0-9]*$/
 
 export type LogRecord = {
   level: Num
@@ -39,6 +41,7 @@ export function create(
   path: string[],
   parentContext: Context
 ): { logger: Logger; link: Link } {
+  validatePath(path)
   const state: State = {
     // Copy as addToContext will mutate it
     pinnedAndParentContext: Lo.cloneDeep(parentContext),
@@ -141,4 +144,12 @@ type Link = {
 type State = {
   pinnedAndParentContext: Context
   children: Link[]
+}
+
+function validatePath(path: string[]) {
+  path.forEach((part) => {
+    if (!validPathSegmentNameRegex.test(part)) {
+      throw new Error(`Invalid logger path segment: ${part}`)
+    }
+  })
 }

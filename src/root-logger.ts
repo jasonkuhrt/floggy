@@ -1,8 +1,6 @@
 import * as Logger from './logger'
 import * as Settings from './settings'
 
-export const validPathSegmentNameRegex = /^[A-z_]+[A-z_0-9]*$/
-
 export type SettingsManager = Settings.Data & {
   (newSettings: Settings.Input): RootLogger
 }

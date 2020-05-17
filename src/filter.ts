@@ -1,7 +1,7 @@
 import { Either, isLeft, isRight, left, right } from 'fp-ts/lib/Either'
 import * as Level from './level'
 import * as Logger from './logger'
-import { validPathSegmentNameRegex } from './root-logger'
+import { validPathSegmentNameRegex } from './logger'
 import { casesHandled, ContextualError, createContextualError, getLeft, last, rightOrThrow } from './utils'
 
 // https://regex101.com/r/6g6BHc/1
