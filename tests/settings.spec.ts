@@ -214,7 +214,7 @@ describe('filter', () => {
 
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
     const orig = console.log
-    const calls = []
+    const calls = [] as Array<Array<any>>
     console.log = (...args) => calls.push(args)
     process.env.LOG_FILTER = '**'
     Logger.create()
