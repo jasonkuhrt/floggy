@@ -1,3 +1,5 @@
+// prevent color from being disabled on CI
+// so that snapshots pass there.
 process.env.FORCE_COLOR = '3'
 import { map, right } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
