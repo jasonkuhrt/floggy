@@ -1,7 +1,8 @@
 import { Either, isLeft, isRight, left, right } from 'fp-ts/lib/Either'
+import { chalk } from './chalk'
+import { validPathSegmentNameRegex } from './data'
 import * as Level from './level'
-import * as Logger from './logger'
-import { validPathSegmentNameRegex } from './logger'
+import type { LogRecord } from './logger'
 import { casesHandled, ContextualError, createContextualError, getLeft, last, rightOrThrow } from './utils'
 
 // https://regex101.com/r/6g6BHc/1
@@ -147,7 +148,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
       )
     }
   } else if (path.value === '' && !path.descendents) {
-    return left(createInvalidPattern(pattern, `Must pass a path (e.g. "foo") or descendent matcher ("*")`))
+    return left(createInvalidPattern(pattern))
   }
 
   return right({
@@ -161,7 +162,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
 /**
  * Test if a log matches the pattern.
  */
-export function test(patterns: Readonly<Parsed[]>, log: Logger.LogRecord): boolean {
+export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
   let yaynay = false
   for (const pattern of patterns) {
     // if log already passed then we can skip rest except negations
@@ -227,57 +228,64 @@ export function parseUnsafe(defaults: Defaults, pattern: string): Parsed[] {
 type ParseError = ContextualError<{ pattern: string; hint?: string }>
 
 function createInvalidPattern(pattern: string, hint?: string): ParseError {
-  const renHint = `${hint ? ` Hint: ${hint}` : ''}`
-  return createContextualError(`Invalid filter pattern: "${pattern}".${renHint}`, { pattern })
+  return createContextualError(`Invalid filter pattern: "${pattern}"`, { pattern, hint })
 }
 
 /**
  * Get the string contents of a manual showing how to write filters.
  */
 export function renderSyntaxManual() {
-  return `Log Filtering Syntax Manual
-===========================
+  const m = chalk.magenta
+  const b = chalk.blue
+  const gray = chalk.gray
+  const c = chalk.cyan
+  const bold = chalk.bold
+  const subtle = (x: string) => gray(x)
+  const subtitle = (x: string) => bold(m(x))
+  const pipe = gray('|')
+  return `${bold(b('LOG FILTERING SYNTAX MANUAL  ⟁'))}
+${bold(b(`▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬`))}
 
-Grammar:
+${bold(b(`Grammar`))}
 
-    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+    [!](${c(`<path>`)}|*)[@((${c(`<levelNum>`)}|${c(`<levelLabel>`)})[+-]|*)][,<...>]
 
-    <path>       = ${validPathSegmentNameRegex}
-    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-    <levelLabel> = trace | debug | info | warn | error | fatal
+    ${c(`<path>`)}       = ${validPathSegmentNameRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))}
+    ${c(`<levelNum>`)}   = 1     ${pipe} 2     ${pipe} 3    ${pipe} 4    ${pipe} 5     ${pipe} 6
+    ${c(`<levelLabel>`)} = trace ${pipe} debug ${pipe} info ${pipe} warn ${pipe} error ${pipe} fatal
 
-Examples:
+${bold(b(`Examples`))}
 
-    Paths:
-    app         app path at default level
-    app:router  app router path at default level
+    ${subtitle(`Paths`)}
+    app         ${subtle(`app path at default level`)}
+    app:router  ${subtle(`app router path at default level`)} 
 
-    Wildcards Paths:
-    *           all paths at default level
-    app:*       descendent paths of app at defualt level
-    app*        app path and its descendent paths at defualt level
+    ${subtitle(`Wildcards Paths`)}
+    *           ${subtle(`all paths at default level`)} 
+    app:*       ${subtle(`descendent paths of app at defualt level`)}
+    app*        ${subtle(`app path and its descendent paths at defualt level`)}
 
-    Negate:
-    !app        all paths expect app at default level 
+    ${subtitle(`Negation`)}
+    !app        ${subtle(`all paths expect app at default level`)} 
 
-    Lists:
-    app,nexus   app and nexus paths at default level
+    ${subtitle(`Lists`)}
+    app,nexus   ${subtle(`app and nexus paths at default level`)}
 
-    Levels:
-    *@info      all paths at info level
-    *@error-    all paths at error level or lower
-    *@debug+    all paths at debug level or higher
-    *@3         all paths at info level
-    *@4-        all paths at error level or lower
-    *@2+        all paths at debug level or higher
+    ${subtitle(`Levels`)}
+    *@info      ${subtle(`all paths at info level`)}
+    *@error-    ${subtle(`all paths at error level or lower`)}
+    *@debug+    ${subtle(`all paths at debug level or higher`)}
+    *@3         ${subtle(`all paths at info level`)}
+    *@4-        ${subtle(`all paths at error level or lower`)}
+    *@2+        ${subtle(`all paths at debug level or higher`)}
 
-    Wildcard Paths:
-    *@*         all paths at all levels
+    ${subtitle(`Wildcard Paths`)}
+    *@*         ${subtle(`all paths at all levels`)}
 
-    Mixed:
-    app@*       app path at all levels
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    ${subtitle(`Mixed`)}
+    app@*       ${subtle(`app path at all levels`)}
+    app:*@2+    ${subtle(`descendent paths of app at debug level or higher`)}
+    app*@2-     ${subtle(`app & descendent paths of app at debug level or lower`)} 
   `
 }
 
@@ -294,13 +302,26 @@ export function renderSyntaxError(input: {
   let message
 
   if (!multipleInputs) {
-    const pattern = getLeft(badOnes[0])?.context.pattern
-    message = `Your log filter's pattern${foundIn} was invalid: "${pattern}"\n\n${renderSyntaxManual()}`
+    const e = getLeft(badOnes[0])
+    const pattern = e?.context.pattern
+    const hint = e?.context.hint ? `. ${e.context.hint}` : ''
+    message = `Your log filter's pattern${foundIn} was invalid: "${chalk.red(
+      pattern
+    )}${hint}"\n\n${renderSyntaxManual()}`
   } else if (!multipleErrors) {
-    const pattern = getLeft(badOnes[0])?.context.pattern
-    message = `One of the patterns in your log filter${foundIn} was invalid: "${pattern}"\n\n${renderSyntaxManual()}`
+    const e = getLeft(badOnes[0])
+    const pattern = e?.context.pattern
+    const hint = e?.context.hint ? `. ${e.context.hint}` : ''
+    message = `One of the patterns in your log filter${foundIn} was invalid: "${chalk.red(
+      pattern
+    )}"${hint}\n\n${renderSyntaxManual()}`
   } else {
-    const patterns = badOnes.map((e) => `    ${e.left.context.pattern}`).join('\n')
+    const patterns = badOnes
+      .map((e) => {
+        const hint = e.left.context.hint ? chalk.gray(`  ${e.left.context.hint}`) : ''
+        return `    ${chalk.red(e.left.context.pattern)}${hint}`
+      })
+      .join('\n')
     const intro = allBad
       ? `All of the patterns in your log filter`
       : `Some (${badOnes.length}) of the patterns in your log filter`
@@ -332,3 +353,5 @@ export function processLogFilterInput(
 
   return patterns
 }
+
+renderSyntaxManual() //?

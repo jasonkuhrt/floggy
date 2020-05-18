@@ -306,7 +306,7 @@ exports[`parse syntax errors ! 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "!". Hint: Must pass a path (e.g. "foo") or descendent matcher ("*")],
+    "left": [Error: Invalid filter pattern: "!"],
   },
 ]
 `;
@@ -315,7 +315,7 @@ exports[`parse syntax errors ** 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "**".],
+    "left": [Error: Invalid filter pattern: "**"],
   },
 ]
 `;
@@ -324,7 +324,7 @@ exports[`parse syntax errors *+ 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*+".],
+    "left": [Error: Invalid filter pattern: "*+"],
   },
 ]
 `;
@@ -333,7 +333,7 @@ exports[`parse syntax errors *a 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*a".],
+    "left": [Error: Invalid filter pattern: "*a"],
   },
 ]
 `;
@@ -346,7 +346,7 @@ exports[`parse syntax errors @ 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "@".],
+    "left": [Error: Invalid filter pattern: "@"],
   },
 ]
 `;
@@ -355,7 +355,7 @@ exports[`parse syntax errors a! 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a!".],
+    "left": [Error: Invalid filter pattern: "a!"],
   },
 ]
 `;
@@ -364,7 +364,7 @@ exports[`parse syntax errors a+ 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a+".],
+    "left": [Error: Invalid filter pattern: "a+"],
   },
 ]
 `;
@@ -373,7 +373,7 @@ exports[`parse syntax errors a@ 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@".],
+    "left": [Error: Invalid filter pattern: "a@"],
   },
 ]
 `;
@@ -382,7 +382,7 @@ exports[`parse syntax errors a@*! 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*!".],
+    "left": [Error: Invalid filter pattern: "a@*!"],
   },
 ]
 `;
@@ -391,7 +391,7 @@ exports[`parse syntax errors a@*+ 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*+".],
+    "left": [Error: Invalid filter pattern: "a@*+"],
   },
 ]
 `;
@@ -400,7 +400,7 @@ exports[`parse syntax errors a@*- 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*-".],
+    "left": [Error: Invalid filter pattern: "a@*-"],
   },
 ]
 `;
@@ -409,7 +409,7 @@ exports[`parse syntax errors a@+* 1`] = `
 Array [
   Object {
     "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@+*".],
+    "left": [Error: Invalid filter pattern: "a@+*"],
   },
 ]
 `;
@@ -417,51 +417,51 @@ Array [
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to 1 pattern 1 error 1`] = `
 Array [
   Array [
-    "Your log filter's pattern was invalid: \\"!\\"
+    "Your log filter's pattern was invalid: \\"[31m![39m\\"
 
-Log Filtering Syntax Manual
-===========================
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
 
-Grammar:
+[1m[34mGrammar[39m[22m
 
-    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
 
-    <path>       = /^[A-z_]+[A-z_0-9]*$/
-    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-    <levelLabel> = trace | debug | info | warn | error | fatal
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
-Examples:
+[1m[34mExamples[39m[22m
 
-    Paths:
-    app         app path at default level
-    app:router  app router path at default level
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
 
-    Wildcards Paths:
-    *           all paths at default level
-    app:*       descendent paths of app at defualt level
-    app*        app path and its descendent paths at defualt level
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
 
-    Negate:
-    !app        all paths expect app at default level 
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
 
-    Lists:
-    app,nexus   app and nexus paths at default level
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
 
-    Levels:
-    *@info      all paths at info level
-    *@error-    all paths at error level or lower
-    *@debug+    all paths at debug level or higher
-    *@3         all paths at info level
-    *@4-        all paths at error level or lower
-    *@2+        all paths at debug level or higher
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
 
-    Wildcard Paths:
-    *@*         all paths at all levels
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
 
-    Mixed:
-    app@*       app path at all levels
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -472,52 +472,52 @@ Array [
   Array [
     "Some (2) of the patterns in your log filter were invalid:
 
-    !
-    3
+    [31m![39m
+    [31m3[39m
 
-Log Filtering Syntax Manual
-===========================
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
 
-Grammar:
+[1m[34mGrammar[39m[22m
 
-    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
 
-    <path>       = /^[A-z_]+[A-z_0-9]*$/
-    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-    <levelLabel> = trace | debug | info | warn | error | fatal
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
-Examples:
+[1m[34mExamples[39m[22m
 
-    Paths:
-    app         app path at default level
-    app:router  app router path at default level
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
 
-    Wildcards Paths:
-    *           all paths at default level
-    app:*       descendent paths of app at defualt level
-    app*        app path and its descendent paths at defualt level
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
 
-    Negate:
-    !app        all paths expect app at default level 
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
 
-    Lists:
-    app,nexus   app and nexus paths at default level
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
 
-    Levels:
-    *@info      all paths at info level
-    *@error-    all paths at error level or lower
-    *@debug+    all paths at debug level or higher
-    *@3         all paths at info level
-    *@4-        all paths at error level or lower
-    *@2+        all paths at debug level or higher
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
 
-    Wildcard Paths:
-    *@*         all paths at all levels
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
 
-    Mixed:
-    app@*       app path at all levels
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -528,52 +528,52 @@ Array [
   Array [
     "All of the patterns in your log filter were invalid:
 
-    !
-    3
+    [31m![39m
+    [31m3[39m
 
-Log Filtering Syntax Manual
-===========================
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
 
-Grammar:
+[1m[34mGrammar[39m[22m
 
-    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
 
-    <path>       = /^[A-z_]+[A-z_0-9]*$/
-    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-    <levelLabel> = trace | debug | info | warn | error | fatal
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
-Examples:
+[1m[34mExamples[39m[22m
 
-    Paths:
-    app         app path at default level
-    app:router  app router path at default level
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
 
-    Wildcards Paths:
-    *           all paths at default level
-    app:*       descendent paths of app at defualt level
-    app*        app path and its descendent paths at defualt level
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
 
-    Negate:
-    !app        all paths expect app at default level 
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
 
-    Lists:
-    app,nexus   app and nexus paths at default level
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
 
-    Levels:
-    *@info      all paths at info level
-    *@error-    all paths at error level or lower
-    *@debug+    all paths at debug level or higher
-    *@3         all paths at info level
-    *@4-        all paths at error level or lower
-    *@2+        all paths at debug level or higher
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
 
-    Wildcard Paths:
-    *@*         all paths at all levels
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
 
-    Mixed:
-    app@*       app path at all levels
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -582,51 +582,51 @@ Examples:
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns 1 error 1`] = `
 Array [
   Array [
-    "One of the patterns in your log filter was invalid: \\"!\\"
+    "One of the patterns in your log filter was invalid: \\"[31m![39m\\"
 
-Log Filtering Syntax Manual
-===========================
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
 
-Grammar:
+[1m[34mGrammar[39m[22m
 
-    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
 
-    <path>       = /^[A-z_]+[A-z_0-9]*$/
-    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
-    <levelLabel> = trace | debug | info | warn | error | fatal
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
-Examples:
+[1m[34mExamples[39m[22m
 
-    Paths:
-    app         app path at default level
-    app:router  app router path at default level
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
 
-    Wildcards Paths:
-    *           all paths at default level
-    app:*       descendent paths of app at defualt level
-    app*        app path and its descendent paths at defualt level
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
 
-    Negate:
-    !app        all paths expect app at default level 
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
 
-    Lists:
-    app,nexus   app and nexus paths at default level
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
 
-    Levels:
-    *@info      all paths at info level
-    *@error-    all paths at error level or lower
-    *@debug+    all paths at debug level or higher
-    *@3         all paths at info level
-    *@4-        all paths at error level or lower
-    *@2+        all paths at debug level or higher
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
 
-    Wildcard Paths:
-    *@*         all paths at all levels
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
 
-    Mixed:
-    app@*       app path at all levels
-    app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
   ",
   ],
 ]

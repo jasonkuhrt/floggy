@@ -5,10 +5,10 @@ Array [
   Array [
     "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: \\"**\\"
 
-Log Filtering Syntax Manual
-===========================
+LOG FILTERING SYNTAX MANUAL  ⟁
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-Grammar:
+Grammar
 
     [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
 
@@ -16,24 +16,24 @@ Grammar:
     <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
     <levelLabel> = trace | debug | info | warn | error | fatal
 
-Examples:
+Examples
 
-    Paths:
+    Paths
     app         app path at default level
-    app:router  app router path at default level
+    app:router  app router path at default level 
 
-    Wildcards Paths:
-    *           all paths at default level
+    Wildcards Paths
+    *           all paths at default level 
     app:*       descendent paths of app at defualt level
     app*        app path and its descendent paths at defualt level
 
-    Negate:
+    Negation
     !app        all paths expect app at default level 
 
-    Lists:
+    Lists
     app,nexus   app and nexus paths at default level
 
-    Levels:
+    Levels
     *@info      all paths at info level
     *@error-    all paths at error level or lower
     *@debug+    all paths at debug level or higher
@@ -41,13 +41,13 @@ Examples:
     *@4-        all paths at error level or lower
     *@2+        all paths at debug level or higher
 
-    Wildcard Paths:
+    Wildcard Paths
     *@*         all paths at all levels
 
-    Mixed:
+    Mixed
     app@*       app path at all levels
     app:*@2+    descendent paths of app at debug level or higher
-    app*@2-     app & descendent paths of app at debug level or lower  
+    app*@2-     app & descendent paths of app at debug level or lower 
   ",
   ],
 ]

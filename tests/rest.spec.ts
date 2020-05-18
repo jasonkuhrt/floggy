@@ -9,7 +9,6 @@
 require('os').hostname = () => 'mock-host'
 
 import * as Logger from '../src'
-import { validPathSegmentNameRegex } from '../src/logger'
 import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
 
 resetBeforeEachTest(process, 'env')
@@ -35,7 +34,7 @@ describe('name', () => {
     log.info('bar')
     expect(output.memory.json[0].path).toEqual(['root'])
   })
-  describe(`must conform to ${validPathSegmentNameRegex}`, () => {
+  describe(`must conform to regex`, () => {
     it.each([['a'], ['a_a'], ['_a'], ['a_'], ['a1'], ['A']])('%s is valid', (name) => {
       expect(() => Logger.create({ name })).not.toThrowError()
       expect(() => log.child(name)).not.toThrowError()
@@ -186,5 +185,23 @@ describe('.child', () => {
 
   it('cannot affect level', () => {
     expect((log.child('b') as any).setLevel).toBeUndefined()
+  })
+})
+
+describe('filtering', () => {
+  it('allows logs to be suppressed from outpub', () => {
+    const output = createMockOutput()
+    const log = Logger.create({ filter: { pattern: 'foo:bar' }, name: 'foo', output })
+    log.info('beep') // should be filtered out
+    const log2 = log.child('bar')
+    log2.info('boop')
+    log.settings({ filter: { pattern: 'qux' } })
+    log2.info('berp') // should be filtered out
+    expect(output.memory.raw).toMatchInlineSnapshot(`
+      Array [
+        "{\\"path\\":[\\"foo\\",\\"bar\\"],\\"context\\":{},\\"event\\":\\"boop\\",\\"level\\":3}
+      ",
+      ]
+    `)
   })
 })

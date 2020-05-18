@@ -1,14 +1,12 @@
 import * as Lo from 'lodash'
 import * as OS from 'os'
-import { JsonObject } from 'type-fest'
+import { validPathSegmentNameRegex } from './data'
 import * as Filter from './filter'
 import { LEVELS, Name, Num } from './level'
 import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
-type Context = JsonObject
-
-export const validPathSegmentNameRegex = /^[A-z_]+[A-z_0-9]*$/
+type Context = Record<string, unknown>
 
 export type LogRecord = {
   level: Num
