@@ -126,29 +126,43 @@ describe('test', () => {
   })
 })
 
-describe('processLogFilterInput renders log when invalid filter given', () => {
-  let calls: any[][]
-  beforeEach(() => {
-    calls = mockConsoleLog()
+describe('processLogFilterInput', () => {
+  describe('renders log when invalid filter given', () => {
+    let calls: any[][]
+    beforeEach(() => {
+      calls = mockConsoleLog()
+    })
+    afterEach(() => {
+      unmockConsoleLog()
+    })
+    it('renders sensitive to 1 pattern 1 error', () => {
+      Filter.processLogFilterInput(defaults, '!')
+      expect(calls).toMatchSnapshot()
+    })
+    it('renders sensitive to n patterns 1 error', () => {
+      Filter.processLogFilterInput(defaults, '!,a')
+      expect(calls).toMatchSnapshot()
+    })
+    it('renders sensitive to n patterns <n errors', () => {
+      Filter.processLogFilterInput(defaults, '!,a,3')
+      expect(calls).toMatchSnapshot()
+    })
+    it('renders sensitive to n patterns =n errors', () => {
+      Filter.processLogFilterInput(defaults, '!,3')
+      expect(calls).toMatchSnapshot()
+    })
   })
-  afterEach(() => {
+  it('if some of the given filter patterns are valid and invalid, only valid are returned', () => {
+    mockConsoleLog() // silence error log
+    const result = Filter.processLogFilterInput(defaults, '!,a,3')
+    expect(result).toMatchObject([{ originalInput: 'a' }])
     unmockConsoleLog()
   })
-  it('renders sensitive to 1 pattern 1 error', () => {
-    Filter.processLogFilterInput(defaults, '!')
-    expect(calls).toMatchSnapshot()
+  it('if all of the given filter patterns are invalid, null is returned', () => {
+    mockConsoleLog() // silence error log
+    expect(Filter.processLogFilterInput(defaults, '!,3')).toBe(null)
+    unmockConsoleLog()
   })
-  it('renders sensitive to n patterns 1 error', () => {
-    Filter.processLogFilterInput(defaults, '!,a')
-    expect(calls).toMatchSnapshot()
-  })
-  it('renders sensitive to n patterns <n errors', () => {
-    Filter.processLogFilterInput(defaults, '!,a,3')
-    expect(calls).toMatchSnapshot()
-  })
-  it.todo('renders sensitive to n patterns =n errors')
-  it.todo('if some of the given filter patterns are valid and invalid, only valid are returned')
-  it.todo('if all of the given filter patterns are invalid, null is returned')
 })
 
 /**

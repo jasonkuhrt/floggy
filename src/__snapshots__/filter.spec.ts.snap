@@ -470,7 +470,63 @@ Examples:
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns <n errors 1`] = `
 Array [
   Array [
-    "2 of the patterns in your log filter were invalid:
+    "Some (2) of the patterns in your log filter were invalid:
+
+    !
+    3
+
+Log Filtering Syntax Manual
+===========================
+
+Grammar:
+
+    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+
+    <path>       = /^[A-z_]+[A-z_0-9]*$/
+    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+    <levelLabel> = trace | debug | info | warn | error | fatal
+
+Examples:
+
+    Paths:
+    app         app path at default level
+    app:router  app router path at default level
+
+    Wildcards Paths:
+    *           all paths at default level
+    app:*       descendent paths of app at defualt level
+    app*        app path and its descendent paths at defualt level
+
+    Negate:
+    !app        all paths expect app at default level 
+
+    Lists:
+    app,nexus   app and nexus paths at default level
+
+    Levels:
+    *@info      all paths at info level
+    *@error-    all paths at error level or lower
+    *@debug+    all paths at debug level or higher
+    *@3         all paths at info level
+    *@4-        all paths at error level or lower
+    *@2+        all paths at debug level or higher
+
+    Wildcard Paths:
+    *@*         all paths at all levels
+
+    Mixed:
+    app@*       app path at all levels
+    app:*@2+    descendent paths of app at debug level or higher
+    app*@2-     app & descendent paths of app at debug level or lower  
+  ",
+  ],
+]
+`;
+
+exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns =n errors 1`] = `
+Array [
+  Array [
+    "All of the patterns in your log filter were invalid:
 
     !
     3

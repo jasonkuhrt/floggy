@@ -286,23 +286,25 @@ export function renderSyntaxError(input: {
   foundIn?: string
   some?: boolean
 }): string {
+  const badOnes = input.errPatterns.filter(isLeft)
   const multipleInputs = input.errPatterns.length > 1
-  const multipleErrors = input.errPatterns.filter(isLeft).length > 1
+  const multipleErrors = badOnes.length > 1
+  const allBad = badOnes.length === input.errPatterns.length
   const foundIn = `${input.foundIn ? ` found in ${input.foundIn}` : ''}`
   let message
 
   if (!multipleInputs) {
-    const pattern = getLeft(input.errPatterns[0])?.context.pattern
+    const pattern = getLeft(badOnes[0])?.context.pattern
     message = `Your log filter's pattern${foundIn} was invalid: "${pattern}"\n\n${renderSyntaxManual()}`
   } else if (!multipleErrors) {
-    const pattern = getLeft(input.errPatterns[0])?.context.pattern
+    const pattern = getLeft(badOnes[0])?.context.pattern
     message = `One of the patterns in your log filter${foundIn} was invalid: "${pattern}"\n\n${renderSyntaxManual()}`
   } else {
-    const badOnes = input.errPatterns.filter(isLeft)
     const patterns = badOnes.map((e) => `    ${e.left.context.pattern}`).join('\n')
-    message = `${
-      badOnes.length
-    } of the patterns in your log filter${foundIn} were invalid:\n\n${patterns}\n\n${renderSyntaxManual()}`
+    const intro = allBad
+      ? `All of the patterns in your log filter`
+      : `Some (${badOnes.length}) of the patterns in your log filter`
+    message = `${intro}${foundIn} were invalid:\n\n${patterns}\n\n${renderSyntaxManual()}`
   }
 
   return message
