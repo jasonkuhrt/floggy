@@ -12,9 +12,9 @@
   "scripts": {
     "format": "prettier --write .",
     "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
-    "dev:test": "jest --watch",
+    "dev:test": "yarn test --watch",
     "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "test": "jest",
+    "test": "FORCE_COLOR=3 jest",
     "clean": "rm -rf dist* *.tsbuildinfo",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
