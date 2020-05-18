@@ -14,7 +14,7 @@
     "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
     "dev:test": "yarn test --watch",
     "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "test": "FORCE_COLOR=3 jest",
+    "test": "jest",
     "clean": "rm -rf dist* *.tsbuildinfo",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",

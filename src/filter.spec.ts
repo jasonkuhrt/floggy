@@ -1,3 +1,4 @@
+process.env.FORCE_COLOR = '3'
 import { map, right } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers'
