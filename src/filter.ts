@@ -346,6 +346,11 @@ export function processLogFilterInput(
       patterns = goodOnes.map(rightOrThrow)
     }
     const message = renderSyntaxError({ errPatterns, foundIn })
+    // todo use logger
+    // but doing so introduces circ dependency breaking cjs output
+    // try ts 3.9 live bindings output?
+    // no problem in esm-world
+    // log.warn(message)
     console.log(message)
   } else {
     patterns = errPatterns.map(rightOrThrow)
@@ -353,5 +358,3 @@ export function processLogFilterInput(
 
   return patterns
 }
-
-renderSyntaxManual() //?

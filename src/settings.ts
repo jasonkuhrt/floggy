@@ -34,69 +34,119 @@ export type Data = Readonly<{
 
 export type Input = {
   output?: Output.Output
-  filter?: {
-    /**
-     * Filter logs based on given criteria.
-     *
-     * @default '*''
-     *
-     * @examples
-     *
-     * Logs from 'foo'
-     *
-     *    'foo'
-     *
-     * Logs from 'foo' _or_ 'bar'
-     *
-     *    'foo,bar'
-     *
-     * Logs from _not_ 'foo'
-     *
-     *    '!foo'
-     *
-     * Logs from 'foo' level 3 and up
-     *
-     *    'foo@3+'
-     *
-     * Logs at level 3 and up
-     *
-     *    '*@3+'
-     *
-     * Logs from 'foo' level 3 and down
-     *
-     *    'foo@3-'
-     *
-     * Logs from 'foo:sub'
-     *
-     *    'foo:sub'
-     *
-     * Logs from any descendents of 'foo:sub'
-     *
-     *    'foo:sub:*'
-     *
-     * Logs from any descendents of 'foo:sub' _and_ 'foo:sub' itself
-     *
-     *    'foo:sub*'
-     *
-     */
-    pattern?: string
-    /**
-     * todo revise jsdoc, the concept of this has changed
-     * Set the minimum level a log must be at for it to be written to output.
-     *
-     * This level setting has highest precedence of all logger level configuration
-     * tiers.
-     *
-     * @default
-     *
-     * Takes the first value found, searching in the following order:
-     *
-     *  1. LOG_LEVEL envar if set
-     *  2. 'info' if NODE_ENV envar set to 'production'
-     *  3. 'debug'
-     */
-    level?: Level.Name
-  }
+  /**
+   * Filter logs by path and/or level.
+   *
+   * By default the pattern is '*'. The "default level" defaults to the first value found in:
+   *
+   *  1. LOG_LEVEL envar if set
+   *  2. 'info' if NODE_ENV envar set to 'production'
+   *  3. 'debug'
+   *
+   * @examples
+   *
+   * Logs from foo logger
+   *
+   * foo
+   *
+   * Logs from foo _or_ bar logger
+   *
+   * foo,bar
+   *
+   * Logs from _not_ foo logger
+   *
+   * !foo
+   *
+   * Logs from foo logger at level 3 (info) or higher
+   *
+   * foo&#64;3+
+   *
+   * Logs from any logger at level 3 (info) or higher
+   *
+   * foo&#64;info+
+   *
+   * Logs from foo logger at level 3 (info) or lower
+   *
+   * foo&#64;3-
+   *
+   * Logs from foo:sub logger
+   *
+   * foo:sub
+   *
+   * Logs from any descendents of foo:sub logger
+   *
+   * foo:sub:*
+   *
+   * Logs from any descendents of foo:sub logger _or_ foo:sub logger itself
+   *
+   * foo:sub*
+   *
+   */
+  filter?:
+    | string
+    | {
+        /**
+         * Filter logs by path and/or level.
+         *
+         * @default '*'
+         *
+         * @examples
+         *
+         * Logs from foo logger
+         *
+         * foo
+         *
+         * Logs from foo _or_ bar logger
+         *
+         * foo,bar
+         *
+         * Logs from _not_ foo logger
+         *
+         * !foo
+         *
+         * Logs from foo logger at level 3 (info) or higher
+         *
+         * foo&#64;3+
+         *
+         * Logs from any logger at level 3 (info) or higher
+         *
+         * foo&#64;info+
+         *
+         * Logs from foo logger at level 3 (info) or lower
+         *
+         * foo&#64;3-
+         *
+         * Logs from foo:sub logger
+         *
+         * foo:sub
+         *
+         * Logs from any descendents of foo:sub logger
+         *
+         * foo:sub:*
+         *
+         * Logs from any descendents of foo:sub logger _or_ foo:sub logger itself
+         *
+         * foo:sub*
+         *
+         */
+        pattern?: string
+        /**
+         * todo revise jsdoc, the concept of this has changed
+         * Set the minimum level a log must be at for it to be written to output.
+         *
+         * This level setting has highest precedence of all logger level configuration
+         * tiers.
+         *
+         * @default
+         *
+         * Takes the first value found, searching in the following order:
+         *
+         *  1. LOG_LEVEL envar if set
+         *  2. 'info' if NODE_ENV envar set to 'production'
+         *  3. 'debug'
+         */
+        level?: Level.Name
+      }
   /**
    * Control pretty mode.
    *
@@ -300,6 +350,8 @@ export function processSettingInputFilter(
   prev: null | Data['filter']
 ): Data['filter'] {
   if (!prev) prev = defaultFilterSetting()
+  newSettingsFilter =
+    typeof newSettingsFilter === 'string' ? { pattern: newSettingsFilter } : newSettingsFilter
   const pattern = newSettingsFilter.pattern ?? prev.originalInput
   const defaults = newSettingsFilter?.level
     ? ({ level: { value: newSettingsFilter.level, comp: 'gte' } } as const)

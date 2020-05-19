@@ -218,6 +218,17 @@ describe('filter', () => {
     })
   })
 
+  it('can be passed a pattern directly', () => {
+    const l = Logger.create({ filter: '*@fatal' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('fatal')
+    l.settings({ filter: 'foo' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('debug')
+    l.settings({ filter: { level: 'warn' } })
+    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+    l.settings({ filter: 'bar' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+  })
+
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
     const calls = mockConsoleLog()
     process.env.LOG_FILTER = '**'

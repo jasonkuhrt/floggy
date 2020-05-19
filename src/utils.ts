@@ -96,7 +96,8 @@ export function last<T>(xs: T[]): T {
   return xs[xs.length - 1]
 }
 
-export function isEmpty(x?: object): boolean {
+export function isEmpty(x?: object | string): boolean {
+  if (typeof x === 'string' && x === '') return true
   if (x === undefined) return true
   return Object.values(x).filter((val) => val !== undefined).length === 0
 }
