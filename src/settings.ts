@@ -157,20 +157,20 @@ export type Input = {
      * The Unix timestamp in milliseconds when the log was written to the
      * output.
      *
-     * @defualt `true` if NODE_ENV="production"
+     * @default `true` if NODE_ENV="production"
      */
     time?: boolean
     /**
      * The current node process ID assigned by the operating system. Acquired
      * via `process.pid`.
      *
-     * @defualt `true` if NODE_ENV="production"
+     * @default `true` if NODE_ENV="production"
      */
     pid?: boolean
     /**
      * The host name of the machine this process is running on. Acquired via `OS.hostname()`.
      *
-     * @defualt `true` if NODE_ENV="production"
+     * @default `true` if NODE_ENV="production"
      */
     hostname?: boolean
   }
