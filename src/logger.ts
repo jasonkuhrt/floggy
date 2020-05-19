@@ -1,14 +1,15 @@
 import * as Lo from 'lodash'
 import * as OS from 'os'
-import { Level, LevelNum, LEVELS } from './level'
+import { validPathSegmentNameRegex } from './data'
+import * as Filter from './filter'
+import { LEVELS, Name, Num } from './level'
 import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
-// TODO JSON instead of unknown type
 type Context = Record<string, unknown>
 
 export type LogRecord = {
-  level: LevelNum
+  level: Num
   path: string[]
   event: string
   context: Context
@@ -38,6 +39,7 @@ export function create(
   path: string[],
   parentContext: Context
 ): { logger: Logger; link: Link } {
+  validatePath(path)
   const state: State = {
     // Copy as addToContext will mutate it
     pinnedAndParentContext: Lo.cloneDeep(parentContext),
@@ -51,20 +53,21 @@ export function create(
     })
   }
 
-  function send(levelLabel: Level, event: string, localContext: undefined | Context) {
+  function send(levelLabel: Name, event: string, localContext: undefined | Context) {
     const level = LEVELS[levelLabel].number
-    const levelSetting = LEVELS[rootState.settings.level].number
-    if (level >= levelSetting) {
+    const logRec: LogRecord = {
+      path,
+      context: {}, // unused by filtering, be lazy to avoid merge cost
+      event,
+      level,
+    }
+
+    if (Filter.test(rootState.settings.filter.patterns, logRec)) {
       // Avoid mutating the passed local context
-      const context = localContext
+      logRec.context = localContext
         ? Lo.merge({}, state.pinnedAndParentContext, localContext)
         : state.pinnedAndParentContext
-      const logRec: LogRecord = {
-        path,
-        context,
-        event,
-        level,
-      }
+
       if (rootState.settings?.data.hostname) {
         logRec.hostname = OS.hostname()
       }
@@ -139,4 +142,12 @@ type Link = {
 type State = {
   pinnedAndParentContext: Context
   children: Link[]
+}
+
+function validatePath(path: string[]) {
+  path.forEach((part) => {
+    if (!validPathSegmentNameRegex.test(part)) {
+      throw new Error(`Invalid logger path segment: ${part}`)
+    }
+  })
 }

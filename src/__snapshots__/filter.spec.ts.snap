@@ -1,0 +1,633 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse !a 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": true,
+      "originalInput": "!a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse * 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse *@* 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
+      },
+      "negate": false,
+      "originalInput": "*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse *@1 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "*@1",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse , ,  a, 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse ,,a,b 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
+    },
+  },
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "b",
+      "path": Object {
+        "descendents": false,
+        "value": "b",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse a 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse a,b 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a",
+      "path": Object {
+        "descendents": false,
+        "value": "a",
+      },
+    },
+  },
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "b",
+      "path": Object {
+        "descendents": false,
+        "value": "b",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse a:b 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "a:b",
+      "path": Object {
+        "descendents": false,
+        "value": "a:b",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse app* 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "app*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse app*@* 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
+      },
+      "negate": false,
+      "originalInput": "app*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse app*@1 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
+      },
+      "negate": false,
+      "originalInput": "app*@*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": true,
+        },
+        "value": "app",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse app@* 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "*",
+      },
+      "negate": false,
+      "originalInput": "app@*",
+      "path": Object {
+        "descendents": false,
+        "value": "app",
+      },
+    },
+  },
+]
+`;
+
+exports[`parse syntax errors ! 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "!"],
+  },
+]
+`;
+
+exports[`parse syntax errors ** 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "**"],
+  },
+]
+`;
+
+exports[`parse syntax errors *+ 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "*+"],
+  },
+]
+`;
+
+exports[`parse syntax errors *a 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "*a"],
+  },
+]
+`;
+
+exports[`parse syntax errors , 1`] = `Array []`;
+
+exports[`parse syntax errors <empty> 1`] = `Array []`;
+
+exports[`parse syntax errors @ 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "@"],
+  },
+]
+`;
+
+exports[`parse syntax errors a! 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a!"],
+  },
+]
+`;
+
+exports[`parse syntax errors a+ 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a+"],
+  },
+]
+`;
+
+exports[`parse syntax errors a@ 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@"],
+  },
+]
+`;
+
+exports[`parse syntax errors a@*! 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*!"],
+  },
+]
+`;
+
+exports[`parse syntax errors a@*+ 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*+"],
+  },
+]
+`;
+
+exports[`parse syntax errors a@*- 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@*-"],
+  },
+]
+`;
+
+exports[`parse syntax errors a@+* 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a@+*"],
+  },
+]
+`;
+
+exports[`processLogFilterInput renders log when invalid filter given renders sensitive to 1 pattern 1 error 1`] = `
+Array [
+  Array [
+    "Your log filter's pattern was invalid: \\"[31m![39m\\"
+
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
+
+[1m[34mGrammar[39m[22m
+
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
+
+[1m[34mExamples[39m[22m
+
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
+
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
+
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
+
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
+
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
+
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
+
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+  ",
+  ],
+]
+`;
+
+exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns <n errors 1`] = `
+Array [
+  Array [
+    "Some (2) of the patterns in your log filter were invalid:
+
+    [31m![39m
+    [31m3[39m
+
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
+
+[1m[34mGrammar[39m[22m
+
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
+
+[1m[34mExamples[39m[22m
+
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
+
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
+
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
+
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
+
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
+
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
+
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+  ",
+  ],
+]
+`;
+
+exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns =n errors 1`] = `
+Array [
+  Array [
+    "All of the patterns in your log filter were invalid:
+
+    [31m![39m
+    [31m3[39m
+
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
+
+[1m[34mGrammar[39m[22m
+
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
+
+[1m[34mExamples[39m[22m
+
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
+
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
+
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
+
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
+
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
+
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
+
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+  ",
+  ],
+]
+`;
+
+exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns 1 error 1`] = `
+Array [
+  Array [
+    "One of the patterns in your log filter was invalid: \\"[31m![39m\\"
+
+[1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
+[1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
+
+[1m[34mGrammar[39m[22m
+
+    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
+    [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
+
+[1m[34mExamples[39m[22m
+
+    [1m[35mPaths[39m[22m
+    app         [90mapp path at default level[39m
+    app:router  [90mapp router path at default level[39m 
+
+    [1m[35mWildcards Paths[39m[22m
+    *           [90mall paths at default level[39m 
+    app:*       [90mdescendent paths of app at defualt level[39m
+    app*        [90mapp path and its descendent paths at defualt level[39m
+
+    [1m[35mNegation[39m[22m
+    !app        [90mall paths expect app at default level[39m 
+
+    [1m[35mLists[39m[22m
+    app,nexus   [90mapp and nexus paths at default level[39m
+
+    [1m[35mLevels[39m[22m
+    *@info      [90mall paths at info level[39m
+    *@error-    [90mall paths at error level or lower[39m
+    *@debug+    [90mall paths at debug level or higher[39m
+    *@3         [90mall paths at info level[39m
+    *@4-        [90mall paths at error level or lower[39m
+    *@2+        [90mall paths at debug level or higher[39m
+
+    [1m[35mWildcard Paths[39m[22m
+    *@*         [90mall paths at all levels[39m
+
+    [1m[35mMixed[39m[22m
+    app@*       [90mapp path at all levels[39m
+    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+  ",
+  ],
+]
+`;

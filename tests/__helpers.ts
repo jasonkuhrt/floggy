@@ -60,3 +60,14 @@ export function resetBeforeEachTest(object: any, key: string) {
     }
   })
 }
+
+export function mockConsoleLog(): any[][] {
+  ;(console as any).logOriginal = console.log
+  const calls = [] as Array<Array<any>>
+  console.log = (...args: any[]) => calls.push(args)
+  return calls
+}
+
+export function unmockConsoleLog() {
+  console.log = (console as any).logOriginal
+}

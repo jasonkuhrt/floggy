@@ -34,6 +34,16 @@ describe('name', () => {
     log.info('bar')
     expect(output.memory.json[0].path).toEqual(['root'])
   })
+  describe(`must conform to regex`, () => {
+    it.each([['a'], ['a_a'], ['_a'], ['a_'], ['a1'], ['A']])('%s is valid', (name) => {
+      expect(() => Logger.create({ name })).not.toThrowError()
+      expect(() => log.child(name)).not.toThrowError()
+    })
+    it.each([[''], ['1'], ['-'], ['g%s'], ['!'], ['a-b']])('%s is invalid', (name) => {
+      expect(() => Logger.create({ name })).toThrowError()
+      expect(() => log.child(name)).toThrowError()
+    })
+  })
 })
 
 describe('demo', () => {
@@ -65,7 +75,7 @@ describe('.<level> log methods', () => {
   })
 
   it('one for each log level', () => {
-    log.settings({ level: 'trace' })
+    log.settings({ filter: { level: 'trace' } })
     log.fatal('hi')
     log.error('hi')
     log.warn('hi')
@@ -136,8 +146,11 @@ describe('.child', () => {
   })
 
   it('inherits level from parent', () => {
-    expect(log.settings.level).toBe('debug')
-    log.settings({ level: 'trace' }).child('tim').trace('hi')
+    expect(log.settings.filter.patterns[0].level.value).toBe('debug')
+    log
+      .settings({ filter: { level: 'trace' } })
+      .child('tim')
+      .trace('hi')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.
     expect(output.memory.jsonOrRaw).toMatchSnapshot()
@@ -145,7 +158,7 @@ describe('.child', () => {
 
   it('reacts to level changes in root logger', () => {
     const b = log.child('b')
-    log.settings({ level: 'trace' })
+    log.settings({ filter: { level: 'trace' } })
     b.trace('foo')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.
@@ -172,5 +185,23 @@ describe('.child', () => {
 
   it('cannot affect level', () => {
     expect((log.child('b') as any).setLevel).toBeUndefined()
+  })
+})
+
+describe('filtering', () => {
+  it('allows logs to be suppressed from outpub', () => {
+    const output = createMockOutput()
+    const log = Logger.create({ filter: { pattern: 'foo:bar' }, name: 'foo', output })
+    log.info('beep') // should be filtered out
+    const log2 = log.child('bar')
+    log2.info('boop')
+    log.settings({ filter: { pattern: 'qux' } })
+    log2.info('berp') // should be filtered out
+    expect(output.memory.raw).toMatchInlineSnapshot(`
+      Array [
+        "{\\"path\\":[\\"foo\\",\\"bar\\"],\\"context\\":{},\\"event\\":\\"boop\\",\\"level\\":3}
+      ",
+      ]
+    `)
   })
 })

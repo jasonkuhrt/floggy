@@ -1,5 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filter LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
+Array [
+  Array [
+    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: \\"**\\"
+
+LOG FILTERING SYNTAX MANUAL  ⟁
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+Grammar
+
+    [!](<path>|*)[@((<levelNum>|<levelLabel>)[+-]|*)][,<...>]
+
+    <path>       = /^[A-z_]+[A-z_0-9]*$/
+    <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
+    <levelLabel> = trace | debug | info | warn | error | fatal
+
+Examples
+
+    Paths
+    app         app path at default level
+    app:router  app router path at default level 
+
+    Wildcards Paths
+    *           all paths at default level 
+    app:*       descendent paths of app at defualt level
+    app*        app path and its descendent paths at defualt level
+
+    Negation
+    !app        all paths expect app at default level 
+
+    Lists
+    app,nexus   app and nexus paths at default level
+
+    Levels
+    *@info      all paths at info level
+    *@error-    all paths at error level or lower
+    *@debug+    all paths at debug level or higher
+    *@3         all paths at info level
+    *@4-        all paths at error level or lower
+    *@2+        all paths at debug level or higher
+
+    Wildcard Paths
+    *@*         all paths at all levels
+
+    Mixed
+    app@*       app path at all levels
+    app:*@2+    descendent paths of app at debug level or higher
+    app*@2-     app & descendent paths of app at debug level or lower 
+  ",
+  ],
+]
+`;
+
+exports[`filter precedence considers instance time config first 1`] = `
+Array [
+  Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+    "negate": false,
+    "originalInput": "foo",
+    "path": Object {
+      "descendents": false,
+      "value": "foo",
+    },
+  },
+]
+`;
+
+exports[`filter precedence then considers LOG_FILTER env var 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": undefined,
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "debug",
+      },
+      "negate": false,
+      "originalInput": "from_env_var",
+      "path": Object {
+        "descendents": false,
+        "value": "from_env_var",
+      },
+    },
+  ],
+}
+`;
+
+exports[`filter precedence then considers construction time config 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": "*@fatal",
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "eq",
+        "value": "fatal",
+      },
+      "negate": false,
+      "originalInput": "*@fatal",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  ],
+}
+`;
+
+exports[`filter precedence then defaults to "* 1`] = `
+Object {
+  "defaults": Object {
+    "level": Object {
+      "comp": "gte",
+      "value": "debug",
+    },
+  },
+  "originalInput": "*",
+  "patterns": Array [
+    Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "debug",
+      },
+      "negate": false,
+      "originalInput": "*",
+      "path": Object {
+        "descendents": Object {
+          "includeParent": false,
+        },
+        "value": "",
+      },
+    },
+  ],
+}
+`;
+
 exports[`pretty .color controls if pretty logs have color or not 1`] = `
 Array [
   "● root foo  --  qux: true

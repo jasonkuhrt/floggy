@@ -1,3 +1,5 @@
+import { Either, isLeft, isRight } from 'fp-ts/lib/Either'
+import { format } from 'util'
 /**
  * Guarantee the length of a given string, padding before or after with the
  * given character. If the given string is longer than  the span target, then it
@@ -55,7 +57,7 @@ export const spanSpaceRight = span.bind(null, 'padBefore', ' ')
  * union have been accounted for.
  */
 export function casesHandled(x: never): never {
-  throw new Error(`A case was not handled for value: ${x}`)
+  throw new Error(`A case of value was not handled: ${x}`)
 }
 
 /**
@@ -85,4 +87,103 @@ export function omitUndefinedKeys<T extends Record<string, unknown>>(data: T): T
   return Object.entries(data ?? {})
     .filter(([k, v]) => v !== undefined)
     .reduce((acc, [k, v]) => Object.assign(acc, { [k]: v }), {} as T)
+}
+
+/**
+ * Get the last item of an array.
+ */
+export function last<T>(xs: T[]): T {
+  return xs[xs.length - 1]
+}
+
+export function isEmpty(x?: object | string): boolean {
+  if (typeof x === 'string' && x === '') return true
+  if (x === undefined) return true
+  return Object.values(x).filter((val) => val !== undefined).length === 0
+}
+
+/**
+ * Run a given parser over an environment variable. If parsing fails, throw a
+ * contextual error message.
+ */
+export function parseFromEnvironment<T>(
+  key: string,
+  parser: {
+    info: { valid: string; typeName: string }
+    run: (raw: string) => null | T
+  }
+): T {
+  const envVarValue = process.env[key]! // assumes env presence handled before
+  const result = parser.run(envVarValue)
+
+  if (result === null) {
+    throw new Error(
+      `Could not parse environment variable ${key} into ${
+        parser.info.typeName
+      }. The environment variable was: ${format(envVarValue)}. A valid environment variable must be like: ${
+        parser.info.valid
+      }`
+    )
+  }
+
+  return result
+}
+
+/**
+ * An error with additional contextual data.
+ */
+export type ContextualError<Context extends Record<string, unknown> = {}> = Error & {
+  context: Context
+}
+
+/**
+ * Create an error with contextual data about it.
+ *
+ * @remarks
+ *
+ * This is handy with fp-ts Either<...> because, unlike try-catch, errors are
+ * strongly typed with the Either contstruct, making it so the error contextual
+ * data flows with inference through your program.
+ */
+export function createContextualError<Context extends Record<string, unknown>>(
+  message: string,
+  context: Context
+): ContextualError<Context> {
+  const e = new Error(message) as ContextualError<Context>
+
+  Object.defineProperty(e, 'message', {
+    enumerable: true,
+    value: e.message,
+  })
+
+  e.context = context
+
+  return e
+}
+
+/**
+ * Extract the left value from an Either.
+ */
+export function getLeft<A, B>(e: Either<A, B>): A | undefined {
+  if (isLeft(e)) return e.left
+  return undefined
+}
+
+/**
+ * Extract the right value from an Either.
+ */
+export function getRight<A, B>(e: Either<A, B>): B | undefined {
+  if (isRight(e)) return e.right
+  return undefined
+}
+
+/**
+ * Extract the right value from an Either or throw.
+ */
+export function rightOrThrow<A, B>(x: Either<A, B>): B {
+  if (isLeft(x))
+    throw new Error(
+      `Failed to get right value of either type because it was actually left. The left value was:\n\n${x.left}`
+    )
+  return x.right
 }

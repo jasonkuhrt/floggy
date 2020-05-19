@@ -12,7 +12,7 @@
   "scripts": {
     "format": "prettier --write .",
     "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
-    "dev:test": "jest --watch",
+    "dev:test": "yarn test --watch",
     "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test": "jest",
     "clean": "rm -rf dist* *.tsbuildinfo",
@@ -30,7 +30,8 @@
     "jest-watch-suspend": "^1.1.2",
     "jest-watch-typeahead": "0.6.0",
     "prettier": "2.0.5",
-    "ts-jest": "25.5.1",
+    "ts-jest": "^26.0.0",
+    "type-fest": "^0.13.1",
     "typescript": "3.8.3"
   },
   "jest": {
@@ -45,6 +46,7 @@
   "prettier": "@prisma-labs/prettier-config",
   "dependencies": {
     "chalk": "^4.0.0",
+    "fp-ts": "^2.6.1",
     "lodash": "^4.17.15",
     "strip-ansi": "^6.0.0"
   }

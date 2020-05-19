@@ -9,7 +9,7 @@ Array [
       },
     },
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -19,7 +19,7 @@ Array [
   Object {
     "context": Object {},
     "event": "bye",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -34,7 +34,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 60,
+    "level": 6,
     "path": Array [
       "root",
     ],
@@ -44,7 +44,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 50,
+    "level": 5,
     "path": Array [
       "root",
     ],
@@ -54,7 +54,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 40,
+    "level": 4,
     "path": Array [
       "root",
     ],
@@ -64,7 +64,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -74,7 +74,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 20,
+    "level": 2,
     "path": Array [
       "root",
     ],
@@ -84,7 +84,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 10,
+    "level": 1,
     "path": Array [
       "root",
     ],
@@ -104,7 +104,7 @@ Array [
       },
     },
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -124,7 +124,7 @@ Array [
       },
     },
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -143,7 +143,7 @@ Array [
       },
     },
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -162,7 +162,7 @@ Array [
       },
     },
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
     ],
@@ -177,7 +177,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
       "tim",
@@ -193,7 +193,7 @@ Array [
   Object {
     "context": Object {},
     "event": "hi",
-    "level": 10,
+    "level": 1,
     "path": Array [
       "root",
       "tim",
@@ -212,7 +212,7 @@ Array [
       "from": "b1",
     },
     "event": "foo",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
       "b1",
@@ -226,7 +226,7 @@ Array [
       "from": "b2",
     },
     "event": "foo",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
       "b2",
@@ -240,7 +240,7 @@ Array [
       "from": "b3",
     },
     "event": "foo",
-    "level": 30,
+    "level": 3,
     "path": Array [
       "root",
       "b3",
@@ -256,7 +256,7 @@ Array [
   Object {
     "context": Object {},
     "event": "foo",
-    "level": 10,
+    "level": 1,
     "path": Array [
       "root",
       "b",
@@ -272,7 +272,7 @@ Array [
   Object {
     "context": Object {},
     "event": "foo",
-    "level": 60,
+    "level": 6,
     "path": Array [
       "root",
     ],

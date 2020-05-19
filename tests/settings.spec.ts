@@ -1,5 +1,11 @@
 import * as Logger from '../src'
-import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
+import {
+  createMockOutput,
+  mockConsoleLog,
+  MockOutput,
+  resetBeforeEachTest,
+  unmockConsoleLog,
+} from './__helpers'
 
 let log: Logger.RootLogger
 let output: MockOutput
@@ -185,44 +191,91 @@ describe('pretty', () => {
   })
 })
 
+describe('filter', () => {
+  describe('precedence', () => {
+    it('considers instance time config first', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      l.settings({ filter: { pattern: 'foo' } })
+      expect(l.settings.filter.patterns).toMatchSnapshot()
+    })
+
+    it('then considers construction time config', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+
+    it('then considers LOG_FILTER env var', () => {
+      process.env.LOG_FILTER = 'from_env_var'
+      const l = Logger.create()
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+
+    it('then defaults to "*', () => {
+      const l = Logger.create()
+      expect(l.settings.filter).toMatchSnapshot()
+    })
+  })
+
+  it('can be passed a pattern directly', () => {
+    const l = Logger.create({ filter: '*@fatal' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('fatal')
+    l.settings({ filter: 'foo' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('debug')
+    l.settings({ filter: { level: 'warn' } })
+    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+    l.settings({ filter: 'bar' })
+    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+  })
+
+  it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
+    const calls = mockConsoleLog()
+    process.env.LOG_FILTER = '**'
+    Logger.create()
+    expect(calls).toMatchSnapshot()
+    unmockConsoleLog()
+  })
+})
+
 describe('level', () => {
   describe('precedence', () => {
     it('considers instance time config first', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'fatal' })
-      l.settings({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
+      const l = Logger.create({ filter: { level: 'fatal' } })
+      l.settings({ filter: { level: 'trace' } })
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ level: 'trace' })
-      expect(l.settings.level).toEqual('trace')
+      const l = Logger.create({ filter: { level: 'trace' } })
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'trace'
       const l = Logger.create()
-      expect(l.settings.level).toEqual('trace')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
       process.env.NODE_ENV = 'production'
       const l = Logger.create()
-      expect(l.settings.level).toEqual('info')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('info')
     })
 
     it('then defaults to debug', () => {
       const l = Logger.create()
-      expect(l.settings.level).toEqual('debug')
+      expect(l.settings.filter.patterns[0].level.value).toEqual('debug')
     })
   })
 
   it('logs below set level are not output', () => {
-    log.settings({ level: 'warn' }).info('foo')
+    log.settings({ filter: { level: 'warn' } }).info('foo')
     expect(output.memory.jsonOrRaw).toEqual([])
   })
 
@@ -230,7 +283,7 @@ describe('level', () => {
     process.env.NODE_ENV = 'production'
     process.env.LOG_LEVEL = 'TRACE'
     const l = Logger.create()
-    expect(l.settings.level).toEqual('trace')
+    expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {
