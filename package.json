@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@prisma-labs/prettier-config": "0.1.0",
-    "@types/jest": "25.2.1",
-    "@types/lodash": "4.14.150",
+    "@types/jest": "25.2.3",
+    "@types/lodash": "4.14.151",
     "dripip": "0.9.0",
     "jest": "26.0.1",
     "jest-watch-suspend": "1.1.2",
@@ -32,7 +32,7 @@
     "prettier": "2.0.5",
     "ts-jest": "26.0.0",
     "type-fest": "0.13.1",
-    "typescript": "3.8.3"
+    "typescript": "3.9.2"
   },
   "jest": {
     "preset": "ts-jest",
