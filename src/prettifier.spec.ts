@@ -11,7 +11,6 @@ function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
     time: 0,
     level: 1,
     path: ['root'],
-    context: {},
     ...data,
     event: 'foo', // do not allow changing b/c headers width below depends on this value
   }

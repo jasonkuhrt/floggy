@@ -14,7 +14,6 @@ Array [
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "bye",
     "level": 3,
     "pid": 0,
@@ -26,42 +25,36 @@ Array [
 exports[`.<level> log methods one for each log level 1`] = `
 Array [
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 6,
     "pid": 0,
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 5,
     "pid": 0,
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 4,
     "pid": 0,
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 3,
     "pid": 0,
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 2,
     "pid": 0,
     "time": 0,
   },
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 1,
     "pid": 0,
@@ -139,7 +132,6 @@ Array [
 exports[`.child creates a sub logger 1`] = `
 Array [
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 3,
     "path": Array [
@@ -154,7 +146,6 @@ Array [
 exports[`.child inherits level from parent 1`] = `
 Array [
   Object {
-    "context": Object {},
     "event": "hi",
     "level": 1,
     "path": Array [
@@ -213,7 +204,6 @@ Array [
 exports[`.child reacts to level changes in root logger 1`] = `
 Array [
   Object {
-    "context": Object {},
     "event": "foo",
     "level": 1,
     "path": Array [
@@ -228,7 +218,6 @@ Array [
 exports[`output defaults to stdout for all levels 1`] = `
 Array [
   Object {
-    "context": Object {},
     "event": "foo",
     "level": 6,
     "pid": 0,

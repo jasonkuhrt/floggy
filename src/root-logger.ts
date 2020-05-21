@@ -27,7 +27,7 @@ export function create(opts?: Options): RootLogger {
     return logger
   }) as SettingsManager
   Object.assign(settingsManager, settings)
-  const loggerLink = Logger.create({ settings: settingsManager }, null, {})
+  const loggerLink = Logger.create({ settings: settingsManager }, null, undefined)
   const logger = loggerLink.logger as RootLogger
   logger.settings = settingsManager
   return logger

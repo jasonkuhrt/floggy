@@ -188,7 +188,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
     terminalWidth - gutterWidth - preContextWidth - separators.context.singleLine.symbol.length
   let contextColumnsConsumed = 0
 
-  const contextEntries = Object.entries(logRecord.context)
+  const contextEntries = logRecord.context ? Object.entries(logRecord.context) : []
   let widestKey = 0
   let first = true
 
