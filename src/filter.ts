@@ -3,17 +3,17 @@ import { chalk } from './chalk'
 import { validPathSegmentNameRegex } from './data'
 import * as Level from './level'
 import type { LogRecord } from './logger'
-import { casesHandled, ContextualError, createContextualError, getLeft, last, rightOrThrow } from './utils'
+import { casesHandled, ContextualError, createContextualError, getLeft, rightOrThrow } from './utils'
 
-// https://regex101.com/r/6g6BHc/4
+// https://regex101.com/r/6g6BHc/5
 // If you change the regex please update the link and vice-versa!
-const pathTerminalRegex = /^([A-z_]+)?(\*)?(?<=\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
+const validPatternRegex = /^(!)?((?:[A-z_]+:)+)?(?:((:)?\*)?|([A-z_]+|))?(?<=\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
 const symbols = {
   negate: '!',
   pathDelim: ':',
   patternDelim: ',',
-  descendents: '*',
+  descendants: '*',
   levelDelim: '@',
   levelGte: '+',
   levelLte: '-',
@@ -31,8 +31,7 @@ export type Parsed = {
      * null means lone wildcard '*'
      */
     value: null | string
-    // value: string
-    descendents:
+    descendants:
       | false
       | {
           includeParent: boolean
@@ -76,65 +75,72 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
   let pattern_ = pattern
   // todo maybe level default should be wildcard instead...
   let level = { ...criteriaDefaults.level } as Parsed['level']
-  let negate = false
-  let path: Parsed['path'] = { value: '', descendents: false }
+  let path: Parsed['path'] = { value: '', descendants: false }
 
-  // process negate
+  const match = pattern.match(validPatternRegex)
 
-  if (pattern_[0] === '!') {
-    negate = true
-    pattern_ = pattern_.slice(1)
+  if (!match) {
+    return left(createInvalidPattern(pattern))
   }
 
-  // process everything else
+  // remove the path part that we're processing
+  const negate = Boolean(match[1])
+  const pathPrefix = match[2] as undefined | string
+  const pathParts = pathPrefix ? pathPrefix.replace(/:$/, '').split(':') : []
+  const pathTerminalDescendants = Boolean(match[3])
+  const pathTerminalDescendantsEx = Boolean(match[4])
+  // Mutually exclusive to 3-4;
+  // 3-4 false // 4 string
+  // 3-4 true  // 4 undefined
+  const pathTerminalPathPart = match[5] as undefined | string
+  const levelValue = match[6] as undefined | Level.Name | Level.NumString
+  const levelDir = match[7] as undefined | '-' | '+'
+  // Mutually exclusive to 6-7
+  // 6-7 string // 8 false
+  // 8 true // 6-7 undefined
+  const levelWildCard = Boolean(match[8])
 
-  let pathParts = pattern_.split(symbols.pathDelim)
+  // encode invariants
+  const lvl = levelWildCard
+    ? ({ type: 'wildcard' } as const)
+    : levelValue
+    ? ({ type: 'value', value: levelValue!, dir: levelDir } as const)
+    : undefined
+  const pterm = pathTerminalPathPart
+    ? ({ type: 'path', path: pathTerminalPathPart } as const)
+    : ({ type: 'wildcard', exclusive: pathTerminalDescendantsEx } as const)
 
-  if (last(pathParts).match(validPathSegmentNameRegex)) {
-    // just a basic name like "foo" or "foo:bar:qux"
-    path.value = pattern_
+  if (pathParts.length) {
+    const pp = pterm.type === 'path' ? pathParts.concat([pterm.path]) : pathParts
+    path.value = pp.join(symbols.pathDelim)
+  } else if (pterm.type === 'path') {
+    path.value = pterm.path
   } else {
-    const match = last(pathParts).match(pathTerminalRegex)
-    if (!match) {
-      return left(createInvalidPattern(pattern))
+    path.value = null
+  }
+
+  if (pterm.type === 'wildcard') {
+    path.descendants = {
+      includeParent: !pterm.exclusive,
+    }
+  }
+
+  if (lvl) {
+    if (lvl.type === 'wildcard') {
+      level.value = '*'
+      level.comp = 'eq'
     } else {
-      // remove the path part that we're processing
-      pathParts.pop()
-      const pathPart = match[1] as undefined | string
-      const descendents = match[2] as undefined | string
-      const levelValue = match[3] as undefined | Level.Name | Level.NumString
-      const levelDir = match[4] as undefined | '-' | '+'
-      const levelWildCard = match[5] as undefined | string
-
-      if (pathPart) {
-        path.value = pathParts.concat([pathPart]).join(symbols.pathDelim)
+      // the original regex guarantees 1-5 so we don't have to validate that now
+      if (lvl.value.match(/\d/)) {
+        level.value = Level.LEVELS_BY_NUM[lvl.value as Level.NumString].label
       } else {
-        path.value = pathParts.length > 0 ? pathParts.join(symbols.pathDelim) : null
-        // path.value = pathParts.join(symbols.pathDelim)
+        level.value = lvl.value as Level.Name
       }
-
-      if (descendents) {
-        path.descendents = {
-          includeParent: Boolean(pathPart),
-        }
-      }
-
-      if (levelValue) {
-        // the original regex guarantees 1-5 so we don't have to validate that now
-        if (levelValue.match(/\d/)) {
-          level.value = Level.LEVELS_BY_NUM[levelValue as Level.NumString].label
-        } else {
-          level.value = levelValue as Level.Name
-        }
-        if (levelDir === '+') level.comp = 'gte'
-        else if (levelDir === '-') level.comp = 'lte'
-        else if (levelDir === '') level.comp = 'eq'
-        else if (levelDir === undefined) level.comp = 'eq'
-        else casesHandled(levelDir)
-      } else if (levelWildCard) {
-        level.value = '*'
-        level.comp = 'eq'
-      }
+      if (lvl.dir === '+') level.comp = 'gte'
+      else if (lvl.dir === '-') level.comp = 'lte'
+      else if (lvl.dir === '') level.comp = 'eq'
+      else if (lvl.dir === undefined) level.comp = 'eq'
+      else casesHandled(lvl.dir)
     }
   }
 
@@ -153,7 +159,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
         )
       )
     }
-  } else if (path.value === null && !path.descendents) {
+  } else if (path.value === null && !path.descendants) {
     return left(createInvalidPattern(pattern))
   }
 
@@ -190,11 +196,12 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     // path
 
     if (isPass) {
-      if (pattern.path.descendents) {
+      if (pattern.path.descendants) {
         if (pattern.path.value === null) {
           isPass = true
         } else if (logPath === pattern.path.value) {
-          isPass = pattern.path.descendents.includeParent
+          //@ts-ignore
+          isPass = pattern.path.descendants.includeParent
         } else {
           isPass = logPath.startsWith(pattern.path.value)
         }
@@ -256,9 +263,15 @@ ${bold(b(`▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬�
 
 ${bold(b(`Grammar`))}
 
-    [!](${c(`<path>`)}|*)[@((${c(`<levelNum>`)}|${c(`<levelLabel>`)})[+-]|*)][,<...>]
+    Precise: 
 
-    ${c(`<path>`)}       = ${validPathSegmentNameRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))}
+    ${validPatternRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))}
+
+    Generally: 
+
+    [!](*|${c(`<path>`)}[:*])[@(*|(${c(`<levelNum>`)}|${c(`<levelLabel>`)})[+-])] [,<pattern>]
+
+    ${c(`<path>`)}       = ${validPathSegmentNameRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))} [:<path>]
     ${c(`<levelNum>`)}   = 1     ${pipe} 2     ${pipe} 3    ${pipe} 4    ${pipe} 5     ${pipe} 6
     ${c(`<levelLabel>`)} = trace ${pipe} debug ${pipe} info ${pipe} warn ${pipe} error ${pipe} fatal
 
@@ -270,8 +283,8 @@ ${bold(b(`Examples`))}
 
     ${subtitle(`Wildcards Paths`)}
     *           ${subtle(`all paths at default level`)} 
-    app:*       ${subtle(`descendent paths of app at defualt level`)}
-    app*        ${subtle(`app path and its descendent paths at defualt level`)}
+    app:*       ${subtle(`app path and its descendant paths at defualt level`)}
+    app::*      ${subtle(`descendant paths of app at defualt level`)}
 
     ${subtitle(`Negation`)}
     !app        ${subtle(`all paths expect app at default level`)} 
@@ -292,8 +305,8 @@ ${bold(b(`Examples`))}
 
     ${subtitle(`Mixed`)}
     app@*       ${subtle(`app path at all levels`)}
-    app:*@2+    ${subtle(`descendent paths of app at debug level or higher`)}
-    app*@2-     ${subtle(`app & descendent paths of app at debug level or lower`)} 
+    app:*@2+    ${subtle(`descendant paths of app at debug level or higher`)}
+    app*@2-     ${subtle(`app & descendant paths of app at debug level or lower`)} 
   `
 }
 
