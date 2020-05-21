@@ -33,7 +33,7 @@
     "ts-jest": "26.0.0",
     "type-fest": "0.13.1",
     "typescript": "3.9.2",
-    "typescript-snapshots-plugin": "^1.7.0"
+    "typescript-snapshots-plugin": "1.7.0"
   },
   "jest": {
     "preset": "ts-jest",
