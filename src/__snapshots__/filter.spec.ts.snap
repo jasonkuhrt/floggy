@@ -12,7 +12,7 @@ Array [
       "negate": true,
       "originalInput": "!a",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a",
       },
     },
@@ -32,8 +32,8 @@ Array [
       "negate": false,
       "originalInput": "*",
       "path": Object {
-        "descendents": Object {
-          "includeParent": false,
+        "descendants": Object {
+          "includeParent": true,
         },
         "value": null,
       },
@@ -54,8 +54,8 @@ Array [
       "negate": false,
       "originalInput": "*@*",
       "path": Object {
-        "descendents": Object {
-          "includeParent": false,
+        "descendants": Object {
+          "includeParent": true,
         },
         "value": null,
       },
@@ -76,8 +76,8 @@ Array [
       "negate": false,
       "originalInput": "*@1",
       "path": Object {
-        "descendents": Object {
-          "includeParent": false,
+        "descendants": Object {
+          "includeParent": true,
         },
         "value": null,
       },
@@ -98,7 +98,7 @@ Array [
       "negate": false,
       "originalInput": "a",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a",
       },
     },
@@ -118,7 +118,7 @@ Array [
       "negate": false,
       "originalInput": "a",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a",
       },
     },
@@ -133,7 +133,7 @@ Array [
       "negate": false,
       "originalInput": "b",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "b",
       },
     },
@@ -153,7 +153,7 @@ Array [
       "negate": false,
       "originalInput": "a",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a",
       },
     },
@@ -173,7 +173,7 @@ Array [
       "negate": false,
       "originalInput": "a",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a",
       },
     },
@@ -188,7 +188,7 @@ Array [
       "negate": false,
       "originalInput": "b",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "b",
       },
     },
@@ -208,7 +208,7 @@ Array [
       "negate": false,
       "originalInput": "a:b",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "a:b",
       },
     },
@@ -216,7 +216,7 @@ Array [
 ]
 `;
 
-exports[`parse app* 1`] = `
+exports[`parse a:b:* 1`] = `
 Array [
   Object {
     "_tag": "Right",
@@ -226,54 +226,68 @@ Array [
         "value": "trace",
       },
       "negate": false,
-      "originalInput": "app*",
+      "originalInput": "a:b:*",
       "path": Object {
-        "descendents": Object {
+        "descendants": Object {
           "includeParent": true,
         },
-        "value": "app",
+        "value": "a:b",
       },
     },
   },
 ]
 `;
 
-exports[`parse app*@* 1`] = `
+exports[`parse a:b:*@info 1`] = `
 Array [
   Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
-      },
-      "negate": false,
-      "originalInput": "app*@*",
-      "path": Object {
-        "descendents": Object {
-          "includeParent": true,
-        },
-        "value": "app",
-      },
-    },
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a:b:@1"],
   },
 ]
 `;
 
-exports[`parse app*@1 1`] = `
+exports[`parse app:* 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "app*"],
+  },
+]
+`;
+
+exports[`parse app:*@* 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "app*@*"],
+  },
+]
+`;
+
+exports[`parse app:*@1 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "app*@*"],
+  },
+]
+`;
+
+exports[`parse app::* 1`] = `
 Array [
   Object {
     "_tag": "Right",
     "right": Object {
       "level": Object {
-        "comp": "eq",
-        "value": "*",
+        "comp": "gte",
+        "value": "trace",
       },
       "negate": false,
-      "originalInput": "app*@*",
+      "originalInput": "app::*",
       "path": Object {
-        "descendents": Object {
-          "includeParent": true,
+        "descendants": Object {
+          "includeParent": false,
         },
         "value": "app",
       },
@@ -294,7 +308,7 @@ Array [
       "negate": false,
       "originalInput": "app@*",
       "path": Object {
-        "descendents": false,
+        "descendants": false,
         "value": "app",
       },
     },
@@ -351,6 +365,15 @@ Array [
 ]
 `;
 
+exports[`parse syntax errors @1 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "@1"],
+  },
+]
+`;
+
 exports[`parse syntax errors a! 1`] = `
 Array [
   Object {
@@ -365,6 +388,15 @@ Array [
   Object {
     "_tag": "Left",
     "left": [Error: Invalid filter pattern: "a+"],
+  },
+]
+`;
+
+exports[`parse syntax errors a:@1 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a:@1"],
   },
 ]
 `;
@@ -424,9 +456,15 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+    Precise: 
 
-    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
+
+    Generally: 
+
+    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
@@ -438,8 +476,8 @@ Array [
 
     [1m[35mWildcards Paths[39m[22m
     *           [90mall paths at default level[39m 
-    app:*       [90mdescendent paths of app at defualt level[39m
-    app*        [90mapp path and its descendent paths at defualt level[39m
+    app:*       [90mapp path and its descendant paths at defualt level[39m
+    app::*      [90mdescendant paths of app at defualt level[39m
 
     [1m[35mNegation[39m[22m
     !app        [90mall paths expect app at default level[39m 
@@ -460,8 +498,8 @@ Array [
 
     [1m[35mMixed[39m[22m
     app@*       [90mapp path at all levels[39m
-    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
-    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+    app:*@2+    [90mdescendant paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -480,9 +518,15 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+    Precise: 
 
-    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
+
+    Generally: 
+
+    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
@@ -494,8 +538,8 @@ Array [
 
     [1m[35mWildcards Paths[39m[22m
     *           [90mall paths at default level[39m 
-    app:*       [90mdescendent paths of app at defualt level[39m
-    app*        [90mapp path and its descendent paths at defualt level[39m
+    app:*       [90mapp path and its descendant paths at defualt level[39m
+    app::*      [90mdescendant paths of app at defualt level[39m
 
     [1m[35mNegation[39m[22m
     !app        [90mall paths expect app at default level[39m 
@@ -516,8 +560,8 @@ Array [
 
     [1m[35mMixed[39m[22m
     app@*       [90mapp path at all levels[39m
-    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
-    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+    app:*@2+    [90mdescendant paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -536,9 +580,15 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+    Precise: 
 
-    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
+
+    Generally: 
+
+    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
@@ -550,8 +600,8 @@ Array [
 
     [1m[35mWildcards Paths[39m[22m
     *           [90mall paths at default level[39m 
-    app:*       [90mdescendent paths of app at defualt level[39m
-    app*        [90mapp path and its descendent paths at defualt level[39m
+    app:*       [90mapp path and its descendant paths at defualt level[39m
+    app::*      [90mdescendant paths of app at defualt level[39m
 
     [1m[35mNegation[39m[22m
     !app        [90mall paths expect app at default level[39m 
@@ -572,8 +622,8 @@ Array [
 
     [1m[35mMixed[39m[22m
     app@*       [90mapp path at all levels[39m
-    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
-    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+    app:*@2+    [90mdescendant paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
   ",
   ],
 ]
@@ -589,9 +639,15 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    [!]([36m<path>[39m|*)[@(([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-]|*)][,<...>]
+    Precise: 
 
-    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m
+    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
+
+    Generally: 
+
+    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
+
+    [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
 
@@ -603,8 +659,8 @@ Array [
 
     [1m[35mWildcards Paths[39m[22m
     *           [90mall paths at default level[39m 
-    app:*       [90mdescendent paths of app at defualt level[39m
-    app*        [90mapp path and its descendent paths at defualt level[39m
+    app:*       [90mapp path and its descendant paths at defualt level[39m
+    app::*      [90mdescendant paths of app at defualt level[39m
 
     [1m[35mNegation[39m[22m
     !app        [90mall paths expect app at default level[39m 
@@ -625,8 +681,8 @@ Array [
 
     [1m[35mMixed[39m[22m
     app@*       [90mapp path at all levels[39m
-    app:*@2+    [90mdescendent paths of app at debug level or higher[39m
-    app*@2-     [90mapp & descendent paths of app at debug level or lower[39m 
+    app:*@2+    [90mdescendant paths of app at debug level or higher[39m
+    app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
   ",
   ],
 ]

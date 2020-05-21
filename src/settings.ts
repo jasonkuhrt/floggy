@@ -73,11 +73,11 @@ export type Input = {
    *
    * foo:sub
    *
-   * Logs from any descendents of foo:sub logger
+   * Logs from any descendants of foo:sub logger
    *
    * foo:sub:*
    *
-   * Logs from any descendents of foo:sub logger _or_ foo:sub logger itself
+   * Logs from any descendants of foo:sub logger _or_ foo:sub logger itself
    *
    * foo:sub*
    *
@@ -120,11 +120,11 @@ export type Input = {
          *
          * foo:sub
          *
-         * Logs from any descendents of foo:sub logger
+         * Logs from any descendants of foo:sub logger
          *
          * foo:sub:*
          *
-         * Logs from any descendents of foo:sub logger _or_ foo:sub logger itself
+         * Logs from any descendants of foo:sub logger _or_ foo:sub logger itself
          *
          * foo:sub*
          *

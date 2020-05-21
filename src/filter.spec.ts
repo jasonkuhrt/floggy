@@ -32,10 +32,12 @@ describe('parse', () => {
   it('*',       () => { expect(parse('*')).toMatchSnapshot() })
   it('*@*',     () => { expect(parse('*@*')).toMatchSnapshot() })
   it('*@1',     () => { expect(parse('*@1')).toMatchSnapshot() })
+  it('app:*',    () => { expect(parse('app*')).toMatchSnapshot() })
   it('app@*',   () => { expect(parse('app@*')).toMatchSnapshot() })
-  it('app*',    () => { expect(parse('app*')).toMatchSnapshot() })
-  it('app*@*',  () => { expect(parse('app*@*')).toMatchSnapshot() })
-  it('app*@1',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('app:*@*',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('app:*@1',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  // wildcards exclusive
+  it('app::*',    () => { expect(parse('app::*')).toMatchSnapshot() })
   // negate
   it('!a',      () => { expect(parse('!a')).toMatchSnapshot() })
   // paths
@@ -66,6 +68,9 @@ describe('parse', () => {
   ('%s', (pattern, expectedLevel) => {
     expect(pipe(parse(pattern)[0], map(p => p.level))).toEqual(right(expectedLevel))
   })
+  // wildcard/levels + paths
+  it('a:b:*',       () => { expect(parse('a:b:*')).toMatchSnapshot() })
+  it('a:b:*@info',       () => { expect(parse('a:b:@1')).toMatchSnapshot() })
 })
 
 // prettier-ignore
@@ -85,6 +90,8 @@ describe('parse syntax errors', () => {
   it('!', () => { expect(parse('!')).toMatchSnapshot() })
   it('a!', () => { expect(parse('a!')).toMatchSnapshot() })
   it('a@*!', () => { expect(parse('a@*!')).toMatchSnapshot() })
+  it('@1', () => { expect(parse('@1')).toMatchSnapshot() })
+  it('a:@1', () => { expect(parse('a:@1')).toMatchSnapshot() })
 })
 
 describe('test', () => {
@@ -98,9 +105,9 @@ describe('test', () => {
     [defaults, '!foo', rec({ path: ['foo'] }), false],
     [defaults, '!foo', rec({ path: ['foo', 'bar'] }), true],
     // negate + wildcard
-    [defaults, '!foo*', rec({ path: ['foo'] }), false],
-    [defaults, '!foo:*', rec({ path: ['foo'] }), true],
-    [defaults, '!foo:*', rec({ path: ['foo', 'bar'] }), false],
+    [defaults, '!foo:*', rec({ path: ['foo'] }), false],
+    [defaults, '!foo::*', rec({ path: ['foo'] }), true],
+    [defaults, '!foo::*', rec({ path: ['foo', 'bar'] }), false],
     // level
     [defaults, '*@2', rec({ level: 1 }), false],
     [defaults, '*@fatal', rec({ level: 6 }), true],
@@ -111,9 +118,9 @@ describe('test', () => {
     // path
     [defaults, 'foo', rec({ path: ['bar'] }), false],
     // path + wildcard
-    [defaults, 'foo:*', rec({ path: ['foo', 'bar'] }), true],
-    [defaults, 'foo:*', rec({ path: ['foo'] }), false],
-    [defaults, 'foo*', rec({ path: ['foo'] }), true],
+    [defaults, 'foo::*', rec({ path: ['foo', 'bar'] }), true],
+    [defaults, 'foo::*', rec({ path: ['foo'] }), false],
+    [defaults, 'foo:*', rec({ path: ['foo'] }), true],
     // list
     [defaults, 'foo,bar', rec({ path: ['bar'] }), true],
     // misc

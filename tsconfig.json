@@ -12,5 +12,10 @@
     "target": "ES2018"
   },
   "include": ["src"],
-  "exclude": ["tests", "src/**/*.spec.ts"]
+  "exclude": ["tests", "src/**/*.spec.ts"],
+  "plugins": [
+    {
+      "name": "typescript-snapshots-plugin"
+    }
+  ]
 }
