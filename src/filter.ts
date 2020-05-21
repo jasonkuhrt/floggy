@@ -27,7 +27,11 @@ export type Parsed = {
   }
   negate: boolean
   path: {
-    value: string
+    /**
+     * null means lone wildcard '*'
+     */
+    value: null | string
+    // value: string
     descendents:
       | false
       | {
@@ -87,22 +91,26 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
   let pathParts = pattern_.split(symbols.pathDelim)
 
   if (last(pathParts).match(validPathSegmentNameRegex)) {
-    path.value = pathParts.join(symbols.pathDelim)
+    // just a basic name like "foo" or "foo:bar:qux"
+    path.value = pattern_
   } else {
     const match = last(pathParts).match(pathTerminalRegex)
-    if (match) {
-      type LevelNumString = '1' | '2' | '3' | '4' | '5' | '6'
+    if (!match) {
+      return left(createInvalidPattern(pattern))
+    } else {
+      // remove the path part that we're processing
       pathParts.pop()
       const pathPart = match[1] as undefined | string
       const descendents = match[2] as undefined | string
-      const levelValue = match[3] as undefined | Level.Name | LevelNumString
+      const levelValue = match[3] as undefined | Level.Name | Level.NumString
       const levelDir = match[4] as undefined | '-' | '+'
       const levelWildCard = match[5] as undefined | string
 
       if (pathPart) {
         path.value = pathParts.concat([pathPart]).join(symbols.pathDelim)
       } else {
-        path.value = pathParts.join(symbols.pathDelim)
+        path.value = pathParts.length > 0 ? pathParts.join(symbols.pathDelim) : null
+        // path.value = pathParts.join(symbols.pathDelim)
       }
 
       if (descendents) {
@@ -114,7 +122,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
       if (levelValue) {
         // the original regex guarantees 1-5 so we don't have to validate that now
         if (levelValue.match(/\d/)) {
-          level.value = Level.LEVELS_BY_NUM[levelValue as LevelNumString].label
+          level.value = Level.LEVELS_BY_NUM[levelValue as Level.NumString].label
         } else {
           level.value = levelValue as Level.Name
         }
@@ -127,14 +135,12 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
         level.value = '*'
         level.comp = 'eq'
       }
-    } else {
-      return left(createInvalidPattern(pattern))
     }
   }
 
   // check for errors
 
-  if (path.value !== '') {
+  if (path.value !== null) {
     const invalidPathPartNames = path.value
       .split(symbols.pathDelim)
       .filter((pathPart) => !pathPart.match(validPathSegmentNameRegex))
@@ -147,7 +153,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
         )
       )
     }
-  } else if (path.value === '' && !path.descendents) {
+  } else if (path.value === null && !path.descendents) {
     return left(createInvalidPattern(pattern))
   }
 
@@ -185,7 +191,9 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
 
     if (isPass) {
       if (pattern.path.descendents) {
-        if (logPath === pattern.path.value) {
+        if (pattern.path.value === null) {
+          isPass = true
+        } else if (logPath === pattern.path.value) {
           isPass = pattern.path.descendents.includeParent
         } else if (logPath === null) {
           isPass = false
