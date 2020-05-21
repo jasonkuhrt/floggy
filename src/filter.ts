@@ -189,10 +189,10 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
  * Test if a log matches the pattern.
  */
 export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
-  let yaynay = false
+  let yaynay: null | boolean = null
   for (const pattern of patterns) {
     // if log already passed then we can skip rest except negations
-    if (yaynay && !pattern.negate) continue
+    if (yaynay === true && pattern.negate !== true) continue
 
     const logPath = log.path ? ['.', ...log.path].join(symbols.pathDelim) : '.'
     // const patternPath = pattern.path.value.replace(/^\.:?/, '')
@@ -215,6 +215,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     //     {
     //       isPass,
     //       pattern,
+    //       logPath,
     //       log,
     //       b:
     //         pattern.path.descendants &&
@@ -262,13 +263,19 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
       }
     }
 
-    // Allow negates to undo previous passes while non-negates can only pass,
-    // not unpass.
-    if (pattern.negate) {
-      yaynay = !isPass
+    if (yaynay === null) {
+      yaynay = pattern.negate ? !isPass : isPass
+    } else if (pattern.negate && isPass) {
+      // Allow negates to undo previous passes while non-negates can only pass,
+      // not unpass.
+      yaynay = false
     } else if (isPass) {
       yaynay = true
     }
+  }
+
+  if (yaynay === null) {
+    throw new Error('Invariant violation: pattern processing did not convert into pass calculation')
   }
 
   return yaynay

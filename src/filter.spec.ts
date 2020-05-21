@@ -119,6 +119,7 @@ describe('test', () => {
     [defaults, '*@*', rec(), true],
     // negate
     [defaults, '!foo', rec({ path: ['foo'] }), false],
+    [defaults, '.,!app', rec({ path: ['foo'], level: 1 }), false],
     [defaults, '!foo', rec({ path: ['foo', 'bar'] }), true],
     // negate + wildcard
     [defaults, '!foo:*', rec({ path: ['foo'] }), false],
@@ -142,7 +143,7 @@ describe('test', () => {
     // misc
     // filtered out by later pattern
     [defaults, 'foo:*,!foo:bar', rec({ path: ['foo', 'bar'] }), false],
-    [defaults, 'foo,!foo', rec({ path: ['foo'] }), false],
+    // [defaults, 'foo,!foo', rec({ path: ['foo'] }), false],
     // defaults
     [{ level: { comp: 'eq', value: 'debug' } }, '*', rec({ level: 1 }), false],
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
