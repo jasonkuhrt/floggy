@@ -10,14 +10,10 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "bye",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -27,38 +23,26 @@ Array [
   Object {
     "event": "hi",
     "level": 6,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "hi",
     "level": 5,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "hi",
     "level": 4,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "hi",
     "level": 2,
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "event": "hi",
     "level": 1,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -74,8 +58,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -91,8 +73,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -107,8 +87,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -123,8 +101,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -137,8 +113,6 @@ Array [
     "path": Array [
       "tim",
     ],
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -151,8 +125,6 @@ Array [
     "path": Array [
       "tim",
     ],
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -169,8 +141,6 @@ Array [
     "path": Array [
       "b1",
     ],
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "context": Object {
@@ -182,8 +152,6 @@ Array [
     "path": Array [
       "b2",
     ],
-    "pid": 0,
-    "time": 0,
   },
   Object {
     "context": Object {
@@ -195,8 +163,6 @@ Array [
     "path": Array [
       "b3",
     ],
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -209,8 +175,6 @@ Array [
     "path": Array [
       "b",
     ],
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;
@@ -220,8 +184,6 @@ Array [
   Object {
     "event": "foo",
     "level": 6,
-    "pid": 0,
-    "time": 0,
   },
 ]
 `;

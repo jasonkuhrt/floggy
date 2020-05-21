@@ -30,8 +30,6 @@ export function createMockOutput(): MockOutput {
       let log: any
       try {
         log = JSON.parse(message)
-        log.time = 0
-        log.pid = 0
         output.memory.json.push(log)
       } catch (e) {
         if (e instanceof SyntaxError) {
