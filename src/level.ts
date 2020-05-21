@@ -1,5 +1,7 @@
 export type Name = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace'
 
+export type NumString = '1' | '2' | '3' | '4' | '5' | '6'
+
 export type Num = 6 | 5 | 4 | 3 | 2 | 1
 
 export const LEVELS: Record<Name, { label: Name; number: Num }> = {

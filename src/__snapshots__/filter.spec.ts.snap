@@ -35,7 +35,7 @@ Array [
         "descendents": Object {
           "includeParent": false,
         },
-        "value": "",
+        "value": null,
       },
     },
   },
@@ -57,7 +57,7 @@ Array [
         "descendents": Object {
           "includeParent": false,
         },
-        "value": "",
+        "value": null,
       },
     },
   },
@@ -79,7 +79,7 @@ Array [
         "descendents": Object {
           "includeParent": false,
         },
-        "value": "",
+        "value": null,
       },
     },
   },

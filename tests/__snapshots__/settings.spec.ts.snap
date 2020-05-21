@@ -117,7 +117,7 @@ Object {
         "descendents": Object {
           "includeParent": false,
         },
-        "value": "",
+        "value": null,
       },
     },
   ],
@@ -145,7 +145,7 @@ Object {
         "descendents": Object {
           "includeParent": false,
         },
-        "value": "",
+        "value": null,
       },
     },
   ],
