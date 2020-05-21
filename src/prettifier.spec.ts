@@ -6,12 +6,8 @@ import { spanChar } from './utils'
 
 function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
   return {
-    hostname: 'host',
-    pid: 0,
-    time: 0,
     level: 1,
-    path: ['root'],
-    context: {},
+    path: ['foob'],
     ...data,
     event: 'foo', // do not allow changing b/c headers width below depends on this value
   }
@@ -47,7 +43,7 @@ describe('singleline', () => {
     })
     const l = render()
     expect(l).toMatchInlineSnapshot(
-      `"— root foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
+      `"— foob foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
     )
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
@@ -58,7 +54,7 @@ describe('singleline', () => {
     })
     const l = render()
     expect(l).toMatchInlineSnapshot(
-      `"— root foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
+      `"— foob foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
     )
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
@@ -73,7 +69,7 @@ describe('multiline', () => {
   it('used if context does not fit singleline', () => {
     rec.context = createContext({ key: { size: terminalContextWidth + 1 /* force multi */ } })
     expect(render()).toMatchInlineSnapshot(`
-      "— root foo
+      "— foob foo
         | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
     `)
   })
@@ -89,7 +85,7 @@ describe('multiline', () => {
       },
     })
     expect(render()).toMatchInlineSnapshot(`
-      "— root foo
+      "— foob foo
         | ke1  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         | ke2  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
     `)

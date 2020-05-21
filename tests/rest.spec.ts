@@ -153,9 +153,13 @@ describe('.child', () => {
   })
 
   it('is unable to change context of parent', () => {
-    log.child('b').addToContext({ foo: 'bar' })
-    log.info('qux')
-    expect(output.memory.json[0].context).toEqual({})
+    log.child('b').addToContext({ foo1: 'bar' })
+    log.info('qux1')
+    expect(output.memory.json[0].context).toEqual(undefined)
+    log.addToContext({ toto: 'one' })
+    log.child('b').addToContext({ foo2: 'bar' })
+    log.info('qux2')
+    expect(output.memory.json[1].context).toEqual({ toto: 'one' })
   })
 
   it('is unable to change context of siblings', () => {
@@ -187,7 +191,7 @@ describe('filtering', () => {
     foobar.info('berp') // should be filtered out
     expect(output.memory.raw).toMatchInlineSnapshot(`
       Array [
-        "{\\"context\\":{},\\"event\\":\\"boop\\",\\"level\\":3,\\"path\\":[\\"foo\\",\\"bar\\"]}
+        "{\\"event\\":\\"boop\\",\\"level\\":3,\\"path\\":[\\"foo\\",\\"bar\\"]}
       ",
       ]
     `)

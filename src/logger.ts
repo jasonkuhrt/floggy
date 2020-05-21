@@ -10,9 +10,9 @@ type Context = Record<string, unknown>
 
 export type LogRecord = {
   level: Num
-  path?: string[]
   event: string
-  context: Context
+  path?: string[]
+  context?: Context
   time?: number
   pid?: number
   hostname?: string
@@ -37,26 +37,25 @@ export type Logger = {
 export function create(
   rootState: RootLogger.State,
   path: null | string[],
-  parentContext: Context
+  parentContext?: Context
 ): { logger: Logger; link: Link } {
   if (path) validatePath(path)
   const state: State = {
     // Copy as addToContext will mutate it
-    pinnedAndParentContext: Lo.cloneDeep(parentContext),
+    pinnedAndParentContext: parentContext ? Lo.cloneDeep(parentContext) : undefined,
     children: [],
   }
 
   function updateContextAndPropagate(newContext: Context) {
     state.pinnedAndParentContext = newContext
     state.children.forEach((child) => {
-      child.onNewParentContext(state.pinnedAndParentContext)
+      child.onNewParentContext(state.pinnedAndParentContext!)
     })
   }
 
   function send(levelLabel: Name, event: string, localContext: undefined | Context) {
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
-      context: {}, // unused by filtering, be lazy to avoid merge cost
       event,
       level,
     }
@@ -65,9 +64,13 @@ export function create(
 
     if (Filter.test(rootState.settings.filter.patterns, logRec)) {
       // Avoid mutating the passed local context
-      logRec.context = localContext
-        ? Lo.merge({}, state.pinnedAndParentContext, localContext)
-        : state.pinnedAndParentContext
+      if (localContext && state.pinnedAndParentContext) {
+        logRec.context = Lo.merge({}, state.pinnedAndParentContext, localContext)
+      } else if (localContext) {
+        logRec.context = localContext
+      } else if (state.pinnedAndParentContext) {
+        logRec.context = state.pinnedAndParentContext
+      }
 
       if (rootState.settings?.data.hostname) {
         logRec.hostname = OS.hostname()
@@ -145,7 +148,7 @@ type Link = {
 }
 
 type State = {
-  pinnedAndParentContext: Context
+  pinnedAndParentContext?: Context
   children: Link[]
 }
 

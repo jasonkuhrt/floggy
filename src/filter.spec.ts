@@ -210,6 +210,5 @@ function rec(data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord {
     ...data,
     // not overridable
     event: 'foo',
-    context: {},
   }
 }
