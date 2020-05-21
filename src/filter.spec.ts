@@ -85,6 +85,8 @@ describe('parse syntax errors', () => {
   it('!', () => { expect(parse('!')).toMatchSnapshot() })
   it('a!', () => { expect(parse('a!')).toMatchSnapshot() })
   it('a@*!', () => { expect(parse('a@*!')).toMatchSnapshot() })
+  it('@1', () => { expect(parse('@1')).toMatchSnapshot() })
+  it('a:@1', () => { expect(parse('a:@1')).toMatchSnapshot() })
 })
 
 describe('test', () => {

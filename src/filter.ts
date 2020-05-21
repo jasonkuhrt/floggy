@@ -5,9 +5,9 @@ import * as Level from './level'
 import type { LogRecord } from './logger'
 import { casesHandled, ContextualError, createContextualError, getLeft, last, rightOrThrow } from './utils'
 
-// https://regex101.com/r/6g6BHc/1
+// https://regex101.com/r/6g6BHc/4
 // If you change the regex please update the link and vice-versa!
-const pathTerminalRegex = /^([A-z_]*)(\*)?(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
+const pathTerminalRegex = /^([A-z_]+)?(\*)?(?<=\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
 const symbols = {
   negate: '!',

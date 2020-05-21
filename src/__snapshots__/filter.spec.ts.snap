@@ -351,6 +351,15 @@ Array [
 ]
 `;
 
+exports[`parse syntax errors @1 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "@1"],
+  },
+]
+`;
+
 exports[`parse syntax errors a! 1`] = `
 Array [
   Object {
@@ -365,6 +374,15 @@ Array [
   Object {
     "_tag": "Left",
     "left": [Error: Invalid filter pattern: "a+"],
+  },
+]
+`;
+
+exports[`parse syntax errors a:@1 1`] = `
+Array [
+  Object {
+    "_tag": "Left",
+    "left": [Error: Invalid filter pattern: "a:@1"],
   },
 ]
 `;
