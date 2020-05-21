@@ -10,14 +10,9 @@ LOG FILTERING SYNTAX MANUAL  ⟁
 
 Grammar
 
-    Precise: 
+    [!][<root>](*|<path>[:*])[@(*|(<levelNum>|<levelLabel>)[+-])] [,<pattern>]
 
-    /^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$/
-
-    Generally: 
-
-    [!](*|<path>[:*])[@(*|(<levelNum>|<levelLabel>)[+-])] [,<pattern>]
-
+    <root>       = .
     <path>       = /^[A-z_]+[A-z_0-9]*$/ [:<path>]
     <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
     <levelLabel> = trace | debug | info | warn | error | fatal

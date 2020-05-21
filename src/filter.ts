@@ -5,17 +5,11 @@ import * as Level from './level'
 import type { LogRecord } from './logger'
 import { casesHandled, ContextualError, createContextualError, getLeft, rightOrThrow } from './utils'
 
-// https://regex101.com/r/6g6BHc/5
-// If you change the regex please update the link and vice-versa!
-const validPatternRegex = /^(!)?((?:[A-z_]+:)+)?(?:((:)?\*)?|([A-z_]+|))?(?<=\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
+// failed to get a singular regex solution https://regex101.com/r/6g6BHc/6
+// const validPattern = '...'
 
-// parse !
-// parse :::::
-// check for leading '.'
-// strip it if preset
-// check for trailing ['', '<stuff>']
-// va
-// parse <stuff>
+// https://regex101.com/r/6g6BHc/9
+const validTargetRegex = /^((?:[A-z_]+[A-z_0-9]*)+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
 const symbols = {
   negate: '!',
@@ -87,9 +81,6 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
     return left(createInvalidPattern(originalInput))
   }
 
-  // failed to get a singular regex solution https://regex101.com/r/6g6BHc/6
-  // const match = pattern.match(validPatternRegex)
-
   const negate = pattern[0] === '!'
   if (negate) {
     pattern = pattern.slice(1)
@@ -113,10 +104,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
 
   const prefix = parts.join(':')
 
-  // https://regex101.com/r/6g6BHc/8
-  const targetm = target.match(
-    /^([A-z_]+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
-  )
+  const targetm = target.match(validTargetRegex)
 
   if (!targetm) {
     return left(createInvalidPattern(originalInput))
@@ -330,14 +318,9 @@ ${bold(b(`▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬�
 
 ${bold(b(`Grammar`))}
 
-    Precise: 
+    [!][${c(`<root>`)}](*|${c(`<path>`)}[:*])[@(*|(${c(`<levelNum>`)}|${c(`<levelLabel>`)})[+-])] [,<pattern>]
 
-    ${validPatternRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))}
-
-    Generally: 
-
-    [!](*|${c(`<path>`)}[:*])[@(*|(${c(`<levelNum>`)}|${c(`<levelLabel>`)})[+-])] [,<pattern>]
-
+    ${c(`<root>`)}       = .
     ${c(`<path>`)}       = ${validPathSegmentNameRegex.toString().replace(/(^\/|\/$)/g, gray(`$1`))} [:<path>]
     ${c(`<levelNum>`)}   = 1     ${pipe} 2     ${pipe} 3    ${pipe} 4    ${pipe} 5     ${pipe} 6
     ${c(`<levelLabel>`)} = trace ${pipe} debug ${pipe} info ${pipe} warn ${pipe} error ${pipe} fatal

@@ -516,6 +516,26 @@ Array [
 ]
 `;
 
+exports[`parse app1 1`] = `
+Array [
+  Object {
+    "_tag": "Right",
+    "right": Object {
+      "level": Object {
+        "comp": "gte",
+        "value": "trace",
+      },
+      "negate": false,
+      "originalInput": "app1",
+      "path": Object {
+        "descendants": false,
+        "value": ".:app1",
+      },
+    },
+  },
+]
+`;
+
 exports[`parse syntax errors ! 1`] = `
 Array [
   Object {
@@ -706,14 +726,9 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    Precise: 
+    [!][[36m<root>[39m](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
 
-    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
-
-    Generally: 
-
-    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
-
+    [36m<root>[39m       = .
     [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
@@ -768,14 +783,9 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    Precise: 
+    [!][[36m<root>[39m](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
 
-    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
-
-    Generally: 
-
-    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
-
+    [36m<root>[39m       = .
     [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
@@ -830,14 +840,9 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    Precise: 
+    [!][[36m<root>[39m](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
 
-    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
-
-    Generally: 
-
-    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
-
+    [36m<root>[39m       = .
     [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal
@@ -889,14 +894,9 @@ Array [
 
 [1m[34mGrammar[39m[22m
 
-    Precise: 
+    [!][[36m<root>[39m](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
 
-    [90m/[39m^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$[90m/[39m
-
-    Generally: 
-
-    [!](*|[36m<path>[39m[:*])[@(*|([36m<levelNum>[39m|[36m<levelLabel>[39m)[+-])] [,<pattern>]
-
+    [36m<root>[39m       = .
     [36m<path>[39m       = [90m/[39m^[A-z_]+[A-z_0-9]*$[90m/[39m [:<path>]
     [36m<levelNum>[39m   = 1     [90m|[39m 2     [90m|[39m 3    [90m|[39m 4    [90m|[39m 5     [90m|[39m 6
     [36m<levelLabel>[39m = trace [90m|[39m debug [90m|[39m info [90m|[39m warn [90m|[39m error [90m|[39m fatal

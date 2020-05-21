@@ -45,6 +45,7 @@ describe('parse', () => {
   // paths
   it('a',       () => { expect(parse('a')).toMatchSnapshot() })
   it('a:b',     () => { expect(parse('a:b')).toMatchSnapshot() })
+  it('app1',    () => { expect(parse('app1')).toMatchSnapshot() })
   // lists
   it('a,b',     () => { expect(parse('a,b')).toMatchSnapshot() })
   it(',,a,b',   () => { expect(parse(',,a,b')).toMatchSnapshot() })
