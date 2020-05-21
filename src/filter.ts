@@ -350,10 +350,14 @@ ${bold(b(`Examples`))}
     *@4-        ${subtle(`all paths at error level or lower`)}
     *@2+        ${subtle(`all paths at debug level or higher`)}
 
-    ${subtitle(`Wildcard Paths`)}
-    *@*         ${subtle(`all paths at all levels`)}
+    ${subtitle(`Explicit Root`)}
+    .           ${subtle(`only logs from the root logger at defualt level`)}
+    .@info      ${subtle(`only logs from the root logger at info level`)}
+    .:app       ${subtle(`Same as "app"`)}
+    .:*         ${subtle(`Same as "*"`)}
 
     ${subtitle(`Mixed`)}
+    *@*         ${subtle(`all paths at all levels`)}
     app@*       ${subtle(`app path at all levels`)}
     app:*@2+    ${subtle(`descendant paths of app at debug level or higher`)}
     app*@2-     ${subtle(`app & descendant paths of app at debug level or lower`)} 

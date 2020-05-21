@@ -42,10 +42,14 @@ Examples
     *@4-        all paths at error level or lower
     *@2+        all paths at debug level or higher
 
-    Wildcard Paths
-    *@*         all paths at all levels
+    Explicit Root
+    .           only logs from the root logger at defualt level
+    .@info      only logs from the root logger at info level
+    .:app       Same as \\"app\\"
+    .:*         Same as \\"*\\"
 
     Mixed
+    *@*         all paths at all levels
     app@*       app path at all levels
     app:*@2+    descendant paths of app at debug level or higher
     app*@2-     app & descendant paths of app at debug level or lower 

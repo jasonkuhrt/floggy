@@ -758,10 +758,14 @@ Array [
     *@4-        [90mall paths at error level or lower[39m
     *@2+        [90mall paths at debug level or higher[39m
 
-    [1m[35mWildcard Paths[39m[22m
-    *@*         [90mall paths at all levels[39m
+    [1m[35mExplicit Root[39m[22m
+    .           [90monly logs from the root logger at defualt level[39m
+    .@info      [90monly logs from the root logger at info level[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
 
     [1m[35mMixed[39m[22m
+    *@*         [90mall paths at all levels[39m
     app@*       [90mapp path at all levels[39m
     app:*@2+    [90mdescendant paths of app at debug level or higher[39m
     app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
@@ -815,10 +819,14 @@ Array [
     *@4-        [90mall paths at error level or lower[39m
     *@2+        [90mall paths at debug level or higher[39m
 
-    [1m[35mWildcard Paths[39m[22m
-    *@*         [90mall paths at all levels[39m
+    [1m[35mExplicit Root[39m[22m
+    .           [90monly logs from the root logger at defualt level[39m
+    .@info      [90monly logs from the root logger at info level[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
 
     [1m[35mMixed[39m[22m
+    *@*         [90mall paths at all levels[39m
     app@*       [90mapp path at all levels[39m
     app:*@2+    [90mdescendant paths of app at debug level or higher[39m
     app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
@@ -872,10 +880,14 @@ Array [
     *@4-        [90mall paths at error level or lower[39m
     *@2+        [90mall paths at debug level or higher[39m
 
-    [1m[35mWildcard Paths[39m[22m
-    *@*         [90mall paths at all levels[39m
+    [1m[35mExplicit Root[39m[22m
+    .           [90monly logs from the root logger at defualt level[39m
+    .@info      [90monly logs from the root logger at info level[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
 
     [1m[35mMixed[39m[22m
+    *@*         [90mall paths at all levels[39m
     app@*       [90mapp path at all levels[39m
     app:*@2+    [90mdescendant paths of app at debug level or higher[39m
     app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
@@ -926,10 +938,14 @@ Array [
     *@4-        [90mall paths at error level or lower[39m
     *@2+        [90mall paths at debug level or higher[39m
 
-    [1m[35mWildcard Paths[39m[22m
-    *@*         [90mall paths at all levels[39m
+    [1m[35mExplicit Root[39m[22m
+    .           [90monly logs from the root logger at defualt level[39m
+    .@info      [90monly logs from the root logger at info level[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
 
     [1m[35mMixed[39m[22m
+    *@*         [90mall paths at all levels[39m
     app@*       [90mapp path at all levels[39m
     app:*@2+    [90mdescendant paths of app at debug level or higher[39m
     app*@2-     [90mapp & descendant paths of app at debug level or lower[39m 
