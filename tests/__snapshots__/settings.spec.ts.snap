@@ -19,20 +19,28 @@ Grammar
 
 Examples
 
-    Paths
-    app         app path at default level
-    app:router  app router path at default level 
+    All logs at...
 
-    Wildcards Paths
-    *           all paths at default level 
-    app:*       app path and its descendant paths at defualt level
-    app::*      descendant paths of app at defualt level
+    Path
+    app         app path at default level
+    app:router  app:router path at default level 
+
+    List
+    app,nexus   app and nexus paths at default level
+
+    Path Wildcard
+    *           any path at default level 
+    app:*       app path plus descendants at defualt level
+    app::*      app path descendants at defualt level
 
     Negation
-    !app        all paths expect app at default level 
+    !app      any path at any level _except_ those at app path at default level 
+    !*        no path (meaning, nothing will be logged) 
 
-    Lists
-    app,nexus   app and nexus paths at default level
+    Removal
+    *,!app      any path at default level _except_ logs at app path at default level 
+    *,!*@2-     any path _except_ those at debug level or lower 
+    app,!app@4  app path at defualt level _except_ those at warn level 
 
     Levels
     *@info      all paths at info level
@@ -41,18 +49,18 @@ Examples
     *@3         all paths at info level
     *@4-        all paths at error level or lower
     *@2+        all paths at debug level or higher
+    app:*@2-    app path plus descendants at debug level or lower 
+    app::*@2+   app path descendants at debug level or higher
+
+    Level Wildcard
+    app@*       app path at all levels
+    *@*         all paths at all levels
 
     Explicit Root
-    .           only logs from the root logger at defualt level
-    .@info      only logs from the root logger at info level
+    .           root path at defualt level
+    .@info      root path at info level
     .:app       Same as \\"app\\"
     .:*         Same as \\"*\\"
-
-    Mixed
-    *@*         all paths at all levels
-    app@*       app path at all levels
-    app:*@2+    descendant paths of app at debug level or higher
-    app*@2-     app & descendant paths of app at debug level or lower 
   ",
   ],
 ]

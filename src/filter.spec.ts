@@ -119,12 +119,18 @@ describe('test', () => {
     [defaults, '*@*', rec(), true],
     // negate
     [defaults, '!foo', rec({ path: ['foo'] }), false],
-    [defaults, '.,!app', rec({ path: ['foo'], level: 1 }), false],
     [defaults, '!foo', rec({ path: ['foo', 'bar'] }), true],
+    [defaults, '!foo', rec({ path: ['a'] }), true],
+    // removal
+    [defaults, 'a,!a', rec({ path: ['a'] }), false],
+    [defaults, 'a,!a,a', rec({ path: ['a'] }), true],
+    [defaults, '*@2+,!app', rec({ path: ['foo'], level: 1 }), false],
     // negate + wildcard
     [defaults, '!foo:*', rec({ path: ['foo'] }), false],
     [defaults, '!foo::*', rec({ path: ['foo'] }), true],
     [defaults, '!foo::*', rec({ path: ['foo', 'bar'] }), false],
+    [defaults, 'app,!app@4', rec({ path: ['app'], level: 3 }), true],
+    [defaults, 'app,!app@4', rec({ path: ['app'], level: 4 }), false],
     // level
     [defaults, '*@2', rec({ level: 1 }), false],
     [defaults, '*@fatal', rec({ level: 6 }), true],

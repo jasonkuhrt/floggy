@@ -193,6 +193,10 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
   for (const pattern of patterns) {
     // if log already passed then we can skip rest except negations
     if (yaynay === true && pattern.negate !== true) continue
+    // If log was already filtered out and pattern is a negate, then we can skip
+    // This is because negate as a first pattern means simply to inverse the result,
+    // while as an nth pattern it means to remove things previously included
+    if (yaynay === false && pattern.negate === true) continue
 
     const logPath = log.path ? ['.', ...log.path].join(symbols.pathDelim) : '.'
     // const patternPath = pattern.path.value.replace(/^\.:?/, '')
@@ -263,15 +267,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
       }
     }
 
-    if (yaynay === null) {
-      yaynay = pattern.negate ? !isPass : isPass
-    } else if (pattern.negate && isPass) {
-      // Allow negates to undo previous passes while non-negates can only pass,
-      // not unpass.
-      yaynay = false
-    } else if (isPass) {
-      yaynay = true
-    }
+    yaynay = pattern.negate ? !isPass : isPass
   }
 
   if (yaynay === null) {
@@ -334,20 +330,28 @@ ${bold(b(`Grammar`))}
 
 ${bold(b(`Examples`))}
 
-    ${subtitle(`Paths`)}
-    app         ${subtle(`app path at default level`)}
-    app:router  ${subtle(`app router path at default level`)} 
+    All logs at...
 
-    ${subtitle(`Wildcards Paths`)}
-    *           ${subtle(`all paths at default level`)} 
-    app:*       ${subtle(`app path and its descendant paths at defualt level`)}
-    app::*      ${subtle(`descendant paths of app at defualt level`)}
+    ${subtitle(`Path`)}
+    app         ${subtle(`app path at default level`)}
+    app:router  ${subtle(`app:router path at default level`)} 
+
+    ${subtitle(`List`)}
+    app,nexus   ${subtle(`app and nexus paths at default level`)}
+
+    ${subtitle(`Path Wildcard`)}
+    *           ${subtle(`any path at default level`)} 
+    app:*       ${subtle(`app path plus descendants at defualt level`)}
+    app::*      ${subtle(`app path descendants at defualt level`)}
 
     ${subtitle(`Negation`)}
-    !app        ${subtle(`all paths expect app at default level`)} 
+    !app      ${subtle(`any path at any level _except_ those at app path at default level`)} 
+    !*        ${subtle(`no path (meaning, nothing will be logged)`)} 
 
-    ${subtitle(`Lists`)}
-    app,nexus   ${subtle(`app and nexus paths at default level`)}
+    ${subtitle(`Removal`)}
+    *,!app      ${subtle(`any path at default level _except_ logs at app path at default level`)} 
+    *,!*@2-     ${subtle(`any path _except_ those at debug level or lower`)} 
+    app,!app@4  ${subtle(`app path at defualt level _except_ those at warn level`)} 
 
     ${subtitle(`Levels`)}
     *@info      ${subtle(`all paths at info level`)}
@@ -356,18 +360,18 @@ ${bold(b(`Examples`))}
     *@3         ${subtle(`all paths at info level`)}
     *@4-        ${subtle(`all paths at error level or lower`)}
     *@2+        ${subtle(`all paths at debug level or higher`)}
+    app:*@2-    ${subtle(`app path plus descendants at debug level or lower`)} 
+    app::*@2+   ${subtle(`app path descendants at debug level or higher`)}
+
+    ${subtitle(`Level Wildcard`)}
+    app@*       ${subtle(`app path at all levels`)}
+    *@*         ${subtle(`all paths at all levels`)}
 
     ${subtitle(`Explicit Root`)}
-    .           ${subtle(`only logs from the root logger at defualt level`)}
-    .@info      ${subtle(`only logs from the root logger at info level`)}
+    .           ${subtle(`root path at defualt level`)}
+    .@info      ${subtle(`root path at info level`)}
     .:app       ${subtle(`Same as "app"`)}
     .:*         ${subtle(`Same as "*"`)}
-
-    ${subtitle(`Mixed`)}
-    *@*         ${subtle(`all paths at all levels`)}
-    app@*       ${subtle(`app path at all levels`)}
-    app:*@2+    ${subtle(`descendant paths of app at debug level or higher`)}
-    app*@2-     ${subtle(`app & descendant paths of app at debug level or lower`)} 
   `
 }
 
