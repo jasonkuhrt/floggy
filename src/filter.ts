@@ -9,6 +9,14 @@ import { casesHandled, ContextualError, createContextualError, getLeft, rightOrT
 // If you change the regex please update the link and vice-versa!
 const validPatternRegex = /^(!)?((?:[A-z_]+:)+)?(?:((:)?\*)?|([A-z_]+|))?(?<=\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
+// parse !
+// parse :::::
+// check for leading '.'
+// strip it if preset
+// check for trailing ['', '<stuff>']
+// va
+// parse <stuff>
+
 const symbols = {
   negate: '!',
   pathDelim: ':',
@@ -27,10 +35,7 @@ export type Parsed = {
   }
   negate: boolean
   path: {
-    /**
-     * null means lone wildcard '*'
-     */
-    value: null | string
+    value: string
     descendants:
       | false
       | {
@@ -60,9 +65,10 @@ export function parse(defaults: Defaults, pattern: string): Either<ParseError, P
     .map((p) => p.trim())
     .filter((p) => p !== '')
 
-  // if (!patterns.length) {
-  // createInvalidPattern(pattern, 'There must be at least one pattern present.')
-  // }
+  // todo error is at level of group, not single pattern, ...
+  if (!patterns.length) {
+    return [left(createInvalidPattern(pattern, 'There must be at least one pattern present.'))]
+  }
 
   return patterns.map((p) => parseOne(defaults, p))
 }
@@ -72,101 +78,121 @@ export function parse(defaults: Defaults, pattern: string): Either<ParseError, P
  * including whitespace trimming around the pattern.
  */
 export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<ParseError, Parsed> {
-  let pattern_ = pattern
   // todo maybe level default should be wildcard instead...
+  const originalInput = pattern
   let level = { ...criteriaDefaults.level } as Parsed['level']
   let path: Parsed['path'] = { value: '', descendants: false }
 
-  const match = pattern.match(validPatternRegex)
-
-  if (!match) {
-    return left(createInvalidPattern(pattern))
+  if (pattern === '') {
+    return left(createInvalidPattern(originalInput))
   }
 
-  // remove the path part that we're processing
-  const negate = Boolean(match[1])
-  const pathPrefix = match[2] as undefined | string
-  const pathParts = pathPrefix ? pathPrefix.replace(/:$/, '').split(':') : []
-  const pathTerminalDescendants = Boolean(match[3])
-  const pathTerminalDescendantsEx = Boolean(match[4])
-  // Mutually exclusive to 3-4;
-  // 3-4 false // 4 string
-  // 3-4 true  // 4 undefined
-  const pathTerminalPathPart = match[5] as undefined | string
-  const levelValue = match[6] as undefined | Level.Name | Level.NumString
-  const levelDir = match[7] as undefined | '-' | '+'
-  // Mutually exclusive to 6-7
-  // 6-7 string // 8 false
-  // 8 true // 6-7 undefined
-  const levelWildCard = Boolean(match[8])
+  // failed to get a singular regex solution https://regex101.com/r/6g6BHc/6
+  // const match = pattern.match(validPatternRegex)
 
+  const negate = pattern[0] === '!'
+  if (negate) {
+    pattern = pattern.slice(1)
+  }
+
+  const parts = pattern.split(':')
+  if (parts[0] !== '.') {
+    parts.unshift('.')
+  }
+
+  const ex = parts[parts.length - 2] === '' && parts[parts.length - 1][0] === '*'
+  if (ex) {
+    parts.splice(parts.length - 2, 1)
+  }
+
+  const target = parts.pop()
+
+  if (!target) {
+    return left(createInvalidPattern(originalInput))
+  }
+
+  const prefix = parts.join(':')
+
+  // https://regex101.com/r/6g6BHc/8
+  const targetm = target.match(
+    /^([A-z_]+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
+  )
+
+  if (!targetm) {
+    return left(createInvalidPattern(originalInput))
+  }
+
+  /**
+   * build path
+   */
+
+  if (targetm[1] === '*') {
+    path.descendants = { includeParent: !ex }
+    path.value = prefix
+  } else if (targetm[1] === '.') {
+    path.value = '.'
+  } else {
+    path.value = prefix.length ? prefix + ':' + targetm[1] : targetm[1]
+  }
+
+  /**
+   * Build Level
+   */
+  const levelValue = targetm[2] as undefined | Level.Name | Level.NumString
+  const levelDir = targetm[3] as undefined | '-' | '+'
+  const levelWildCard = Boolean(targetm[4])
   // encode invariants
-  const lvl = levelWildCard
+  const levelm = levelWildCard
     ? ({ type: 'wildcard' } as const)
     : levelValue
     ? ({ type: 'value', value: levelValue!, dir: levelDir } as const)
     : undefined
-  const pterm = pathTerminalPathPart
-    ? ({ type: 'path', path: pathTerminalPathPart } as const)
-    : ({ type: 'wildcard', exclusive: pathTerminalDescendantsEx } as const)
 
-  if (pathParts.length) {
-    const pp = pterm.type === 'path' ? pathParts.concat([pterm.path]) : pathParts
-    path.value = pp.join(symbols.pathDelim)
-  } else if (pterm.type === 'path') {
-    path.value = pterm.path
-  } else {
-    path.value = null
-  }
-
-  if (pterm.type === 'wildcard') {
-    path.descendants = {
-      includeParent: !pterm.exclusive,
-    }
-  }
-
-  if (lvl) {
-    if (lvl.type === 'wildcard') {
+  if (levelm) {
+    if (levelm.type === 'wildcard') {
       level.value = '*'
       level.comp = 'eq'
     } else {
       // the original regex guarantees 1-5 so we don't have to validate that now
-      if (lvl.value.match(/\d/)) {
-        level.value = Level.LEVELS_BY_NUM[lvl.value as Level.NumString].label
+      if (levelm.value.match(/\d/)) {
+        level.value = Level.LEVELS_BY_NUM[levelm.value as Level.NumString].label
       } else {
-        level.value = lvl.value as Level.Name
+        level.value = levelm.value as Level.Name
       }
-      if (lvl.dir === '+') level.comp = 'gte'
-      else if (lvl.dir === '-') level.comp = 'lte'
-      else if (lvl.dir === '') level.comp = 'eq'
-      else if (lvl.dir === undefined) level.comp = 'eq'
-      else casesHandled(lvl.dir)
+      if (levelm.dir === '+') level.comp = 'gte'
+      else if (levelm.dir === '-') level.comp = 'lte'
+      else if (levelm.dir === '') level.comp = 'eq'
+      else if (levelm.dir === undefined) level.comp = 'eq'
+      else casesHandled(levelm.dir)
     }
   }
 
-  // check for errors
+  /**
+   * Check For Errors
+   */
 
   if (path.value !== null) {
     const invalidPathPartNames = path.value
       .split(symbols.pathDelim)
+      .slice(1) // root
       .filter((pathPart) => !pathPart.match(validPathSegmentNameRegex))
 
     if (invalidPathPartNames.length) {
       return left(
         createInvalidPattern(
-          pattern,
+          originalInput,
           `Path segment names must only contain ${String(validPathSegmentNameRegex)}.`
         )
       )
     }
   } else if (path.value === null && !path.descendants) {
-    return left(createInvalidPattern(pattern))
+    return left(createInvalidPattern(originalInput))
   }
 
   return right({
     negate,
     path,
-    originalInput: pattern,
+    originalInput,
     level,
   })
 }
@@ -180,7 +206,8 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     // if log already passed then we can skip rest except negations
     if (yaynay && !pattern.negate) continue
 
-    const logPath = log.path?.join(symbols.pathDelim) ?? null
+    const logPath = log.path ? ['.', ...log.path].join(symbols.pathDelim) : '.'
+    // const patternPath = pattern.path.value.replace(/^\.:?/, '')
     let isPass = false
 
     // test in order of computational cost, short-citcuiting ASAP
@@ -195,18 +222,55 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
 
     // path
 
+    // console.log(
+    //   require('util').inspect(
+    //     {
+    //       isPass,
+    //       pattern,
+    //       log,
+    //       b:
+    //         pattern.path.descendants &&
+    //         !pattern.path.descendants.includeParent &&
+    //         pattern.path.value === null,
+    //     },
+    //     { depth: 4 }
+    //   )
+    // )
     if (isPass) {
-      if (pattern.path.descendants) {
-        if (pattern.path.value === null) {
-          isPass = true
-        } else if (logPath === pattern.path.value) {
-          //@ts-ignore
-          isPass = pattern.path.descendants.includeParent
+      if (pattern.path.descendants && !pattern.path.descendants.includeParent && pattern.path.value === '.') {
+        // case of :*
+        if (logPath === '.') {
+          // log from root logger
+          isPass = false
         } else {
-          isPass = logPath!.startsWith(pattern.path.value) // todo
+          isPass = true
         }
+      } else if (
+        pattern.path.descendants &&
+        pattern.path.descendants.includeParent &&
+        pattern.path.value === '.'
+      ) {
+        // case of *
+        isPass = true
+      } else if (
+        pattern.path.descendants &&
+        pattern.path.descendants.includeParent &&
+        pattern.path.value !== '.'
+      ) {
+        // case of <path>:*
+        isPass = logPath ? logPath.startsWith(pattern.path.value) : false
+      } else if (
+        pattern.path.descendants &&
+        !pattern.path.descendants.includeParent &&
+        pattern.path.value !== '.'
+      ) {
+        // case of <path>::*
+        isPass = logPath ? logPath !== pattern.path.value && logPath.startsWith(pattern.path.value) : false
+      } else if (!pattern.path.descendants) {
+        isPass = logPath === pattern.path.value
+        // isPass = logPath ? logPath === pattern.path.value : false
       } else {
-        isPass = pattern.path.value === logPath
+        throw new Error('this should never happen')
       }
     }
 
@@ -243,7 +307,10 @@ export function parseUnsafe(defaults: Defaults, pattern: string): Parsed[] {
 type ParseError = ContextualError<{ pattern: string; hint?: string }>
 
 function createInvalidPattern(pattern: string, hint?: string): ParseError {
-  return createContextualError(`Invalid filter pattern: "${pattern}"`, { pattern, hint })
+  return createContextualError(`Invalid filter pattern: "${pattern}${hint ? `. ${hint}` : ''}"`, {
+    pattern,
+    hint,
+  })
 }
 
 /**

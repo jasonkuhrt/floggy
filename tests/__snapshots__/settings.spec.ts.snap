@@ -70,7 +70,7 @@ Array [
     "originalInput": "foo",
     "path": Object {
       "descendants": false,
-      "value": "foo",
+      "value": ".:foo",
     },
   },
 ]
@@ -95,7 +95,7 @@ Object {
       "originalInput": "from_env_var",
       "path": Object {
         "descendants": false,
-        "value": "from_env_var",
+        "value": ".:from_env_var",
       },
     },
   ],
@@ -123,7 +123,7 @@ Object {
         "descendants": Object {
           "includeParent": true,
         },
-        "value": null,
+        "value": ".",
       },
     },
   ],
@@ -151,7 +151,7 @@ Object {
         "descendants": Object {
           "includeParent": true,
         },
-        "value": null,
+        "value": ".",
       },
     },
   ],

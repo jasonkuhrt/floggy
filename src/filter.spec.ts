@@ -28,16 +28,18 @@ function parse(pattern: string) {
 
 // prettier-ignore
 describe('parse', () => {
+  // root
+  it('.',       () => { expect(parse('.')).toMatchSnapshot() })
   // wildcards
   it('*',       () => { expect(parse('*')).toMatchSnapshot() })
   it('*@*',     () => { expect(parse('*@*')).toMatchSnapshot() })
   it('*@1',     () => { expect(parse('*@1')).toMatchSnapshot() })
-  it('app:*',    () => { expect(parse('app*')).toMatchSnapshot() })
+  it('app:*',   () => { expect(parse('app:*')).toMatchSnapshot() })
   it('app@*',   () => { expect(parse('app@*')).toMatchSnapshot() })
-  it('app:*@*',  () => { expect(parse('app*@*')).toMatchSnapshot() })
-  it('app:*@1',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('app:*@*', () => { expect(parse('app:*@*')).toMatchSnapshot() })
+  it('app:*@1', () => { expect(parse('app:*@*')).toMatchSnapshot() })
   // wildcards exclusive
-  it('app::*',    () => { expect(parse('app::*')).toMatchSnapshot() })
+  it('app::*',  () => { expect(parse('app::*')).toMatchSnapshot() })
   // negate
   it('!a',      () => { expect(parse('!a')).toMatchSnapshot() })
   // paths
@@ -70,13 +72,23 @@ describe('parse', () => {
   })
   // wildcard/levels + paths
   it('a:b:*',       () => { expect(parse('a:b:*')).toMatchSnapshot() })
-  it('a:b:*@info',       () => { expect(parse('a:b:@1')).toMatchSnapshot() })
+  it('a:b:*@info',       () => { expect(parse('a:b:*@1')).toMatchSnapshot() })
+  // root integration
+  it('.:*',       () => { expect(parse('.:*')).toMatchSnapshot() })
+  it('.::*',       () => { expect(parse('.::*')).toMatchSnapshot() })
+  it('.@*',       () => { expect(parse('.@*')).toMatchSnapshot() })
+  it('.:*@1',       () => { expect(parse('.:*@1')).toMatchSnapshot() })
+  it('.:a',       () => { expect(parse('.:a')).toMatchSnapshot() })
+  it('.:a:*',       () => { expect(parse('.:a:*')).toMatchSnapshot() })
 })
 
 // prettier-ignore
 describe('parse syntax errors', () => {
-
+  // empty patterns
+  it('<whitespace>', () => { expect(parse(' ')).toMatchSnapshot() })
   it('<empty>', () => { expect(parse('')).toMatchSnapshot() })
+  it(',', () => { expect(parse(',')).toMatchSnapshot() })
+  // other
   it('**', () => { expect(parse('**')).toMatchSnapshot() })
   it('*a', () => { expect(parse('*a')).toMatchSnapshot() })
   it('*+', () => { expect(parse('*+')).toMatchSnapshot() })
@@ -84,7 +96,6 @@ describe('parse syntax errors', () => {
   it('@', () => { expect(parse('@')).toMatchSnapshot() })
   it('a@*-', () => { expect(parse('a@*-')).toMatchSnapshot() })
   it('a@*+', () => { expect(parse('a@*+')).toMatchSnapshot() })
-  it(',', () => { expect(parse(',')).toMatchSnapshot() })
   it('a@+*', () => { expect(parse('a@+*')).toMatchSnapshot() })
   it('a+', () => { expect(parse('a+')).toMatchSnapshot() })
   it('!', () => { expect(parse('!')).toMatchSnapshot() })
@@ -92,6 +103,9 @@ describe('parse syntax errors', () => {
   it('a@*!', () => { expect(parse('a@*!')).toMatchSnapshot() })
   it('@1', () => { expect(parse('@1')).toMatchSnapshot() })
   it('a:@1', () => { expect(parse('a:@1')).toMatchSnapshot() })
+  it('..', () => { expect(parse('..')).toMatchSnapshot() })
+  it('.a.', () => { expect(parse('.a.')).toMatchSnapshot() })
+  it('a.', () => { expect(parse('a.')).toMatchSnapshot() })
 })
 
 describe('test', () => {
@@ -100,6 +114,7 @@ describe('test', () => {
   it.each([
     // wildcard
     [defaults, '*', rec(), true],
+    [defaults, ':*', rec(), false],
     [defaults, '*@*', rec(), true],
     // negate
     [defaults, '!foo', rec({ path: ['foo'] }), false],
@@ -182,7 +197,6 @@ describe('processLogFilterInput', () => {
 function rec(data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord {
   return {
     // overridable
-    path: ['root'],
     level: 1,
     // overrides
     ...data,
