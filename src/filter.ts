@@ -168,7 +168,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     // if log already passed then we can skip rest except negations
     if (yaynay && !pattern.negate) continue
 
-    const logPath = log.path.join(symbols.pathDelim)
+    const logPath = log.path?.join(symbols.pathDelim) ?? null
     let isPass = false
 
     // test in order of computational cost, short-citcuiting ASAP
@@ -187,6 +187,8 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
       if (pattern.path.descendents) {
         if (logPath === pattern.path.value) {
           isPass = pattern.path.descendents.includeParent
+        } else if (logPath === null) {
+          isPass = false
         } else {
           isPass = logPath.startsWith(pattern.path.value)
         }

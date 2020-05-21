@@ -10,7 +10,7 @@ type Context = Record<string, unknown>
 
 export type LogRecord = {
   level: Num
-  path: string[]
+  path?: string[]
   event: string
   context: Context
   time?: number
@@ -36,10 +36,10 @@ export type Logger = {
  */
 export function create(
   rootState: RootLogger.State,
-  path: string[],
+  path: null | string[],
   parentContext: Context
 ): { logger: Logger; link: Link } {
-  validatePath(path)
+  if (path) validatePath(path)
   const state: State = {
     // Copy as addToContext will mutate it
     pinnedAndParentContext: Lo.cloneDeep(parentContext),
@@ -56,11 +56,12 @@ export function create(
   function send(levelLabel: Name, event: string, localContext: undefined | Context) {
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
-      path,
       context: {}, // unused by filtering, be lazy to avoid merge cost
       event,
       level,
     }
+
+    if (path) logRec.path = path
 
     if (Filter.test(rootState.settings.filter.patterns, logRec)) {
       // Avoid mutating the passed local context
@@ -123,7 +124,11 @@ export function create(
       return logger
     },
     child: (name: string): Logger => {
-      const { logger: child, link } = create(rootState, path.concat([name]), state.pinnedAndParentContext)
+      const { logger: child, link } = create(
+        rootState,
+        path ? path.concat([name]) : [name],
+        state.pinnedAndParentContext
+      )
       state.children.push(link)
       return child
     },

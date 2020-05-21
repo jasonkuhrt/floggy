@@ -167,9 +167,13 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // render pre-context
   //
 
-  const path = logRecord.path.join(renderEl(separators.path))
-  const preContextWidth = path.length + separators.event.symbol.length + logRecord.event.length
-  const preContextRendered = style.color(path) + renderEl(separators.event) + logRecord.event
+  const path = logRecord.path?.join(renderEl(separators.path)) ?? ''
+  const preContextWidth = path
+    ? path.length + separators.event.symbol.length + logRecord.event.length
+    : logRecord.event.length
+  const preContextRendered = path
+    ? style.color(path) + renderEl(separators.event) + logRecord.event
+    : logRecord.event
 
   //
   // render context

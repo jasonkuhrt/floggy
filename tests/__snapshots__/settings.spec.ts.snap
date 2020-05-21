@@ -154,22 +154,22 @@ Object {
 
 exports[`pretty .color controls if pretty logs have color or not 1`] = `
 Array [
-  "● root foo  --  qux: true
+  "● foo  --  qux: true
 ",
 ]
 `;
 
 exports[`pretty .levelLabel controls if label is spelt out or not 1`] = `
 Array [
-  "✕ fatal root foo
+  "✕ fatal foo
 ",
-  "■ error root foo
+  "■ error foo
 ",
-  "▲ warn  root foo
+  "▲ warn  foo
 ",
-  "● info  root foo
+  "● info  foo
 ",
-  "○ debug root foo
+  "○ debug foo
 ",
 ]
 `;
