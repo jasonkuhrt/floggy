@@ -10,9 +10,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -20,9 +17,6 @@ Array [
     "context": Object {},
     "event": "bye",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -35,9 +29,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 6,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -45,9 +36,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 5,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -55,9 +43,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 4,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -65,9 +50,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -75,9 +57,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 2,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -85,9 +64,6 @@ Array [
     "context": Object {},
     "event": "hi",
     "level": 1,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -105,9 +81,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -125,9 +98,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -144,9 +114,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -163,9 +130,6 @@ Array [
     },
     "event": "hi",
     "level": 3,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },
@@ -179,7 +143,6 @@ Array [
     "event": "hi",
     "level": 3,
     "path": Array [
-      "root",
       "tim",
     ],
     "pid": 0,
@@ -195,7 +158,6 @@ Array [
     "event": "hi",
     "level": 1,
     "path": Array [
-      "root",
       "tim",
     ],
     "pid": 0,
@@ -214,7 +176,6 @@ Array [
     "event": "foo",
     "level": 3,
     "path": Array [
-      "root",
       "b1",
     ],
     "pid": 0,
@@ -228,7 +189,6 @@ Array [
     "event": "foo",
     "level": 3,
     "path": Array [
-      "root",
       "b2",
     ],
     "pid": 0,
@@ -242,7 +202,6 @@ Array [
     "event": "foo",
     "level": 3,
     "path": Array [
-      "root",
       "b3",
     ],
     "pid": 0,
@@ -258,7 +217,6 @@ Array [
     "event": "foo",
     "level": 1,
     "path": Array [
-      "root",
       "b",
     ],
     "pid": 0,
@@ -273,9 +231,6 @@ Array [
     "context": Object {},
     "event": "foo",
     "level": 6,
-    "path": Array [
-      "root",
-    ],
     "pid": 0,
     "time": 0,
   },

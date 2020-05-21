@@ -28,21 +28,24 @@ function parse(pattern: string) {
 
 // prettier-ignore
 describe('parse', () => {
+  // root
+  it('.',       () => { expect(parse('.')).toMatchSnapshot() })
   // wildcards
   it('*',       () => { expect(parse('*')).toMatchSnapshot() })
   it('*@*',     () => { expect(parse('*@*')).toMatchSnapshot() })
   it('*@1',     () => { expect(parse('*@1')).toMatchSnapshot() })
-  it('app:*',    () => { expect(parse('app*')).toMatchSnapshot() })
+  it('app:*',   () => { expect(parse('app:*')).toMatchSnapshot() })
   it('app@*',   () => { expect(parse('app@*')).toMatchSnapshot() })
-  it('app:*@*',  () => { expect(parse('app*@*')).toMatchSnapshot() })
-  it('app:*@1',  () => { expect(parse('app*@*')).toMatchSnapshot() })
+  it('app:*@*', () => { expect(parse('app:*@*')).toMatchSnapshot() })
+  it('app:*@1', () => { expect(parse('app:*@*')).toMatchSnapshot() })
   // wildcards exclusive
-  it('app::*',    () => { expect(parse('app::*')).toMatchSnapshot() })
+  it('app::*',  () => { expect(parse('app::*')).toMatchSnapshot() })
   // negate
   it('!a',      () => { expect(parse('!a')).toMatchSnapshot() })
   // paths
   it('a',       () => { expect(parse('a')).toMatchSnapshot() })
   it('a:b',     () => { expect(parse('a:b')).toMatchSnapshot() })
+  it('app1',    () => { expect(parse('app1')).toMatchSnapshot() })
   // lists
   it('a,b',     () => { expect(parse('a,b')).toMatchSnapshot() })
   it(',,a,b',   () => { expect(parse(',,a,b')).toMatchSnapshot() })
@@ -70,13 +73,23 @@ describe('parse', () => {
   })
   // wildcard/levels + paths
   it('a:b:*',       () => { expect(parse('a:b:*')).toMatchSnapshot() })
-  it('a:b:*@info',       () => { expect(parse('a:b:@1')).toMatchSnapshot() })
+  it('a:b:*@info',       () => { expect(parse('a:b:*@1')).toMatchSnapshot() })
+  // root integration
+  it('.:*',       () => { expect(parse('.:*')).toMatchSnapshot() })
+  it('.::*',       () => { expect(parse('.::*')).toMatchSnapshot() })
+  it('.@*',       () => { expect(parse('.@*')).toMatchSnapshot() })
+  it('.:*@1',       () => { expect(parse('.:*@1')).toMatchSnapshot() })
+  it('.:a',       () => { expect(parse('.:a')).toMatchSnapshot() })
+  it('.:a:*',       () => { expect(parse('.:a:*')).toMatchSnapshot() })
 })
 
 // prettier-ignore
 describe('parse syntax errors', () => {
-
+  // empty patterns
+  it('<whitespace>', () => { expect(parse(' ')).toMatchSnapshot() })
   it('<empty>', () => { expect(parse('')).toMatchSnapshot() })
+  it(',', () => { expect(parse(',')).toMatchSnapshot() })
+  // other
   it('**', () => { expect(parse('**')).toMatchSnapshot() })
   it('*a', () => { expect(parse('*a')).toMatchSnapshot() })
   it('*+', () => { expect(parse('*+')).toMatchSnapshot() })
@@ -84,7 +97,6 @@ describe('parse syntax errors', () => {
   it('@', () => { expect(parse('@')).toMatchSnapshot() })
   it('a@*-', () => { expect(parse('a@*-')).toMatchSnapshot() })
   it('a@*+', () => { expect(parse('a@*+')).toMatchSnapshot() })
-  it(',', () => { expect(parse(',')).toMatchSnapshot() })
   it('a@+*', () => { expect(parse('a@+*')).toMatchSnapshot() })
   it('a+', () => { expect(parse('a+')).toMatchSnapshot() })
   it('!', () => { expect(parse('!')).toMatchSnapshot() })
@@ -92,6 +104,9 @@ describe('parse syntax errors', () => {
   it('a@*!', () => { expect(parse('a@*!')).toMatchSnapshot() })
   it('@1', () => { expect(parse('@1')).toMatchSnapshot() })
   it('a:@1', () => { expect(parse('a:@1')).toMatchSnapshot() })
+  it('..', () => { expect(parse('..')).toMatchSnapshot() })
+  it('.a.', () => { expect(parse('.a.')).toMatchSnapshot() })
+  it('a.', () => { expect(parse('a.')).toMatchSnapshot() })
 })
 
 describe('test', () => {
@@ -100,14 +115,22 @@ describe('test', () => {
   it.each([
     // wildcard
     [defaults, '*', rec(), true],
+    [defaults, ':*', rec(), false],
     [defaults, '*@*', rec(), true],
     // negate
     [defaults, '!foo', rec({ path: ['foo'] }), false],
     [defaults, '!foo', rec({ path: ['foo', 'bar'] }), true],
+    [defaults, '!foo', rec({ path: ['a'] }), true],
+    // removal
+    [defaults, 'a,!a', rec({ path: ['a'] }), false],
+    [defaults, 'a,!a,a', rec({ path: ['a'] }), true],
+    [defaults, '*@2+,!app', rec({ path: ['foo'], level: 1 }), false],
     // negate + wildcard
     [defaults, '!foo:*', rec({ path: ['foo'] }), false],
     [defaults, '!foo::*', rec({ path: ['foo'] }), true],
     [defaults, '!foo::*', rec({ path: ['foo', 'bar'] }), false],
+    [defaults, 'app,!app@4', rec({ path: ['app'], level: 3 }), true],
+    [defaults, 'app,!app@4', rec({ path: ['app'], level: 4 }), false],
     // level
     [defaults, '*@2', rec({ level: 1 }), false],
     [defaults, '*@fatal', rec({ level: 6 }), true],
@@ -126,7 +149,7 @@ describe('test', () => {
     // misc
     // filtered out by later pattern
     [defaults, 'foo:*,!foo:bar', rec({ path: ['foo', 'bar'] }), false],
-    [defaults, 'foo,!foo', rec({ path: ['foo'] }), false],
+    // [defaults, 'foo,!foo', rec({ path: ['foo'] }), false],
     // defaults
     [{ level: { comp: 'eq', value: 'debug' } }, '*', rec({ level: 1 }), false],
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
@@ -182,7 +205,6 @@ describe('processLogFilterInput', () => {
 function rec(data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord {
   return {
     // overridable
-    path: ['root'],
     level: 1,
     // overrides
     ...data,

@@ -10,34 +10,37 @@ LOG FILTERING SYNTAX MANUAL  ⟁
 
 Grammar
 
-    Precise: 
+    [!][<root>](*|<path>[:*])[@(*|(<levelNum>|<levelLabel>)[+-])] [,<pattern>]
 
-    /^(!)?((?:[A-z_]+:)+)?(?:((:)?\\\\*)?|([A-z_]+|))?(?<=\\\\*|[A-z_]+)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\\\\*))?$/
-
-    Generally: 
-
-    [!](*|<path>[:*])[@(*|(<levelNum>|<levelLabel>)[+-])] [,<pattern>]
-
+    <root>       = .
     <path>       = /^[A-z_]+[A-z_0-9]*$/ [:<path>]
     <levelNum>   = 1     | 2     | 3    | 4    | 5     | 6
     <levelLabel> = trace | debug | info | warn | error | fatal
 
 Examples
 
-    Paths
-    app         app path at default level
-    app:router  app router path at default level 
+    All logs at...
 
-    Wildcards Paths
-    *           all paths at default level 
-    app:*       app path and its descendant paths at defualt level
-    app::*      descendant paths of app at defualt level
+    Path
+    app         app path at default level
+    app:router  app:router path at default level 
+
+    List
+    app,nexus   app and nexus paths at default level
+
+    Path Wildcard
+    *           any path at default level 
+    app:*       app path plus descendants at defualt level
+    app::*      app path descendants at defualt level
 
     Negation
-    !app        all paths expect app at default level 
+    !app      any path at any level _except_ those at app path at default level 
+    !*        no path (meaning, nothing will be logged) 
 
-    Lists
-    app,nexus   app and nexus paths at default level
+    Removal
+    *,!app      any path at default level _except_ logs at app path at default level 
+    *,!*@2-     any path _except_ those at debug level or lower 
+    app,!app@4  app path at defualt level _except_ those at warn level 
 
     Levels
     *@info      all paths at info level
@@ -46,14 +49,18 @@ Examples
     *@3         all paths at info level
     *@4-        all paths at error level or lower
     *@2+        all paths at debug level or higher
+    app:*@2-    app path plus descendants at debug level or lower 
+    app::*@2+   app path descendants at debug level or higher
 
-    Wildcard Paths
+    Level Wildcard
+    app@*       app path at all levels
     *@*         all paths at all levels
 
-    Mixed
-    app@*       app path at all levels
-    app:*@2+    descendant paths of app at debug level or higher
-    app*@2-     app & descendant paths of app at debug level or lower 
+    Explicit Root
+    .           root path at defualt level
+    .@info      root path at info level
+    .:app       Same as \\"app\\"
+    .:*         Same as \\"*\\"
   ",
   ],
 ]
@@ -70,7 +77,7 @@ Array [
     "originalInput": "foo",
     "path": Object {
       "descendants": false,
-      "value": "foo",
+      "value": ".:foo",
     },
   },
 ]
@@ -95,7 +102,7 @@ Object {
       "originalInput": "from_env_var",
       "path": Object {
         "descendants": false,
-        "value": "from_env_var",
+        "value": ".:from_env_var",
       },
     },
   ],
@@ -123,7 +130,7 @@ Object {
         "descendants": Object {
           "includeParent": true,
         },
-        "value": null,
+        "value": ".",
       },
     },
   ],
@@ -151,7 +158,7 @@ Object {
         "descendants": Object {
           "includeParent": true,
         },
-        "value": null,
+        "value": ".",
       },
     },
   ],
@@ -160,22 +167,22 @@ Object {
 
 exports[`pretty .color controls if pretty logs have color or not 1`] = `
 Array [
-  "● root foo  --  qux: true
+  "● foo  --  qux: true
 ",
 ]
 `;
 
 exports[`pretty .levelLabel controls if label is spelt out or not 1`] = `
 Array [
-  "✕ fatal root foo
+  "✕ fatal foo
 ",
-  "■ error root foo
+  "■ error foo
 ",
-  "▲ warn  root foo
+  "▲ warn  foo
 ",
-  "● info  root foo
+  "● info  foo
 ",
-  "○ debug root foo
+  "○ debug foo
 ",
 ]
 `;

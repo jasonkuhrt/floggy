@@ -9,6 +9,7 @@
 require('os').hostname = () => 'mock-host'
 
 import * as Logger from '../src'
+import * as RootLogger from '../src/root-logger'
 import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
 
 resetBeforeEachTest(process, 'env')
@@ -21,28 +22,14 @@ let output: MockOutput
 beforeEach(() => {
   process.env.LOG_PRETTY = 'false'
   output = createMockOutput()
-  log = Logger.create({ output, pretty: { timeDiff: false } })
+  log = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
 })
 
-describe('name', () => {
-  it('becomes the first entry in path', () => {
-    Logger.create({ output, name: 'foo' }).info('bar')
-    expect(output.memory.json[0].path).toEqual(['foo'])
-  })
-  it('defaults to "root"', () => {
-    log.info('bar')
-    expect(output.memory.json[0].path).toEqual(['root'])
-  })
-  describe(`must conform to regex`, () => {
-    it.each([['a'], ['a_a'], ['_a'], ['a_'], ['a1'], ['A']])('%s is valid', (name) => {
-      expect(() => Logger.create({ name })).not.toThrowError()
-      expect(() => log.child(name)).not.toThrowError()
-    })
-    it.each([[''], ['1'], ['-'], ['g%s'], ['!'], ['a-b']])('%s is invalid', (name) => {
-      expect(() => Logger.create({ name })).toThrowError()
-      expect(() => log.child(name)).toThrowError()
-    })
+describe('root logger path', () => {
+  it('is not in the log record', () => {
+    RootLogger.create({ output }).info('bar')
+    expect('path' in output.memory.json[0]).toBe(false)
   })
 })
 
@@ -61,7 +48,7 @@ describe('output', () => {
   it('defaults to stdout for all levels', () => {
     const write = process.stdout.write
     ;(process.stdout.write as any) = output.write
-    Logger.create({ pretty: false }).fatal('foo')
+    RootLogger.create({ pretty: false }).fatal('foo')
     process.stdout.write = write
     expect(output.memory.jsonOrRaw).toMatchSnapshot()
   })
@@ -121,7 +108,7 @@ describe('.child', () => {
 
   it('log output includes path field showing the logger namespacing', () => {
     log.child('b').child('c').child('d').info('foo')
-    expect(output.memory.json[0].path).toEqual(['root', 'b', 'c', 'd'])
+    expect(output.memory.json[0].path).toEqual(['b', 'c', 'd'])
   })
 
   it('inherits context from parent', () => {
@@ -191,15 +178,16 @@ describe('.child', () => {
 describe('filtering', () => {
   it('allows logs to be suppressed from outpub', () => {
     const output = createMockOutput()
-    const log = Logger.create({ filter: { pattern: 'foo:bar' }, name: 'foo', output })
-    log.info('beep') // should be filtered out
-    const log2 = log.child('bar')
-    log2.info('boop')
+    const log = RootLogger.create({ filter: { pattern: 'foo:bar' }, output })
+    const foo = log.child('foo')
+    const foobar = foo.child('bar')
+    foo.info('beep') // should be filtered out
+    foobar.info('boop')
     log.settings({ filter: { pattern: 'qux' } })
-    log2.info('berp') // should be filtered out
+    foobar.info('berp') // should be filtered out
     expect(output.memory.raw).toMatchInlineSnapshot(`
       Array [
-        "{\\"path\\":[\\"foo\\",\\"bar\\"],\\"context\\":{},\\"event\\":\\"boop\\",\\"level\\":3}
+        "{\\"context\\":{},\\"event\\":\\"boop\\",\\"level\\":3,\\"path\\":[\\"foo\\",\\"bar\\"]}
       ",
       ]
     `)

@@ -1,4 +1,5 @@
 import * as Logger from '../src'
+import * as RootLogger from '../src/root-logger'
 import {
   createMockOutput,
   mockConsoleLog,
@@ -15,17 +16,17 @@ resetBeforeEachTest(process, 'env')
 beforeEach(() => {
   process.env.LOG_PRETTY = 'false'
   output = createMockOutput()
-  log = Logger.create({ output, pretty: { timeDiff: false } })
+  log = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
 })
 
 describe('pretty', () => {
   describe('.enabled', () => {
     it('can be disabled', () => {
-      expect(Logger.create({ pretty: { enabled: false } }).settings.pretty.enabled).toEqual(false)
+      expect(RootLogger.create({ pretty: { enabled: false } }).settings.pretty.enabled).toEqual(false)
     })
     it('persists across peer field changes', () => {
-      const l = Logger.create({ pretty: { enabled: false } })
+      const l = RootLogger.create({ pretty: { enabled: false } })
       l.settings({ pretty: { color: false } })
       expect(l.settings.pretty).toEqual({
         enabled: false,
@@ -45,26 +46,26 @@ describe('pretty', () => {
       it('considers instnace time config first', () => {
         process.stdout.isTTY = false
         process.env.LOG_PRETTY = 'false'
-        const l = Logger.create({ pretty: false })
+        const l = RootLogger.create({ pretty: false })
         l.settings({ pretty: true })
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then considers construction time config', () => {
         process.stdout.isTTY = false
         process.env.LOG_PRETTY = 'false'
-        const l = Logger.create({ pretty: true })
+        const l = RootLogger.create({ pretty: true })
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then considers LOG_PRETTY env var true|false (case insensitive)', () => {
         process.stdout.isTTY = false
         process.env.LOG_PRETTY = 'tRuE'
-        const l = Logger.create()
+        const l = RootLogger.create()
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then defaults to process.stdout.isTTY', () => {
         delete process.env.LOG_PRETTY // pre-test logic forces false otherwise
         process.stdout.isTTY = true
-        const l = Logger.create()
+        const l = RootLogger.create()
         expect(l.settings.pretty.enabled).toEqual(true)
       })
     })
@@ -77,16 +78,18 @@ describe('pretty', () => {
       expect(output.memory.jsonOrRaw).toMatchSnapshot()
     })
     it('can be disabled', () => {
-      expect(Logger.create({ pretty: { enabled: false, color: false } }).settings.pretty.color).toEqual(false)
+      expect(RootLogger.create({ pretty: { enabled: false, color: false } }).settings.pretty.color).toEqual(
+        false
+      )
     })
     it('is true by default', () => {
-      expect(Logger.create({ pretty: { enabled: true } }).settings.pretty).toEqual({
+      expect(RootLogger.create({ pretty: { enabled: true } }).settings.pretty).toEqual({
         enabled: true,
         color: true,
         levelLabel: false,
         timeDiff: true,
       })
-      expect(Logger.create({ pretty: { enabled: false } }).settings.pretty).toEqual({
+      expect(RootLogger.create({ pretty: { enabled: false } }).settings.pretty).toEqual({
         enabled: false,
         color: true,
         levelLabel: false,
@@ -94,7 +97,7 @@ describe('pretty', () => {
       })
     })
     it('persists across peer field changes', () => {
-      const l = Logger.create({
+      const l = RootLogger.create({
         pretty: { enabled: false, color: false },
       })
       l.settings({ pretty: { enabled: true } })
@@ -108,16 +111,16 @@ describe('pretty', () => {
   })
   describe('.levelLabel', () => {
     it('is false by default', () => {
-      expect(Logger.create().settings.pretty.levelLabel).toEqual(false)
+      expect(RootLogger.create().settings.pretty.levelLabel).toEqual(false)
     })
     it('can be enabled', () => {
-      expect(Logger.create({ pretty: { levelLabel: true } }).settings.pretty.levelLabel).toEqual(true)
-      expect(Logger.create().settings({ pretty: { levelLabel: true } }).settings.pretty.levelLabel).toEqual(
-        true
-      )
+      expect(RootLogger.create({ pretty: { levelLabel: true } }).settings.pretty.levelLabel).toEqual(true)
+      expect(
+        RootLogger.create().settings({ pretty: { levelLabel: true } }).settings.pretty.levelLabel
+      ).toEqual(true)
     })
     it('persists across peer field changes', () => {
-      const l = Logger.create({ pretty: { levelLabel: true } })
+      const l = RootLogger.create({ pretty: { levelLabel: true } })
       l.settings({ pretty: false })
       expect(l.settings.pretty.levelLabel).toBe(true)
     })
@@ -136,17 +139,17 @@ describe('pretty', () => {
   })
   describe('.timeDiff', () => {
     it('is true by default', () => {
-      expect(Logger.create().settings.pretty.timeDiff).toEqual(true)
+      expect(RootLogger.create().settings.pretty.timeDiff).toEqual(true)
     })
     it('can be disabled', () => {
-      const l1 = Logger.create({ pretty: { timeDiff: false } })
+      const l1 = RootLogger.create({ pretty: { timeDiff: false } })
       expect(l1.settings.pretty.timeDiff).toEqual(false)
-      const l2 = Logger.create()
+      const l2 = RootLogger.create()
       l2.settings({ pretty: { timeDiff: false } })
       expect(l2.settings.pretty.levelLabel).toEqual(false)
     })
     it('persists across peer field changes', () => {
-      const l = Logger.create({ pretty: { timeDiff: false } })
+      const l = RootLogger.create({ pretty: { timeDiff: false } })
       l.settings({ pretty: false })
       expect(l.settings.pretty.timeDiff).toBe(false)
     })
@@ -172,7 +175,7 @@ describe('pretty', () => {
 
   describe('shorthands', () => {
     it('true means enabled true', () => {
-      expect(Logger.create({ pretty: true }).settings.pretty).toEqual({
+      expect(RootLogger.create({ pretty: true }).settings.pretty).toEqual({
         enabled: true,
         color: true,
         levelLabel: false,
@@ -181,7 +184,7 @@ describe('pretty', () => {
     })
 
     it('false means enabled false', () => {
-      expect(Logger.create({ pretty: false }).settings.pretty).toEqual({
+      expect(RootLogger.create({ pretty: false }).settings.pretty).toEqual({
         enabled: false,
         color: true,
         levelLabel: false,
@@ -195,31 +198,31 @@ describe('filter', () => {
   describe('precedence', () => {
     it('considers instance time config first', () => {
       process.env.LOG_FILTER = 'from_env_var'
-      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      const l = RootLogger.create({ filter: { pattern: '*@fatal' } })
       l.settings({ filter: { pattern: 'foo' } })
       expect(l.settings.filter.patterns).toMatchSnapshot()
     })
 
     it('then considers construction time config', () => {
       process.env.LOG_FILTER = 'from_env_var'
-      const l = Logger.create({ filter: { pattern: '*@fatal' } })
+      const l = RootLogger.create({ filter: { pattern: '*@fatal' } })
       expect(l.settings.filter).toMatchSnapshot()
     })
 
     it('then considers LOG_FILTER env var', () => {
       process.env.LOG_FILTER = 'from_env_var'
-      const l = Logger.create()
+      const l = RootLogger.create()
       expect(l.settings.filter).toMatchSnapshot()
     })
 
     it('then defaults to "*', () => {
-      const l = Logger.create()
+      const l = RootLogger.create()
       expect(l.settings.filter).toMatchSnapshot()
     })
   })
 
   it('can be passed a pattern directly', () => {
-    const l = Logger.create({ filter: '*@fatal' })
+    const l = RootLogger.create({ filter: '*@fatal' })
     expect(l.settings.filter.patterns[0].level.value).toBe('fatal')
     l.settings({ filter: 'foo' })
     expect(l.settings.filter.patterns[0].level.value).toBe('debug')
@@ -232,7 +235,7 @@ describe('filter', () => {
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
     const calls = mockConsoleLog()
     process.env.LOG_FILTER = '**'
-    Logger.create()
+    RootLogger.create()
     expect(calls).toMatchSnapshot()
     unmockConsoleLog()
   })
@@ -243,7 +246,7 @@ describe('level', () => {
     it('considers instance time config first', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ filter: { level: 'fatal' } })
+      const l = RootLogger.create({ filter: { level: 'fatal' } })
       l.settings({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
@@ -251,25 +254,25 @@ describe('level', () => {
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
-      const l = Logger.create({ filter: { level: 'trace' } })
+      const l = RootLogger.create({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'trace'
-      const l = Logger.create()
+      const l = RootLogger.create()
       expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
       process.env.NODE_ENV = 'production'
-      const l = Logger.create()
+      const l = RootLogger.create()
       expect(l.settings.filter.patterns[0].level.value).toEqual('info')
     })
 
     it('then defaults to debug', () => {
-      const l = Logger.create()
+      const l = RootLogger.create()
       expect(l.settings.filter.patterns[0].level.value).toEqual('debug')
     })
   })
@@ -282,13 +285,13 @@ describe('level', () => {
   it('LOG_LEVEL env var config is treated case insensitive', () => {
     process.env.NODE_ENV = 'production'
     process.env.LOG_LEVEL = 'TRACE'
-    const l = Logger.create()
+    const l = RootLogger.create()
     expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {
     process.env.LOG_LEVEL = 'ttrace'
-    expect(() => Logger.create()).toThrowErrorMatchingInlineSnapshot(
+    expect(() => RootLogger.create()).toThrowErrorMatchingInlineSnapshot(
       `"Could not parse environment variable LOG_LEVEL into LogLevel. The environment variable was: ttrace. A valid environment variable must be like: fatal, error, warn, info, debug, trace"`
     )
   })
@@ -296,7 +299,7 @@ describe('level', () => {
 
 describe('data', () => {
   it('all defaults to false if process.NODE_ENV is not production', () => {
-    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -304,7 +307,7 @@ describe('data', () => {
       }
     `)
     process.env.NODE_ENV = 'not production'
-    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -313,7 +316,7 @@ describe('data', () => {
     `)
 
     process.env.NODE_ENV = 'production'
-    expect(Logger.create().settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": true,
         "pid": true,
@@ -323,7 +326,7 @@ describe('data', () => {
   })
 
   it('merges initial setting with defaults', () => {
-    expect(Logger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -331,7 +334,7 @@ describe('data', () => {
       }
     `)
     process.env.NODE_ENV = 'not production'
-    expect(Logger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -339,7 +342,7 @@ describe('data', () => {
       }
     `)
     process.env.NODE_ENV = 'production'
-    expect(Logger.create({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": true,
         "pid": true,
@@ -349,7 +352,7 @@ describe('data', () => {
   })
 
   it('merges incremental changes with previous state', () => {
-    expect(Logger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -357,7 +360,7 @@ describe('data', () => {
       }
     `)
     process.env.NODE_ENV = 'not production'
-    expect(Logger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": false,
         "pid": false,
@@ -365,7 +368,7 @@ describe('data', () => {
       }
     `)
     process.env.NODE_ENV = 'production'
-    expect(Logger.create().settings({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
+    expect(RootLogger.create().settings({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
       Object {
         "hostname": true,
         "pid": true,

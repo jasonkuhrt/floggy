@@ -163,13 +163,19 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // pre-emptyive measurement for potential multiline context indentation later on
   const gutterWidth = timeDiff.length + style.badge.length + levelLabelSized.length
 
-  //
-  // render pre-context
-  //
+  /**
+   * Render Pre-Context
+   *
+   * Path is null when log came from root.
+   */
 
-  const path = logRecord.path.join(renderEl(separators.path))
-  const preContextWidth = path.length + separators.event.symbol.length + logRecord.event.length
-  const preContextRendered = style.color(path) + renderEl(separators.event) + logRecord.event
+  const path = logRecord.path?.join(renderEl(separators.path)) ?? ''
+  const preContextWidth = path
+    ? path.length + separators.event.symbol.length + logRecord.event.length
+    : logRecord.event.length
+  const preContextRendered = path
+    ? style.color(path) + renderEl(separators.event) + logRecord.event
+    : logRecord.event
 
   //
   // render context
