@@ -1,5 +1,5 @@
 export { demo } from './demo'
-export { Logger } from './logger'
+export { Logger, LogRecord } from './logger'
 export { RootLogger } from './root-logger'
 export { Data as SettingsData, Input as SettingsInput } from './settings'
 
