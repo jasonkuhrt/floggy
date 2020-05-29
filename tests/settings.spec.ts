@@ -7,6 +7,7 @@ import {
   resetBeforeEachTest,
   unmockConsoleLog,
 } from './__helpers'
+import { LogRecord } from "../src/logger";
 
 let log: Logger.RootLogger
 let output: MockOutput
