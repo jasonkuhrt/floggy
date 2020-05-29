@@ -374,6 +374,49 @@ describe('data', () => {
         "pid": true,
         "time": false,
       }
-    `)
-  })
-})
+    `);
+  });
+});
+
+describe("handler", () => {
+  describe(".disabled", () => {
+    it("default disabled", () => {
+      expect(RootLogger.create().settings.handler).toBeFalsy();
+    });
+    it("disable with settings", () => {
+      const l = RootLogger.create({ handler: () => {} });
+      l.settings({ handler: false });
+      expect(l.settings.handler).toBeFalsy();
+    });
+  });
+
+  describe("set", () => {
+    describe("create with handler", () => {
+      let result!: LogRecord;
+      const handler = (r: LogRecord) => {
+        result = r;
+      };
+      const l = RootLogger.create({ handler });
+      l.error("a", {});
+      expect(l.settings.handler).toBeTruthy();
+      expect(result.level).toEqual(5);
+    });
+
+    describe("set with settings", () => {
+      let result!: LogRecord;
+      const l = RootLogger.create();
+      l.settings({ handler: (logRecord => result = logRecord) });
+      l.fatal("a");
+      expect(result).toBeDefined();
+      expect(result.level).toEqual(6);
+    });
+
+    describe("persist to children", () => {
+      let result!: LogRecord;
+      const l = RootLogger.create({ handler: (logRecord => result = logRecord) }).child("child");
+      l.fatal("a");
+      expect(result).toBeDefined();
+      expect(result.level).toEqual(6);
+    });
+  });
+});

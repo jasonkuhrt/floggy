@@ -3,6 +3,7 @@ import * as Filter from './filter'
 import * as Level from './level'
 import * as Output from './output'
 import { casesHandled, isEmpty, omitUndefinedKeys, parseFromEnvironment } from './utils'
+import { LogHandler } from "./logger";
 
 export type Manager = Data & {
   (newSettings: Input): void
@@ -29,10 +30,12 @@ export type Data = Readonly<{
     pid: boolean
     hostname: boolean
   }
-  output: Output.Output
+  output: Output.Output,
+  handler: LogHandler | false
 }>
 
 export type Input = {
+  handler?: LogHandler | false,
   output?: Output.Output
   /**
    * Filter logs by path and/or level.
@@ -313,12 +316,18 @@ export function create(opts?: Input) {
     filter: isEmpty(opts?.filter) ? defaultFilterSetting() : processSettingInputFilter(opts!.filter!, null),
     output: opts?.output ?? process.stdout,
     data: processSettingInputData(opts?.data ?? {}, null),
+    handler: opts?.handler ?? false
   }
 
   const settings = ((newSettings: Input) => {
     if (newSettings.output) {
       // @ts-ignore
       settings.output = newSettings.output
+    }
+
+    if (typeof newSettings.handler === 'boolean' || newSettings.handler) {
+      // @ts-ignore
+      settings.handler = newSettings.handler
     }
 
     if ('pretty' in newSettings) {

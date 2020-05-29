@@ -18,6 +18,8 @@ export type LogRecord = {
   hostname?: string
 }
 
+export type LogHandler = (logRecord: LogRecord) => void;
+
 type Log = (event: string, context?: Context) => void
 
 export type Logger = {
@@ -53,7 +55,10 @@ export function create(
     })
   }
 
-  function send(levelLabel: Name, event: string, localContext: undefined | Context) {
+  function send(levelLabel: Name,
+                event: string,
+                localContext: undefined | Context,
+                handler?: LogHandler) {
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
       event,
@@ -85,6 +90,10 @@ export function create(
         ? Prettifier.render(rootState.settings.pretty, logRec)
         : JSON.stringify(logRec)
       rootState.settings.output.write(logMsg + OS.EOL)
+
+      if (rootState.settings?.handler) {
+        rootState.settings.handler(logRec);
+      }
     }
   }
 
