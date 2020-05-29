@@ -7,7 +7,7 @@ import {
   resetBeforeEachTest,
   unmockConsoleLog,
 } from './__helpers'
-import { LogRecord } from "../src/logger";
+import { LogRecord } from '../src/logger'
 
 let log: Logger.RootLogger
 let output: MockOutput
@@ -375,49 +375,52 @@ describe('data', () => {
         "pid": true,
         "time": false,
       }
-    `);
-  });
-});
+    `)
+  })
+})
 
-describe("handler", () => {
-  describe(".disabled", () => {
-    it("default disabled", () => {
-      expect(RootLogger.create().settings.handler).toBeFalsy();
-    });
-    it("disable with settings", () => {
-      const l = RootLogger.create({ handler: () => {} });
-      l.settings({ handler: false });
-      expect(l.settings.handler).toBeFalsy();
-    });
-  });
+describe('handler', () => {
+  function handler() {
+    return jest.fn((logRecord: LogRecord): void => {
+      logRecord.level
+    })
+  }
 
-  describe("set", () => {
-    describe("create with handler", () => {
-      let result!: LogRecord;
-      const handler = (r: LogRecord) => {
-        result = r;
-      };
-      const l = RootLogger.create({ handler });
-      l.error("a", {});
-      expect(l.settings.handler).toBeTruthy();
-      expect(result.level).toEqual(5);
-    });
+  describe('.disabled', () => {
+    it('default disabled', () => {
+      expect(RootLogger.create().settings.handler).toBeFalsy()
+    })
 
-    describe("set with settings", () => {
-      let result!: LogRecord;
-      const l = RootLogger.create();
-      l.settings({ handler: (logRecord => result = logRecord) });
-      l.fatal("a");
-      expect(result).toBeDefined();
-      expect(result.level).toEqual(6);
-    });
+    it('disable with settings', () => {
+      const l = RootLogger.create({ output, handler: () => {} })
+      l.settings({ handler: false })
+      expect(l.settings.handler).toBeFalsy()
+    })
+  })
 
-    describe("persist to children", () => {
-      let result!: LogRecord;
-      const l = RootLogger.create({ handler: (logRecord => result = logRecord) }).child("child");
-      l.fatal("a");
-      expect(result).toBeDefined();
-      expect(result.level).toEqual(6);
-    });
-  });
-});
+  describe('set', () => {
+    describe('create with handler', () => {
+      const l = RootLogger.create({ output, handler: handler() })
+      expect(l.settings.handler).toBeTruthy()
+      expect(l.settings.handler).toHaveBeenCalledTimes(0)
+    })
+
+    describe('set with settings', () => {
+      let result!: LogRecord
+      const l = RootLogger.create({})
+      l.settings({ handler: handler() })
+      expect(l.settings.handler).toBeDefined()
+      expect(l.settings.handler).toHaveBeenCalledTimes(0)
+    })
+
+    describe('handler is called', () => {
+      const a = (logRecord: LogRecord): void => {
+        logRecord.level
+      }
+      const h = jest.fn(a)
+      const l = RootLogger.create({ handler: h }).child('baby').child('infant')
+      l.info('a')
+      expect(h).toHaveBeenCalledTimes(1)
+    })
+  })
+})

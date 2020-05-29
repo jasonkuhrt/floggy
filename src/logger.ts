@@ -18,7 +18,7 @@ export type LogRecord = {
   hostname?: string
 }
 
-export type LogHandler = (logRecord: LogRecord) => void;
+export type LogHandler = (logRecord: LogRecord) => void
 
 type Log = (event: string, context?: Context) => void
 
@@ -55,10 +55,7 @@ export function create(
     })
   }
 
-  function send(levelLabel: Name,
-                event: string,
-                localContext: undefined | Context,
-                handler?: LogHandler) {
+  function send(levelLabel: Name, event: string, localContext: undefined | Context, handler?: LogHandler) {
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
       event,
@@ -92,7 +89,7 @@ export function create(
       rootState.settings.output.write(logMsg + OS.EOL)
 
       if (rootState.settings?.handler) {
-        rootState.settings.handler(logRec);
+        rootState.settings.handler(logRec)
       }
     }
   }
