@@ -1,9 +1,9 @@
 {
-  "name": "@nexus/logger",
+  "name": "floggy",
   "version": "0.0.0",
   "main": "dist/index.js",
   "repository": "git@github.com:graphql-nexus/logger.git",
-  "author": "Prisma Labs Team",
+  "author": "Jason Kuhrt",
   "license": "MIT",
   "files": [
     "dist",
