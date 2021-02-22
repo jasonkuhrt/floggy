@@ -235,9 +235,9 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
         contextEntriesRendered
           .map(
             ([key, value]) =>
-              `${chalk.gray(utils.clampSpace(widestKey, key))}${renderEl(
+              `${chalk.gray(utils.clampSpace(widestKey, key!))}${renderEl(
                 separators.contextKeyVal.multiline
-              )}${formatBlock(value, {
+              )}${formatBlock(value!, {
                 leftSpineSymbol: spineRendered,
                 excludeFirstLine: true,
                 indent: widestKey + separators.contextKeyVal.multiline.symbol.length,
@@ -278,8 +278,8 @@ function formatBlock(
   }
 ): string {
   const [first, ...rest] = block.split('\n')
-  if (rest.length === 0) return first
-  const linesToProcess = opts.excludeFirstLine === true ? rest : (rest.unshift(first), rest)
+  if (rest.length === 0) return first!
+  const linesToProcess = opts.excludeFirstLine === true ? rest : (rest.unshift(first!), rest)
   const prefix =
     typeof opts.leftSpineSymbol === 'string' ? opts.leftSpineSymbol : opts.leftSpineSymbol?.symbol ?? ''
   const indent = opts.indent !== undefined ? utils.spanSpace(opts.indent) : ''

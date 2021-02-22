@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "module": "commonjs"
+    "module": "commonjs",
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.cjs"
   }
 }

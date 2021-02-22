@@ -5,7 +5,7 @@ import {
   mockConsoleLog,
   MockOutput,
   resetBeforeEachTest,
-  unmockConsoleLog,
+  unmockConsoleLog
 } from './__helpers'
 
 let log: Logger.RootLogger
@@ -223,13 +223,13 @@ describe('filter', () => {
 
   it('can be passed a pattern directly', () => {
     const l = RootLogger.create({ filter: '*@fatal' })
-    expect(l.settings.filter.patterns[0].level.value).toBe('fatal')
+    expect(l.settings.filter.patterns[0]?.level.value).toBe('fatal')
     l.settings({ filter: 'foo' })
-    expect(l.settings.filter.patterns[0].level.value).toBe('debug')
+    expect(l.settings.filter.patterns[0]?.level.value).toBe('debug')
     l.settings({ filter: { level: 'warn' } })
-    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+    expect(l.settings.filter.patterns[0]?.level.value).toBe('warn')
     l.settings({ filter: 'bar' })
-    expect(l.settings.filter.patterns[0].level.value).toBe('warn')
+    expect(l.settings.filter.patterns[0]?.level.value).toBe('warn')
   })
 
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
@@ -248,32 +248,32 @@ describe('level', () => {
       process.env.LOG_LEVEL = 'fatal'
       const l = RootLogger.create({ filter: { level: 'fatal' } })
       l.settings({ filter: { level: 'trace' } })
-      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'fatal'
       const l = RootLogger.create({ filter: { level: 'trace' } })
-      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
       process.env.NODE_ENV = 'production'
       process.env.LOG_LEVEL = 'trace'
       const l = RootLogger.create()
-      expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
+      expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
       process.env.NODE_ENV = 'production'
       const l = RootLogger.create()
-      expect(l.settings.filter.patterns[0].level.value).toEqual('info')
+      expect(l.settings.filter.patterns[0]?.level.value).toEqual('info')
     })
 
     it('then defaults to debug', () => {
       const l = RootLogger.create()
-      expect(l.settings.filter.patterns[0].level.value).toEqual('debug')
+      expect(l.settings.filter.patterns[0]?.level.value).toEqual('debug')
     })
   })
 
@@ -286,7 +286,7 @@ describe('level', () => {
     process.env.NODE_ENV = 'production'
     process.env.LOG_LEVEL = 'TRACE'
     const l = RootLogger.create()
-    expect(l.settings.filter.patterns[0].level.value).toEqual('trace')
+    expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {

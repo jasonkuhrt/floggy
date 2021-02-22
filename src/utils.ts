@@ -85,14 +85,14 @@ export function range(times: number): number[] {
  */
 export function omitUndefinedKeys<T extends Record<string, unknown>>(data: T): T {
   return Object.entries(data ?? {})
-    .filter(([k, v]) => v !== undefined)
+    .filter(([_, v]) => v !== undefined)
     .reduce((acc, [k, v]) => Object.assign(acc, { [k]: v }), {} as T)
 }
 
 /**
  * Get the last item of an array.
  */
-export function last<T>(xs: T[]): T {
+export function last<T>(xs: T[]): T | undefined {
   return xs[xs.length - 1]
 }
 

@@ -1,7 +1,6 @@
 {
   "name": "floggy",
   "version": "0.0.0",
-  "main": "dist/index.js",
   "repository": "git@github.com:graphql-nexus/logger.git",
   "author": "Jason Kuhrt",
   "license": "MIT",
@@ -9,6 +8,14 @@
     "dist",
     "dist-esm"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist-esm/index.js"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "./dist-esm/index.js",
   "scripts": {
     "format": "prettier --write .",
     "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
@@ -31,18 +38,10 @@
     "jest-watch-typeahead": "0.6.1",
     "prettier": "2.2.1",
     "ts-jest": "26.5.1",
+    "ts-node": "^9.1.1",
     "type-fest": "0.21.1",
     "typescript": "4.1.5",
     "typescript-snapshots-plugin": "1.7.0"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname",
-      "jest-watch-suspend"
-    ]
   },
   "prettier": "@prisma-labs/prettier-config",
   "dependencies": {

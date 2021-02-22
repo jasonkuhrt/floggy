@@ -91,7 +91,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
     parts.unshift('.')
   }
 
-  const ex = parts[parts.length - 2] === '' && parts[parts.length - 1][0] === '*'
+  const ex = parts[parts.length - 2] === '' && parts[parts.length - 1]?.[0] === '*'
   if (ex) {
     parts.splice(parts.length - 2, 1)
   }
@@ -120,7 +120,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
   } else if (targetm[1] === '.') {
     path.value = '.'
   } else {
-    path.value = prefix.length ? prefix + ':' + targetm[1] : targetm[1]
+    path.value = prefix.length ? prefix + ':' + targetm[1]! : targetm[1]!
   }
 
   /**
@@ -388,14 +388,14 @@ export function renderSyntaxError(input: {
   let message
 
   if (!multipleInputs) {
-    const e = getLeft(badOnes[0])
+    const e = getLeft(badOnes[0]!)
     const pattern = e?.context.pattern
     const hint = e?.context.hint ? `. ${e.context.hint}` : ''
     message = `Your log filter's pattern${foundIn} was invalid: "${chalk.red(
       pattern
     )}${hint}"\n\n${renderSyntaxManual()}`
   } else if (!multipleErrors) {
-    const e = getLeft(badOnes[0])
+    const e = getLeft(badOnes[0]!)
     const pattern = e?.context.pattern
     const hint = e?.context.hint ? `. ${e.context.hint}` : ''
     message = `One of the patterns in your log filter${foundIn} was invalid: "${chalk.red(
