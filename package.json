@@ -46,7 +46,7 @@
   "prettier": "@prisma-labs/prettier-config",
   "dependencies": {
     "chalk": "^4.1.0",
-    "fp-ts": "^2.9.5",
+    "fp-ts": "^2.10.3",
     "lodash": "^4.17.21",
     "strip-ansi": "^6.0.0"
   }
