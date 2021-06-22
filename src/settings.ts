@@ -247,7 +247,7 @@ export function processSettingInputData(
 }
 
 function defaultSettingData(): Data['data'] {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env?.NODE_ENV === 'production') {
     return {
       hostname: true,
       pid: true,
@@ -277,11 +277,11 @@ export function processSettingInputPretty(
     (typeof pretty === 'object' ? pretty.enabled : undefined) ??
     previous?.enabled ??
     // todo nice is-defined-but-parse-error feedback
-    (process.env.LOG_PRETTY?.toLowerCase() === 'true'
+    (process.env?.LOG_PRETTY?.toLowerCase() === 'true'
       ? true
-      : process.env.LOG_PRETTY?.toLowerCase() === 'false'
+      : process.env?.LOG_PRETTY?.toLowerCase() === 'false'
       ? false
-      : process.stdout.isTTY)
+      : process.stdout?.isTTY)
 
   const levelLabel =
     (typeof pretty === 'object' ? pretty.levelLabel : undefined) ?? previous?.levelLabel ?? false
@@ -371,18 +371,18 @@ export function processSettingInputFilter(
 
 export function defaultFilterSetting(): Data['filter'] {
   let level: Level.Name
-  if (process.env.LOG_LEVEL) {
+  if (process.env?.LOG_LEVEL) {
     level = parseFromEnvironment<Level.Name>('LOG_LEVEL', Level.parser)
   } else {
-    level = process.env.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
+    level = process.env?.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
   }
   let originalInput: string
   let patterns
 
-  if (process.env.LOG_FILTER) {
+  if (process.env?.LOG_FILTER) {
     patterns = Filter.processLogFilterInput(
       { level: { value: level, comp: 'gte' } },
-      process.env.LOG_FILTER,
+      process.env?.LOG_FILTER,
       'environment variable LOG_FILTER.'
     )
   }
