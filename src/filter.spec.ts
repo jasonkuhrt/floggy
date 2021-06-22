@@ -70,6 +70,7 @@ describe('parse', () => {
     ['a@*', { comp:'eq', value:'*' }],
   ] as ([string,Filter.Parsed['level']])[])
   ('%s', (pattern, expectedLevel) => {
+    // eslint-disable-next-line
     expect(pipe(parse(pattern)[0]!, map(p => p.level))).toEqual(right(expectedLevel))
   })
   // wildcard/levels + paths
