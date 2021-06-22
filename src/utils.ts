@@ -1,5 +1,6 @@
 import { Either, isLeft, isRight } from 'fp-ts/lib/Either'
 import { format } from 'util'
+
 /**
  * Guarantee the length of a given string, padding before or after with the
  * given character. If the given string is longer than  the span target, then it
@@ -57,6 +58,7 @@ export const spanSpaceRight = span.bind(null, 'padBefore', ' ')
  * union have been accounted for.
  */
 export function casesHandled(x: never): never {
+  // eslint-disable-next-line
   throw new Error(`A case of value was not handled: ${x}`)
 }
 
@@ -96,6 +98,7 @@ export function last<T>(xs: T[]): T | undefined {
   return xs[xs.length - 1]
 }
 
+// eslint-disable-next-line
 export function isEmpty(x?: object | string): boolean {
   if (typeof x === 'string' && x === '') return true
   if (x === undefined) return true
@@ -113,6 +116,7 @@ export function parseFromEnvironment<T>(
     run: (raw: string) => null | T
   }
 ): T {
+  // eslint-disable-next-line
   const envVarValue = process.env[key]! // assumes env presence handled before
   const result = parser.run(envVarValue)
 
@@ -132,6 +136,7 @@ export function parseFromEnvironment<T>(
 /**
  * An error with additional contextual data.
  */
+// eslint-disable-next-line
 export type ContextualError<Context extends Record<string, unknown> = {}> = Error & {
   context: Context
 }
@@ -153,7 +158,7 @@ export function createContextualError<Context extends Record<string, unknown>>(
 
   Object.defineProperty(e, 'message', {
     enumerable: true,
-    value: e.message,
+    value: e.message
   })
 
   e.context = context
@@ -183,7 +188,9 @@ export function getRight<A, B>(e: Either<A, B>): B | undefined {
 export function rightOrThrow<A, B>(x: Either<A, B>): B {
   if (isLeft(x))
     throw new Error(
-      `Failed to get right value of either type because it was actually left. The left value was:\n\n${x.left}`
+      `Failed to get right value of either type because it was actually left. The left value was:\n\n${String(
+        x.left
+      )}`
     )
   return x.right
 }

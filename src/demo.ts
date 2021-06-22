@@ -1,6 +1,6 @@
 import * as RootLogger from './root-logger'
 
-export function demo(log?: RootLogger.RootLogger) {
+export function demo(log?: RootLogger.RootLogger): void {
   console.log('')
   console.log('-----------')
   console.log('LOGGER DEMO')
@@ -12,7 +12,7 @@ export function demo(log?: RootLogger.RootLogger) {
   log.error('foo', {
     har: { mar: 'tek' },
     jar: [1, 2, 3, 4, 4, 5, 6, 6, 7, 9, 1, 2, 4, 5, 6, 7, 3, 6, 5, 4],
-    kio: Object.create(null, { [Symbol.toStringTag]: { value: 'foo' } }),
+    kio: Object.create(null, { [Symbol.toStringTag]: { value: 'foo' } })
   })
   log.warn('foo', { bleep: [1, '2', true] })
   log.info('foo')
@@ -22,35 +22,35 @@ export function demo(log?: RootLogger.RootLogger) {
         userId: 1,
         id: 1,
         title: 'delectus aut autem',
-        completed: false,
+        completed: false
       },
       {
         userId: 1,
         id: 2,
         title: 'quis ut nam facilis et officia qui',
-        completed: false,
+        completed: false
       },
       {
         userId: 1,
         id: 3,
         title: 'fugiat veniam minus',
-        completed: false,
+        completed: false
       },
       {
         userId: 1,
         id: 4,
         title: 'et porro tempora',
-        completed: true,
+        completed: true
       },
       {
         userId: 1,
         id: 5,
         title: 'laboriosam mollitia et enim quasi adipisci quia provident illum',
-        completed: false,
-      },
+        completed: false
+      }
     ],
     tri: 'wiz',
-    on: false,
+    on: false
   })
   log.debug('foo', { foo: 'bar' })
   log.trace('foo', { a: 1, b: 2, c: 'three' })

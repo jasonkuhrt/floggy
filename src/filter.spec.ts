@@ -1,6 +1,3 @@
-// prevent color from being disabled on CI
-// so that snapshots pass there.
-process.env.FORCE_COLOR = '3'
 import { map, right } from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers'
@@ -8,11 +5,15 @@ import * as Filter from './filter'
 import { LogRecord } from './logger'
 import { rightOrThrow } from './utils'
 
+// prevent color from being disabled on CI
+// so that snapshots pass there.
+process.env.FORCE_COLOR = '3'
+
 /**
  * State
  */
 
-let defaults: Filter.Defaults = { level: { comp: 'gte', value: 'trace' } }
+const defaults: Filter.Defaults = { level: { comp: 'gte', value: 'trace' } }
 
 /**
  * Primary helpers
@@ -153,7 +154,7 @@ describe('test', () => {
     // defaults
     [{ level: { comp: 'eq', value: 'debug' } }, '*', rec({ level: 1 }), false],
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
-    [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 2 }), true],
+    [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 2 }), true]
   ] as Cases)('%j %s %j %s', (defaults, pattern, rec, shouldPassOrNot) => {
     expect(Filter.test(Filter.parse(defaults, pattern).map(rightOrThrow), rec)).toBe(shouldPassOrNot)
   })
@@ -161,6 +162,7 @@ describe('test', () => {
 
 describe('processLogFilterInput', () => {
   describe('renders log when invalid filter given', () => {
+    // eslint-disable-next-line
     let calls: any[][]
     beforeEach(() => {
       calls = mockConsoleLog()
@@ -209,6 +211,6 @@ function rec(data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord {
     // overrides
     ...data,
     // not overridable
-    event: 'foo',
+    event: 'foo'
   }
 }

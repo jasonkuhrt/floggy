@@ -18,7 +18,7 @@ const symbols = {
   descendants: '*',
   levelDelim: '@',
   levelGte: '+',
-  levelLte: '-',
+  levelLte: '-'
 }
 
 export type Parsed = {
@@ -74,8 +74,8 @@ export function parse(defaults: Defaults, pattern: string): Either<ParseError, P
 export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<ParseError, Parsed> {
   // todo maybe level default should be wildcard instead...
   const originalInput = pattern
-  let level = { ...criteriaDefaults.level } as Parsed['level']
-  let path: Parsed['path'] = { value: '', descendants: false }
+  const level = { ...criteriaDefaults.level } as Parsed['level']
+  const path: Parsed['path'] = { value: '', descendants: false }
 
   if (pattern === '') {
     return left(createInvalidPattern(originalInput))
@@ -104,7 +104,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
 
   const prefix = parts.join(':')
 
-  const targetm = target.match(validTargetRegex)
+  const targetm = validTargetRegex.exec(target)
 
   if (!targetm) {
     return left(createInvalidPattern(originalInput))
@@ -120,7 +120,8 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
   } else if (targetm[1] === '.') {
     path.value = '.'
   } else {
-    path.value = prefix.length ? prefix + ':' + targetm[1]! : targetm[1]!
+    // eslint-disable-next-line
+    path.value = prefix.length ? `${prefix}:${targetm[1]!}` : targetm[1]!
   }
 
   /**
@@ -133,7 +134,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
   const levelm = levelWildCard
     ? ({ type: 'wildcard' } as const)
     : levelValue
-    ? ({ type: 'value', value: levelValue!, dir: levelDir } as const)
+    ? ({ type: 'value', value: levelValue, dir: levelDir } as const)
     : undefined
 
   if (levelm) {
@@ -142,7 +143,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
       level.comp = 'eq'
     } else {
       // the original regex guarantees 1-5 so we don't have to validate that now
-      if (levelm.value.match(/\d/)) {
+      if (/\d/.exec(levelm.value)) {
         level.value = Level.LEVELS_BY_NUM[levelm.value as Level.NumString].label
       } else {
         level.value = levelm.value as Level.Name
@@ -163,7 +164,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
     const invalidPathPartNames = path.value
       .split(symbols.pathDelim)
       .slice(1) // root
-      .filter((pathPart) => !pathPart.match(validPathSegmentNameRegex))
+      .filter((pathPart) => !validPathSegmentNameRegex.exec(pathPart))
 
     if (invalidPathPartNames.length) {
       return left(
@@ -181,7 +182,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): Either<Pa
     negate,
     path,
     originalInput,
-    level,
+    level
   })
 }
 
@@ -300,14 +301,14 @@ type ParseError = ContextualError<{ pattern: string; hint?: string }>
 function createInvalidPattern(pattern: string, hint?: string): ParseError {
   return createContextualError(`Invalid filter pattern: "${pattern}${hint ? `. ${hint}` : ''}"`, {
     pattern,
-    hint,
+    hint
   })
 }
 
 /**
  * Get the string contents of a manual showing how to write filters.
  */
-export function renderSyntaxManual() {
+export function renderSyntaxManual(): string {
   const m = chalk.magenta
   const b = chalk.blue
   const gray = chalk.gray
@@ -388,6 +389,7 @@ export function renderSyntaxError(input: {
   let message
 
   if (!multipleInputs) {
+    // eslint-disable-next-line
     const e = getLeft(badOnes[0]!)
     const pattern = e?.context.pattern
     const hint = e?.context.hint ? `. ${e.context.hint}` : ''
@@ -395,6 +397,7 @@ export function renderSyntaxError(input: {
       pattern
     )}${hint}"\n\n${renderSyntaxManual()}`
   } else if (!multipleErrors) {
+    // eslint-disable-next-line
     const e = getLeft(badOnes[0]!)
     const pattern = e?.context.pattern
     const hint = e?.context.hint ? `. ${e.context.hint}` : ''

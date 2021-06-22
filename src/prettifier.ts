@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi'
 import * as util from 'util'
-import { Chalk, chalk } from './chalk'
+import { chalk, Chalk } from './chalk'
 import * as Level from './level'
 import * as Logger from './logger'
 import * as utils from './utils'
@@ -16,20 +16,20 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
     // badge: '⚰',
     // badge: '☠',
     badge: '✕',
-    color: chalk.red,
+    color: chalk.red
   },
   error: {
     badge: '■',
-    color: chalk.red,
+    color: chalk.red
   },
   warn: {
     badge: '▲',
-    color: chalk.yellow,
+    color: chalk.yellow
   },
   info: {
     // badge: '↣',
     badge: '●',
-    color: chalk.green,
+    color: chalk.green
   },
   debug: {
     // badge: '◒',
@@ -39,7 +39,7 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
     // badge: '↺',
     // badge: '↯',
     // badge: '⟐',
-    color: chalk.blue,
+    color: chalk.blue
   },
   trace: {
     badge: '—',
@@ -47,16 +47,16 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
     // badge: '⟣',
     // badge: '⟛',
     // badge: '⠿',
-    color: chalk.magenta,
-  },
+    color: chalk.magenta
+  }
 }
 
 export const separators = {
   path: {
-    symbol: ':',
+    symbol: ':'
   },
   event: {
-    symbol: ' ',
+    symbol: ' '
   },
   context: {
     singleLine: {
@@ -75,28 +75,33 @@ export const separators = {
       // context = ` ${chalk.gray('⋯')}  ` + context
       // context = ` ${chalk.gray('⌁')}  ` + context
       // context = ` ${chalk.gray('⟛')}  ` + context
-      color: chalk.gray,
+      color: chalk.gray
     },
     multiline: {
-      symbol: '',
-    },
+      symbol: ''
+    }
   },
   contextKeyVal: {
     singleLine: {
       symbol: ': ',
-      color: chalk.gray,
+      color: chalk.gray
     },
     multiline: {
-      symbol: '  ',
-    },
+      symbol: '  '
+    }
   },
   contextEntry: {
     singleLine: '  ',
-    multiline: (gutterSpace: string) => ({
+    multiline: (
+      gutterSpace: string
+    ): {
+      symbol: string
+      color: Chalk
+    } => ({
       symbol: gutterSpace + `| `,
-      color: chalk.gray,
-    }),
-  },
+      color: chalk.gray
+    })
+  }
 }
 
 export type Options = {
@@ -135,7 +140,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
       elapsedTime = Math.round(elapsedTime / 1000 / 60 / 60)
       unit = 'h'
       // 1d-999d (exclusive)
-    } else if (elapsedTime >= 1000 * 60 * 60 && elapsedTime < 1000 * 60 * 60 * 24) {
+    } else if (elapsedTime >= 1000 * 60 * 60 * 24 && elapsedTime < 1000 * 60 * 60 * 24 * 10) {
       elapsedTime = Math.round(elapsedTime / 1000 / 60 / 60 / 24)
       unit = 'd'
     } else {
@@ -206,7 +211,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
       breakLength: availableSinglelineContextColumns,
       colors: opts.color,
       getters: true,
-      depth: 20,
+      depth: 20
     })}`
 
     // todo probably not cheap, calculate instead by running a context columns consumed tally
@@ -224,7 +229,10 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
       contextRendered =
         renderEl(separators.context.singleLine) +
         contextEntriesRendered
-          .map(([key, value]) => `${chalk.gray(key)}${renderEl(separators.contextKeyVal.singleLine)}${value}`)
+          .map(
+            // eslint-disable-next-line
+            ([key, value]) => `${chalk.gray(key)}${renderEl(separators.contextKeyVal.singleLine)}${value!}`
+          )
           .join(separators.contextEntry.singleLine)
     } else {
       const spineRendered = renderEl(separators.contextEntry.multiline(utils.spanSpace(gutterWidth)))
@@ -235,12 +243,14 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
         contextEntriesRendered
           .map(
             ([key, value]) =>
+              // eslint-disable-next-line
               `${chalk.gray(utils.clampSpace(widestKey, key!))}${renderEl(
                 separators.contextKeyVal.multiline
+                // eslint-disable-next-line
               )}${formatBlock(value!, {
                 leftSpineSymbol: spineRendered,
                 excludeFirstLine: true,
-                indent: widestKey + separators.contextKeyVal.multiline.symbol.length,
+                indent: widestKey + separators.contextKeyVal.multiline.symbol.length
               })}`
           )
           .join('\n' + spineRendered)
@@ -278,7 +288,9 @@ function formatBlock(
   }
 ): string {
   const [first, ...rest] = block.split('\n')
+  // eslint-disable-next-line
   if (rest.length === 0) return first!
+  // eslint-disable-next-line
   const linesToProcess = opts.excludeFirstLine === true ? rest : (rest.unshift(first!), rest)
   const prefix =
     typeof opts.leftSpineSymbol === 'string' ? opts.leftSpineSymbol : opts.leftSpineSymbol?.symbol ?? ''
@@ -304,6 +316,6 @@ function createStopWatch() {
       const elapsed = curr - prev
       prev = curr
       return elapsed
-    },
+    }
   }
 }

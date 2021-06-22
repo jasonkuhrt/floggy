@@ -5,12 +5,12 @@
 // either remove them, rewrite them to be agnostic, or find way to run them only
 // in v12 test suite
 
-// shows up in snapshots of json-mode logs
-require('os').hostname = () => 'mock-host'
-
 import * as Logger from '../src'
 import * as RootLogger from '../src/root-logger'
 import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
+
+// shows up in snapshots of json-mode logs
+require('os').hostname = () => 'mock-host'
 
 resetBeforeEachTest(process, 'env')
 resetBeforeEachTest(process.stdout, 'isTTY')

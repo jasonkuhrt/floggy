@@ -32,7 +32,7 @@ describe('pretty', () => {
         enabled: false,
         color: false,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
     })
     // it('controls if logs are rendered pretty or as JSON', () => {
@@ -87,25 +87,25 @@ describe('pretty', () => {
         enabled: true,
         color: true,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
       expect(RootLogger.create({ pretty: { enabled: false } }).settings.pretty).toEqual({
         enabled: false,
         color: true,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
     })
     it('persists across peer field changes', () => {
       const l = RootLogger.create({
-        pretty: { enabled: false, color: false },
+        pretty: { enabled: false, color: false }
       })
       l.settings({ pretty: { enabled: true } })
       expect(l.settings.pretty).toEqual({
         enabled: true,
         color: false,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
     })
   })
@@ -126,7 +126,7 @@ describe('pretty', () => {
     })
     it('controls if label is spelt out or not', () => {
       log.settings({
-        pretty: { enabled: true, levelLabel: true, color: false },
+        pretty: { enabled: true, levelLabel: true, color: false }
       })
       log.fatal('foo')
       log.error('foo')
@@ -155,7 +155,7 @@ describe('pretty', () => {
     })
     it('controls presence of time deltas in gutter', () => {
       log.settings({
-        pretty: { enabled: true, color: false, timeDiff: true },
+        pretty: { enabled: true, color: false, timeDiff: true }
       })
       log.info('a') // prep the next delta, this too unreliable to test
       log.info('b')
@@ -179,7 +179,7 @@ describe('pretty', () => {
         enabled: true,
         color: true,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
     })
 
@@ -188,7 +188,7 @@ describe('pretty', () => {
         enabled: false,
         color: true,
         levelLabel: false,
-        timeDiff: true,
+        timeDiff: true
       })
     })
   })

@@ -43,12 +43,13 @@ export function create(
   const state: State = {
     // Copy as addToContext will mutate it
     pinnedAndParentContext: parentContext ? Lo.cloneDeep(parentContext) : undefined,
-    children: [],
+    children: []
   }
 
   function updateContextAndPropagate(newContext: Context) {
     state.pinnedAndParentContext = newContext
     state.children.forEach((child) => {
+      // eslint-disable-next-line
       child.onNewParentContext(state.pinnedAndParentContext!)
     })
   }
@@ -57,7 +58,7 @@ export function create(
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
       event,
-      level,
+      level
     }
 
     if (path) logRec.path = path
@@ -99,7 +100,7 @@ export function create(
           state.pinnedAndParentContext
         )
       )
-    },
+    }
   }
 
   const logger: Logger = {
@@ -134,12 +135,12 @@ export function create(
       )
       state.children.push(link)
       return child
-    },
+    }
   }
 
   return {
     logger,
-    link,
+    link
   }
 }
 

@@ -8,9 +8,9 @@ const config: InitialOptionsTsJest = {
     'ts-jest': {
       diagnostics: Boolean(process.env.CI),
       babelConfig: false,
-      tsconfig: '<rootDir>/tests/tsconfig.json',
-    },
-  },
+      tsconfig: '<rootDir>/tests/tsconfig.json'
+    }
+  }
 }
 
 export default config
