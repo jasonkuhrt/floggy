@@ -129,11 +129,11 @@ describe('.child', () => {
     const d = c.child('d')
     log.addToContext({ foo: 'bar' })
     d.info('lop')
-    expect(output.memory.json[0].context).toEqual({ foo: 'bar' })
+    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('inherits level from parent', () => {
-    expect(log.settings.filter.patterns[0].level.value).toBe('debug')
+    expect(log.settings.filter.patterns[0]?.level.value).toBe('debug')
     log
       .settings({ filter: { level: 'trace' } })
       .child('tim')
