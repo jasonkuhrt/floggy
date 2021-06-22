@@ -19,7 +19,7 @@ export function createMockOutput(): MockOutput {
     memory: {
       jsonOrRaw: [],
       raw: [],
-      json: [],
+      json: []
     },
 
     captureConsoleLog() {
@@ -38,7 +38,7 @@ export function createMockOutput(): MockOutput {
         }
       }
       output.memory.jsonOrRaw.push(log)
-    },
+    }
   } as MockOutput
 
   return output

@@ -29,7 +29,7 @@
     //   Only enable this for applications.
     //   Packages doing this force their consumers to.
     // for strip-ansi
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["./**/*.spec.ts", "tests"],

@@ -2,7 +2,7 @@ import { chalk } from './chalk'
 import * as Filter from './filter'
 import * as Level from './level'
 import * as Output from './output'
-import { casesHandled, isEmpty, omitUndefinedKeys, parseFromEnvironment } from './utils'
+import { casesHandled, omitUndefinedKeys, parseFromEnvironment } from './utils'
 
 export type Manager = Data & {
   (newSettings: Input): void
@@ -236,13 +236,13 @@ export function processSettingInputData(
   if (!previous) {
     return {
       ...defaultSettingData(),
-      ...omitUndefinedKeys(data),
+      ...omitUndefinedKeys(data)
     }
   }
 
   return {
     ...previous,
-    ...omitUndefinedKeys(data ?? {}),
+    ...omitUndefinedKeys(data ?? {})
   }
 }
 
@@ -251,13 +251,13 @@ function defaultSettingData(): Data['data'] {
     return {
       hostname: true,
       pid: true,
-      time: true,
+      time: true
     }
   } else {
     return {
       hostname: false,
       pid: false,
-      time: false,
+      time: false
     }
   }
 }
@@ -307,22 +307,25 @@ export function processSettingInputPretty(
   casesHandled(pretty)
 }
 
-export function create(opts?: Input) {
+export function create(opts?: Input): Manager {
   const state: Data = {
     pretty: processSettingInputPretty(opts?.pretty, null),
-    filter: isEmpty(opts?.filter) ? defaultFilterSetting() : processSettingInputFilter(opts!.filter!, null),
+    filter:
+      !opts || !opts.filter || opts.filter === '' || Object.keys(opts).length === 0
+        ? defaultFilterSetting()
+        : processSettingInputFilter(opts.filter, null),
     output: opts?.output ?? process.stdout,
-    data: processSettingInputData(opts?.data ?? {}, null),
+    data: processSettingInputData(opts?.data ?? {}, null)
   }
 
   const settings = ((newSettings: Input) => {
     if (newSettings.output) {
-      // @ts-ignore
+      // @ts-expect-error ...
       settings.output = newSettings.output
     }
 
     if ('pretty' in newSettings) {
-      // @ts-ignore
+      // @ts-expect-error ...
       settings.pretty = processSettingInputPretty(newSettings.pretty, settings.pretty)
       // Sync chalk
       // Assume true color support, not doing all that -> https://github.com/chalk/chalk#256-and-truecolor-color-support
@@ -330,13 +333,13 @@ export function create(opts?: Input) {
     }
 
     if ('data' in newSettings) {
-      // @ts-ignore
+      // @ts-expect-error ...
       settings.data = processSettingInputData(newSettings.data, settings.data)
     }
 
-    if (!isEmpty(newSettings.filter)) {
-      // @ts-ignore
-      settings.filter = processSettingInputFilter(newSettings.filter!, settings.filter)
+    if (newSettings.filter && Object.keys(newSettings).length > 0) {
+      // @ts-expect-error ...
+      settings.filter = processSettingInputFilter(newSettings.filter, settings.filter)
     }
   }) as Manager
 
@@ -362,7 +365,7 @@ export function processSettingInputFilter(
   return {
     defaults,
     originalInput: pattern,
-    patterns,
+    patterns
   }
 }
 
@@ -390,8 +393,10 @@ export function defaultFilterSetting(): Data['filter'] {
   }
 
   return {
+    // TODO looks like it actually can be undefined, bug?
+    // eslint-disable-next-line
     originalInput: originalInput!,
     defaults: { level: { value: level, comp: 'gte' } },
-    patterns,
+    patterns
   }
 }

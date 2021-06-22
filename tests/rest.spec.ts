@@ -5,12 +5,12 @@
 // either remove them, rewrite them to be agnostic, or find way to run them only
 // in v12 test suite
 
-// shows up in snapshots of json-mode logs
-require('os').hostname = () => 'mock-host'
-
 import * as Logger from '../src'
 import * as RootLogger from '../src/root-logger'
 import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
+
+// shows up in snapshots of json-mode logs
+require('os').hostname = () => 'mock-host'
 
 resetBeforeEachTest(process, 'env')
 resetBeforeEachTest(process.stdout, 'isTTY')
@@ -29,7 +29,7 @@ beforeEach(() => {
 describe('root logger path', () => {
   it('is not in the log record', () => {
     RootLogger.create({ output }).info('bar')
-    expect('path' in output.memory.json[0]).toBe(false)
+    expect('path' in output.memory.json[0]!).toBe(false)
   })
 })
 
@@ -63,12 +63,12 @@ describe('.<level> log methods', () => {
 
   it('one for each log level', () => {
     log.settings({ filter: { level: 'trace' } })
-    log.fatal('hi')
-    log.error('hi')
-    log.warn('hi')
-    log.info('hi')
-    log.debug('hi')
-    log.trace('hi')
+    log.fatal('hi-fatal')
+    log.error('hi-error')
+    log.warn('hi-warn')
+    log.info('hi-info')
+    log.debug('hi-debug')
+    log.trace('hi-trace')
     expect(output.memory.jsonOrRaw).toMatchSnapshot()
   })
 })
@@ -108,19 +108,19 @@ describe('.child', () => {
 
   it('log output includes path field showing the logger namespacing', () => {
     log.child('b').child('c').child('d').info('foo')
-    expect(output.memory.json[0].path).toEqual(['b', 'c', 'd'])
+    expect(output.memory.json[0]?.path).toEqual(['b', 'c', 'd'])
   })
 
   it('inherits context from parent', () => {
     log.addToContext({ foo: 'bar' }).child('tim').info('hi')
-    expect(output.memory.json[0].context).toEqual({ foo: 'bar' })
+    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context', () => {
     const b = log.child('b')
     log.addToContext({ foo: 'bar' })
     b.info('lop')
-    expect(output.memory.json[0].context).toEqual({ foo: 'bar' })
+    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context even from further up the chain', () => {
@@ -129,11 +129,11 @@ describe('.child', () => {
     const d = c.child('d')
     log.addToContext({ foo: 'bar' })
     d.info('lop')
-    expect(output.memory.json[0].context).toEqual({ foo: 'bar' })
+    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('inherits level from parent', () => {
-    expect(log.settings.filter.patterns[0].level.value).toBe('debug')
+    expect(log.settings.filter.patterns[0]?.level.value).toBe('debug')
     log
       .settings({ filter: { level: 'trace' } })
       .child('tim')
@@ -155,11 +155,11 @@ describe('.child', () => {
   it('is unable to change context of parent', () => {
     log.child('b').addToContext({ foo1: 'bar' })
     log.info('qux1')
-    expect(output.memory.json[0].context).toEqual(undefined)
+    expect(output.memory.json[0]?.context).toEqual(undefined)
     log.addToContext({ toto: 'one' })
     log.child('b').addToContext({ foo2: 'bar' })
     log.info('qux2')
-    expect(output.memory.json[1].context).toEqual({ toto: 'one' })
+    expect(output.memory.json[1]?.context).toEqual({ toto: 'one' })
   })
 
   it('is unable to change context of siblings', () => {

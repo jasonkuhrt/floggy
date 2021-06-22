@@ -9,7 +9,7 @@ function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
     level: 1,
     path: ['foob'],
     ...data,
-    event: 'foo', // do not allow changing b/c headers width below depends on this value
+    event: 'foo' // do not allow changing b/c headers width below depends on this value
   }
 }
 
@@ -23,12 +23,12 @@ let terminalWidth: number
 let terminalContextWidth: number
 
 beforeEach(() => {
-  let logHeadersWidth = ('● root foo' + Prettifier.separators.context.singleLine.symbol).length
+  const logHeadersWidth = ('● root foo' + Prettifier.separators.context.singleLine.symbol).length
   chalk.level = 0 // disable color
   options = {
     color: false, // only disables color of util.inspect
     levelLabel: false,
-    timeDiff: false,
+    timeDiff: false
   }
   rec = makeRec()
   terminalWidth = 100
@@ -39,7 +39,7 @@ beforeEach(() => {
 describe('singleline', () => {
   it('used if context does fit singleline', () => {
     rec.context = createContext({
-      key: { size: terminalContextWidth },
+      key: { size: terminalContextWidth }
     })
     const l = render()
     expect(l).toMatchInlineSnapshot(
@@ -50,7 +50,9 @@ describe('singleline', () => {
   it('used if context does fit singleline (multiple key-values)', () => {
     rec.context = createContext({
       ke1: { size: terminalContextWidth / 2 },
-      ke2: { size: terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length },
+      ke2: {
+        size: terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length
+      }
     })
     const l = render()
     expect(l).toMatchInlineSnapshot(
@@ -67,7 +69,9 @@ describe('singleline', () => {
 
 describe('multiline', () => {
   it('used if context does not fit singleline', () => {
-    rec.context = createContext({ key: { size: terminalContextWidth + 1 /* force multi */ } })
+    rec.context = createContext({
+      key: { size: terminalContextWidth + 1 /* force multi */ }
+    })
     expect(render()).toMatchInlineSnapshot(`
       "— foob foo
         | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
@@ -81,8 +85,8 @@ describe('multiline', () => {
         size:
           terminalContextWidth / 2 -
           Prettifier.separators.contextEntry.singleLine.length +
-          1 /* force multi */,
-      },
+          1 /* force multi */
+      }
     })
     expect(render()).toMatchInlineSnapshot(`
       "— foob foo
@@ -119,7 +123,7 @@ function createContext(spec: Record<string, { size: number }>) {
   return Object.entries(spec).reduce((acc, [k, v]) => {
     return {
       ...acc,
-      [k]: stringSpanKey(k, v.size),
+      [k]: stringSpanKey(k, v.size)
     }
   }, {})
 }
