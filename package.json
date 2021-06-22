@@ -1,20 +1,20 @@
 {
   "name": "floggy",
   "version": "0.0.0",
-  "repository": "git@github.com:graphql-nexus/logger.git",
+  "repository": "git@github.com:jasonkuhrt/floggy.git",
   "author": "Jason Kuhrt",
   "license": "MIT",
   "files": [
-    "dist",
+    "dist-cjs",
     "dist-esm"
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist-cjs/index.js",
       "import": "./dist-esm/index.js"
     }
   },
-  "main": "dist/index.js",
+  "main": "./dist-cjs/index.js",
   "module": "./dist-esm/index.js",
   "scripts": {
     "format": "yarn format:prettier && yarn format:imports",
@@ -29,7 +29,7 @@
     "dev:test": "yarn test --watch",
     "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test": "cross-env FORCE_COLOR=1 jest",
-    "clean": "rm -rf dist* *.tsbuildinfo",
+    "clean": "rm -rf dist-cjs dist-esm *.tsbuildinfo",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",
