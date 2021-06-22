@@ -5,10 +5,5 @@
     "yarn.lock": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": false,
-    "source.fixAll": true,
-    "source.addMissingImports": true
-  }
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
