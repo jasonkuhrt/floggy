@@ -311,10 +311,7 @@ export function create(opts?: Input): Manager {
   const state: Data = {
     pretty: processSettingInputPretty(opts?.pretty, null),
     filter:
-      !opts ||
-      !opts.filter ||
-      (typeof opts.filter === 'string' && opts.filter === '') ||
-      Object.keys(opts).length === 0
+      !opts || !opts.filter || opts.filter === '' || Object.keys(opts).length === 0
         ? defaultFilterSetting()
         : processSettingInputFilter(opts.filter, null),
     output: opts?.output ?? process.stdout,
@@ -340,7 +337,7 @@ export function create(opts?: Input): Manager {
       settings.data = processSettingInputData(newSettings.data, settings.data)
     }
 
-    if (newSettings.filter && !(Object.keys(newSettings).length > 0)) {
+    if (newSettings.filter && Object.keys(newSettings).length > 0) {
       // @ts-expect-error ...
       settings.filter = processSettingInputFilter(newSettings.filter, settings.filter)
     }

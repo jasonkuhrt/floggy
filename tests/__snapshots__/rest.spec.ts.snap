@@ -21,27 +21,27 @@ Array [
 exports[`.<level> log methods one for each log level 1`] = `
 Array [
   Object {
-    "event": "hi",
+    "event": "hi-fatal",
     "level": 6,
   },
   Object {
-    "event": "hi",
+    "event": "hi-error",
     "level": 5,
   },
   Object {
-    "event": "hi",
+    "event": "hi-warn",
     "level": 4,
   },
   Object {
-    "event": "hi",
+    "event": "hi-info",
     "level": 3,
   },
   Object {
-    "event": "hi",
+    "event": "hi-debug",
     "level": 2,
   },
   Object {
-    "event": "hi",
+    "event": "hi-trace",
     "level": 1,
   },
 ]
