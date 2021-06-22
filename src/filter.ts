@@ -9,7 +9,8 @@ import { casesHandled, ContextualError, createContextualError, getLeft, rightOrT
 // const validPattern = '...'
 
 // https://regex101.com/r/6g6BHc/9
-const validTargetRegex = /^((?:[A-z_]+[A-z_0-9]*)+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
+const validTargetRegex =
+  /^((?:[A-z_]+[A-z_0-9]*)+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
 const symbols = {
   negate: '!',
