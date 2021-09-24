@@ -3,7 +3,6 @@ import * as OS from 'os'
 import { validPathSegmentNameRegex } from './data'
 import * as Filter from './filter'
 import { LEVELS, Name, Num } from './level'
-import * as Prettifier from './prettifier'
 import * as RootLogger from './root-logger'
 
 type Context = Record<string, unknown>
@@ -82,10 +81,7 @@ export function create(
       if (rootState.settings?.data.time) {
         logRec.time = Date.now()
       }
-      const logMsg = rootState.settings.pretty.enabled
-        ? Prettifier.render(rootState.settings.pretty, logRec)
-        : JSON.stringify(logRec)
-      rootState.settings.output.write(logMsg + OS.EOL)
+      rootState.settings.output.write(logRec, rootState.settings)
     }
   }
 

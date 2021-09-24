@@ -1,22 +1,22 @@
 import * as Logger from '../src'
 import * as RootLogger from '../src/root-logger'
 import {
-  createMockOutput,
+  createMemoryOutput,
+  MemoryOutput,
   mockConsoleLog,
-  MockOutput,
   resetBeforeEachTest,
   unmockConsoleLog
 } from './__helpers'
 
-let log: Logger.RootLogger
-let output: MockOutput
+let l: Logger.RootLogger
+let output: MemoryOutput
 
 resetBeforeEachTest(process, 'env')
 
 beforeEach(() => {
   process.env.LOG_PRETTY = 'false'
-  output = createMockOutput()
-  log = RootLogger.create({ output, pretty: { timeDiff: false } })
+  output = createMemoryOutput()
+  l = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
 })
 
@@ -40,7 +40,7 @@ describe('pretty', () => {
     //   output.captureConsoleLog()
     //   log.info('foo')
     //   Logger.demo(log)
-    //   expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    //   expect(output.memoryOrRaw).toMatchSnapshot()
     // })
     describe('precedence', () => {
       it('considers instnace time config first', () => {
@@ -72,10 +72,10 @@ describe('pretty', () => {
   })
 
   describe('.color', () => {
-    it('controls if pretty logs have color or not', () => {
-      log.settings({ pretty: { enabled: true, color: false } })
-      log.info('foo', { qux: true })
-      expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    it('can be enabled', () => {
+      l.settings({ pretty: { enabled: true, color: true } })
+      l.info('foo', { qux: true })
+      expect(l.settings.pretty.color).toEqual(true)
     })
     it('can be disabled', () => {
       expect(RootLogger.create({ pretty: { enabled: false, color: false } }).settings.pretty.color).toEqual(
@@ -125,16 +125,10 @@ describe('pretty', () => {
       expect(l.settings.pretty.levelLabel).toBe(true)
     })
     it('controls if label is spelt out or not', () => {
-      log.settings({
+      l.settings({
         pretty: { enabled: true, levelLabel: true, color: false }
       })
-      log.fatal('foo')
-      log.error('foo')
-      log.warn('foo')
-      log.info('foo')
-      log.debug('foo')
-      log.trace('foo')
-      expect(output.memory.jsonOrRaw).toMatchSnapshot()
+      expect(l.settings.pretty.levelLabel).toEqual(true)
     })
   })
   describe('.timeDiff', () => {
@@ -153,16 +147,11 @@ describe('pretty', () => {
       l.settings({ pretty: false })
       expect(l.settings.pretty.timeDiff).toBe(false)
     })
-    it('controls presence of time deltas in gutter', () => {
-      log.settings({
+    it('can be enabled', () => {
+      l.settings({
         pretty: { enabled: true, color: false, timeDiff: true }
       })
-      log.info('a') // prep the next delta, this too unreliable to test
-      log.info('b')
-      log.info('c')
-      const pattern = /^  (?:\d| )\d.*/ // non-deterministic timing here, allow for 1-2 digit ms timings
-      expect(output.memory.jsonOrRaw[1]).toMatch(pattern)
-      expect(output.memory.jsonOrRaw[2]).toMatch(pattern)
+      expect(l.settings.pretty.timeDiff).toBe(true)
     })
     // todo these tests as unit level to some pure logic functions would be
     // easy... e.g. prettifier.spec.ts ... But then we run the risk of sliding
@@ -278,8 +267,8 @@ describe('level', () => {
   })
 
   it('logs below set level are not output', () => {
-    log.settings({ filter: { level: 'warn' } }).info('foo')
-    expect(output.memory.jsonOrRaw).toEqual([])
+    l.settings({ filter: { level: 'warn' } }).info('foo')
+    expect(output.memory).toEqual([])
   })
 
   it('LOG_LEVEL env var config is treated case insensitive', () => {

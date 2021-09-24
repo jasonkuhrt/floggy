@@ -1,9 +1,9 @@
 import stripAnsi from 'strip-ansi'
 import * as util from 'util'
-import { chalk, Chalk } from './chalk'
-import * as Level from './level'
-import * as Logger from './logger'
-import * as utils from './utils'
+import { chalk, Chalk } from '../chalk'
+import * as Level from '../level'
+import * as Logger from '../logger'
+import * as utils from '../utils'
 
 const stopWatch = createStopWatch()
 

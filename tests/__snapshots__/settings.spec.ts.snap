@@ -164,25 +164,3 @@ Object {
   ],
 }
 `;
-
-exports[`pretty .color controls if pretty logs have color or not 1`] = `
-Array [
-  "● foo  --  qux: true
-",
-]
-`;
-
-exports[`pretty .levelLabel controls if label is spelt out or not 1`] = `
-Array [
-  "✕ fatal foo
-",
-  "■ error foo
-",
-  "▲ warn  foo
-",
-  "● info  foo
-",
-  "○ debug foo
-",
-]
-`;

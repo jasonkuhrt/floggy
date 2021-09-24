@@ -7,7 +7,7 @@
 
 import * as Logger from '../src'
 import * as RootLogger from '../src/root-logger'
-import { createMockOutput, MockOutput, resetBeforeEachTest } from './__helpers'
+import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers'
 
 // shows up in snapshots of json-mode logs
 require('os').hostname = () => 'mock-host'
@@ -17,11 +17,11 @@ resetBeforeEachTest(process.stdout, 'isTTY')
 resetBeforeEachTest(console, 'log')
 
 let log: Logger.RootLogger
-let output: MockOutput
+let output: MemoryOutput
 
 beforeEach(() => {
   process.env.LOG_PRETTY = 'false'
-  output = createMockOutput()
+  output = createMemoryOutput()
   log = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
 })
@@ -29,7 +29,7 @@ beforeEach(() => {
 describe('root logger path', () => {
   it('is not in the log record', () => {
     RootLogger.create({ output }).info('bar')
-    expect('path' in output.memory.json[0]!).toBe(false)
+    expect('path' in output.memory[0]!).toBe(false)
   })
 })
 
@@ -39,18 +39,21 @@ describe('demo', () => {
   //   output.captureConsoleLog()
   //   log.settings({ pretty: { color: false } })
   //   Logger.demo(log)
-  //   expect(output.memory.jsonOrRaw).toMatchSnapshot()
+  //   expect(output.memoryOrRaw).toMatchSnapshot()
   // })
   it.todo('runs automatically when LOG_DEMO=true')
 })
 
 describe('output', () => {
   it('defaults to stdout for all levels', () => {
-    const write = process.stdout.write
-    ;(process.stdout.write as any) = output.write
-    RootLogger.create({ pretty: false }).fatal('foo')
-    process.stdout.write = write
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    const logger = RootLogger.create({ pretty: false })
+    const writes: string[] = []
+    const p = process as any
+    const w = p.stdout.write
+    p.stdout.write = (m: string) => writes.push(JSON.parse(m))
+    logger.fatal('foo')
+    p.stdout.write = w
+    expect(writes).toMatchSnapshot()
   })
 })
 
@@ -58,7 +61,7 @@ describe('.<level> log methods', () => {
   it('accept an event name and optional context', () => {
     log.info('hi', { user: { id: 1 } })
     log.info('bye')
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('one for each log level', () => {
@@ -69,7 +72,7 @@ describe('.<level> log methods', () => {
     log.info('hi-info')
     log.debug('hi-debug')
     log.trace('hi-trace')
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 })
 
@@ -77,50 +80,50 @@ describe('.addToContext', () => {
   it('pins context for all subsequent logs from the logger', () => {
     log.addToContext({ user: { id: 1 } })
     log.info('hi')
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('can be called multiple times, merging deeply', () => {
     log.addToContext({ user: { id: 1 } })
     log.addToContext({ user: { name: 'Jill' } })
     log.info('hi')
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('gets deeply merged with local context', () => {
     log.addToContext({ user: { id: 1 } })
     log.info('hi', { user: { name: 'Jill' } })
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('local context takes prescedence over pinned context', () => {
     log.addToContext({ user: { id: 1 } })
     log.info('hi', { user: { id: 2 } })
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 })
 
 describe('.child', () => {
   it('creates a sub logger', () => {
     log.child('tim').info('hi')
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('log output includes path field showing the logger namespacing', () => {
     log.child('b').child('c').child('d').info('foo')
-    expect(output.memory.json[0]?.path).toEqual(['b', 'c', 'd'])
+    expect(output.memory[0]?.path).toEqual(['b', 'c', 'd'])
   })
 
   it('inherits context from parent', () => {
     log.addToContext({ foo: 'bar' }).child('tim').info('hi')
-    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context', () => {
     const b = log.child('b')
     log.addToContext({ foo: 'bar' })
     b.info('lop')
-    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context even from further up the chain', () => {
@@ -129,7 +132,7 @@ describe('.child', () => {
     const d = c.child('d')
     log.addToContext({ foo: 'bar' })
     d.info('lop')
-    expect(output.memory.json[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
   })
 
   it('inherits level from parent', () => {
@@ -140,7 +143,7 @@ describe('.child', () => {
       .trace('hi')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('reacts to level changes in root logger', () => {
@@ -149,17 +152,17 @@ describe('.child', () => {
     b.trace('foo')
     // The fact that we get output for trace log from child means it honored the
     // setLevel.
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('is unable to change context of parent', () => {
     log.child('b').addToContext({ foo1: 'bar' })
     log.info('qux1')
-    expect(output.memory.json[0]?.context).toEqual(undefined)
+    expect(output.memory[0]?.context).toEqual(undefined)
     log.addToContext({ toto: 'one' })
     log.child('b').addToContext({ foo2: 'bar' })
     log.info('qux2')
-    expect(output.memory.json[1]?.context).toEqual({ toto: 'one' })
+    expect(output.memory[1]?.context).toEqual({ toto: 'one' })
   })
 
   it('is unable to change context of siblings', () => {
@@ -171,7 +174,7 @@ describe('.child', () => {
     b2.info('foo')
     b3.info('foo')
     // All should inherit the root context
-    expect(output.memory.jsonOrRaw).toMatchSnapshot()
+    expect(output.memory).toMatchSnapshot()
   })
 
   it('cannot affect level', () => {
@@ -181,7 +184,7 @@ describe('.child', () => {
 
 describe('filtering', () => {
   it('allows logs to be suppressed from outpub', () => {
-    const output = createMockOutput()
+    const output = createMemoryOutput()
     const log = RootLogger.create({ filter: { pattern: 'foo:bar' }, output })
     const foo = log.child('foo')
     const foobar = foo.child('bar')
@@ -189,10 +192,16 @@ describe('filtering', () => {
     foobar.info('boop')
     log.settings({ filter: { pattern: 'qux' } })
     foobar.info('berp') // should be filtered out
-    expect(output.memory.raw).toMatchInlineSnapshot(`
+    expect(output.memory).toMatchInlineSnapshot(`
       Array [
-        "{\\"event\\":\\"boop\\",\\"level\\":3,\\"path\\":[\\"foo\\",\\"bar\\"]}
-      ",
+        Object {
+          "event": "boop",
+          "level": 3,
+          "path": Array [
+            "foo",
+            "bar",
+          ],
+        },
       ]
     `)
   })

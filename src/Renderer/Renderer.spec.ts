@@ -1,8 +1,8 @@
 import * as OS from 'os'
-import { chalk } from './chalk'
-import { LogRecord } from './logger'
-import * as Prettifier from './prettifier'
-import { spanChar } from './utils'
+import { chalk } from '../chalk'
+import { LogRecord } from '../logger'
+import { spanChar } from '../utils'
+import { Renderer } from './'
 
 function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
   return {
@@ -14,16 +14,16 @@ function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
 }
 
 function render(): string {
-  return Prettifier.render(options, rec)
+  return Renderer.render(options, rec)
 }
 
-let options: Prettifier.Options
+let options: Renderer.Options
 let rec: LogRecord
 let terminalWidth: number
 let terminalContextWidth: number
 
 beforeEach(() => {
-  const logHeadersWidth = ('● root foo' + Prettifier.separators.context.singleLine.symbol).length
+  const logHeadersWidth = ('● root foo' + Renderer.separators.context.singleLine.symbol).length
   chalk.level = 0 // disable color
   options = {
     color: false, // only disables color of util.inspect
@@ -51,7 +51,7 @@ describe('singleline', () => {
     rec.context = createContext({
       ke1: { size: terminalContextWidth / 2 },
       ke2: {
-        size: terminalContextWidth / 2 - Prettifier.separators.contextEntry.singleLine.length
+        size: terminalContextWidth / 2 - Renderer.separators.contextEntry.singleLine.length
       }
     })
     const l = render()
@@ -63,7 +63,7 @@ describe('singleline', () => {
   // it('objects are formatted by util.inspect compact: yes', () => {
   //   if (!process.version.match(/^v12/)) return
   //   log.info('foo', { ke1: { a: { b: { c: true } } } })
-  //   expect(output.memory.jsonOrRaw).toMatchSnapshot()
+  //   expect(output.memoryOrRaw).toMatchSnapshot()
   // })
 })
 
@@ -83,9 +83,7 @@ describe('multiline', () => {
       ke1: { size: terminalContextWidth / 2 },
       ke2: {
         size:
-          terminalContextWidth / 2 -
-          Prettifier.separators.contextEntry.singleLine.length +
-          1 /* force multi */
+          terminalContextWidth / 2 - Renderer.separators.contextEntry.singleLine.length + 1 /* force multi */
       }
     })
     expect(render()).toMatchInlineSnapshot(`
@@ -107,7 +105,7 @@ describe('multiline', () => {
   //       },
   //     },
   //   })
-  //   expect(output.memory.jsonOrRaw).toMatchSnapshot()
+  //   expect(output.memoryOrRaw).toMatchSnapshot()
   // })
 })
 
@@ -129,7 +127,7 @@ function createContext(spec: Record<string, { size: number }>) {
 }
 
 function stringSpanKey(keyName: string, size: number): string {
-  const KeyWidth = keyName.length + Prettifier.separators.contextKeyVal.singleLine.symbol.length
+  const KeyWidth = keyName.length + Renderer.separators.contextKeyVal.singleLine.symbol.length
   return stringSpan(size - KeyWidth)
 }
 
