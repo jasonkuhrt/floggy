@@ -1,5 +1,5 @@
 import * as Os from 'os'
-import { SettingsData } from '.'
+import { SettingsData } from './'
 import { LogRecord } from './logger'
 import { Renderer } from './Renderer'
 

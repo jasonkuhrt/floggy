@@ -1,8 +1,8 @@
 import * as OS from 'os'
-import { Renderer } from '.'
 import { chalk } from '../chalk'
 import { LogRecord } from '../logger'
 import { spanChar } from '../utils'
+import { Renderer } from './'
 
 function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
   return {
