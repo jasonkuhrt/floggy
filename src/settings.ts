@@ -314,7 +314,7 @@ export function create(opts?: Input): Manager {
       !opts || !opts.filter || opts.filter === '' || Object.keys(opts).length === 0
         ? defaultFilterSetting()
         : processSettingInputFilter(opts.filter, null),
-    output: opts?.output ?? process.stdout,
+    output: opts?.output ?? Output.defaultOutput,
     data: processSettingInputData(opts?.data ?? {}, null)
   }
 
