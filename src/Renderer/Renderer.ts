@@ -1,3 +1,4 @@
+import * as Os from 'os'
 import stripAnsi from 'strip-ansi'
 import * as util from 'util'
 import { chalk, Chalk } from '../chalk'
@@ -261,7 +262,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // put it together
   //
 
-  return `${gutterRendered}${preContextRendered}${contextRendered}`
+  return `${gutterRendered}${preContextRendered}${contextRendered}${Os.EOL}`
 }
 
 type El = {

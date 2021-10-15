@@ -42,9 +42,10 @@ describe('singleline', () => {
       key: { size: terminalContextWidth }
     })
     const l = render()
-    expect(l).toMatchInlineSnapshot(
-      `"— foob foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
-    )
+    expect(l).toMatchInlineSnapshot(`
+"— foob foo  --  key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+"
+`)
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
   it('used if context does fit singleline (multiple key-values)', () => {
@@ -55,9 +56,10 @@ describe('singleline', () => {
       }
     })
     const l = render()
-    expect(l).toMatchInlineSnapshot(
-      `"— foob foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"`
-    )
+    expect(l).toMatchInlineSnapshot(`
+"— foob foo  --  ke1: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'  ke2: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+"
+`)
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
   // it('objects are formatted by util.inspect compact: yes', () => {
@@ -73,9 +75,10 @@ describe('multiline', () => {
       key: { size: terminalContextWidth + 1 /* force multi */ }
     })
     expect(render()).toMatchInlineSnapshot(`
-      "— foob foo
-        | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
-    `)
+"— foob foo
+  | key  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+"
+`)
   })
 
   it('used if context does fit singleline (multiple key-values)', () => {
@@ -87,10 +90,11 @@ describe('multiline', () => {
       }
     })
     expect(render()).toMatchInlineSnapshot(`
-      "— foob foo
-        | ke1  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-        | ke2  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'"
-    `)
+"— foob foo
+  | ke1  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  | ke2  'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+"
+`)
   })
 
   // it('objects are formatted by util.inspect compact: yes', () => {
