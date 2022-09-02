@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`.<level> log methods accept an event name and optional context 1`] = `
-Array [
-  Object {
-    "context": Object {
-      "user": Object {
+[
+  {
+    "context": {
+      "user": {
         "id": 1,
       },
     },
     "event": "hi",
     "level": 3,
   },
-  Object {
+  {
     "event": "bye",
     "level": 3,
   },
@@ -19,28 +19,28 @@ Array [
 `;
 
 exports[`.<level> log methods one for each log level 1`] = `
-Array [
-  Object {
+[
+  {
     "event": "hi-fatal",
     "level": 6,
   },
-  Object {
+  {
     "event": "hi-error",
     "level": 5,
   },
-  Object {
+  {
     "event": "hi-warn",
     "level": 4,
   },
-  Object {
+  {
     "event": "hi-info",
     "level": 3,
   },
-  Object {
+  {
     "event": "hi-debug",
     "level": 2,
   },
-  Object {
+  {
     "event": "hi-trace",
     "level": 1,
   },
@@ -48,10 +48,10 @@ Array [
 `;
 
 exports[`.addToContext can be called multiple times, merging deeply 1`] = `
-Array [
-  Object {
-    "context": Object {
-      "user": Object {
+[
+  {
+    "context": {
+      "user": {
         "id": 1,
         "name": "Jill",
       },
@@ -63,10 +63,10 @@ Array [
 `;
 
 exports[`.addToContext gets deeply merged with local context 1`] = `
-Array [
-  Object {
-    "context": Object {
-      "user": Object {
+[
+  {
+    "context": {
+      "user": {
         "id": 1,
         "name": "Jill",
       },
@@ -78,10 +78,10 @@ Array [
 `;
 
 exports[`.addToContext local context takes prescedence over pinned context 1`] = `
-Array [
-  Object {
-    "context": Object {
-      "user": Object {
+[
+  {
+    "context": {
+      "user": {
         "id": 2,
       },
     },
@@ -92,10 +92,10 @@ Array [
 `;
 
 exports[`.addToContext pins context for all subsequent logs from the logger 1`] = `
-Array [
-  Object {
-    "context": Object {
-      "user": Object {
+[
+  {
+    "context": {
+      "user": {
         "id": 1,
       },
     },
@@ -106,11 +106,11 @@ Array [
 `;
 
 exports[`.child creates a sub logger 1`] = `
-Array [
-  Object {
+[
+  {
     "event": "hi",
     "level": 3,
-    "path": Array [
+    "path": [
       "tim",
     ],
   },
@@ -118,11 +118,11 @@ Array [
 `;
 
 exports[`.child inherits level from parent 1`] = `
-Array [
-  Object {
+[
+  {
     "event": "hi",
     "level": 1,
-    "path": Array [
+    "path": [
       "tim",
     ],
   },
@@ -130,37 +130,37 @@ Array [
 `;
 
 exports[`.child is unable to change context of siblings 1`] = `
-Array [
-  Object {
-    "context": Object {
+[
+  {
+    "context": {
       "foo": "bar",
       "from": "b1",
     },
     "event": "foo",
     "level": 3,
-    "path": Array [
+    "path": [
       "b1",
     ],
   },
-  Object {
-    "context": Object {
+  {
+    "context": {
       "foo": "bar",
       "from": "b2",
     },
     "event": "foo",
     "level": 3,
-    "path": Array [
+    "path": [
       "b2",
     ],
   },
-  Object {
-    "context": Object {
+  {
+    "context": {
       "foo": "bar",
       "from": "b3",
     },
     "event": "foo",
     "level": 3,
-    "path": Array [
+    "path": [
       "b3",
     ],
   },
@@ -168,11 +168,11 @@ Array [
 `;
 
 exports[`.child reacts to level changes in root logger 1`] = `
-Array [
-  Object {
+[
+  {
     "event": "foo",
     "level": 1,
-    "path": Array [
+    "path": [
       "b",
     ],
   },
@@ -180,8 +180,8 @@ Array [
 `;
 
 exports[`output defaults to stdout for all levels 1`] = `
-Array [
-  Object {
+[
+  {
     "event": "foo",
     "level": 6,
   },

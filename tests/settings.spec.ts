@@ -289,7 +289,7 @@ describe('level', () => {
 describe('data', () => {
   it('all defaults to false if process.NODE_ENV is not production', () => {
     expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": false,
@@ -297,7 +297,7 @@ describe('data', () => {
     `)
     process.env.NODE_ENV = 'not production'
     expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": false,
@@ -306,7 +306,7 @@ describe('data', () => {
 
     process.env.NODE_ENV = 'production'
     expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": true,
         "pid": true,
         "time": true,
@@ -316,7 +316,7 @@ describe('data', () => {
 
   it('merges initial setting with defaults', () => {
     expect(RootLogger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": true,
@@ -324,7 +324,7 @@ describe('data', () => {
     `)
     process.env.NODE_ENV = 'not production'
     expect(RootLogger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": true,
@@ -332,7 +332,7 @@ describe('data', () => {
     `)
     process.env.NODE_ENV = 'production'
     expect(RootLogger.create({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": true,
         "pid": true,
         "time": false,
@@ -342,7 +342,7 @@ describe('data', () => {
 
   it('merges incremental changes with previous state', () => {
     expect(RootLogger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": true,
@@ -350,7 +350,7 @@ describe('data', () => {
     `)
     process.env.NODE_ENV = 'not production'
     expect(RootLogger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": false,
         "pid": false,
         "time": true,
@@ -358,7 +358,7 @@ describe('data', () => {
     `)
     process.env.NODE_ENV = 'production'
     expect(RootLogger.create().settings({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
-      Object {
+      {
         "hostname": true,
         "pid": true,
         "time": false,
