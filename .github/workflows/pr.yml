@@ -12,8 +12,8 @@ jobs:
         with:
           node-version: 16.x
       - name: Install Dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn -s format:check:imports
+        run: pnpm install --frozen-lockfile
+      - run: pnpm format:check:imports
 
   prettier:
     runs-on: ubuntu-latest
@@ -23,8 +23,8 @@ jobs:
         with:
           node-version: 16.x
       - name: Install Dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn -s format:check:prettier
+        run: pnpm install --frozen-lockfile
+      - run: pnpm format:check:prettier
 
   eslint:
     runs-on: ubuntu-latest
@@ -34,8 +34,8 @@ jobs:
         with:
           node-version: 16.x
       - name: Install Dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn -s lint:check
+        run: pnpm install --frozen-lockfile
+      - run: pnpm lint:check
 
   test:
     strategy:
@@ -49,6 +49,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn --frozen-lockfile
-      - run: yarn -s build
-      - run: yarn -s test
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test

@@ -18,9 +18,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: yarn --frozen-lockfile
-      - run: yarn -s build
-      - run: yarn -s test
+        run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
 
   release-canary:
     needs: [test]
@@ -33,11 +33,11 @@ jobs:
         with:
           node-version: 16.x
       - name: Install Dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Release Canary
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          yarn -s dripip preview --json > result.json
+          pnpm dripip preview --json > result.json
           jq '.' < result.json

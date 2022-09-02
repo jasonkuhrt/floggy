@@ -17,23 +17,23 @@
   "main": "./dist-cjs/index.js",
   "module": "./dist-esm/index.js",
   "scripts": {
-    "format": "yarn format:prettier && yarn format:imports",
+    "format": "pnpm format:prettier && pnpm format:imports",
     "format:prettier": "prettier --write .",
     "format:imports": "format-imports src && format-imports tests",
-    "format:check": "yarn -s format:check:imports && yarn -s format:check:prettier",
+    "format:check": "pnpm format:check:imports && pnpm format:check:prettier",
     "format:check:imports": "format-imports --check src tests",
     "format:check:prettier": "prettier --check .",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "lint:check": "eslint . --ext .ts,.tsx --max-warnings 0",
-    "dev": "yarn clean && tsc -w -p tsconfig.cjs.json",
-    "dev:test": "yarn test --watch",
+    "dev": "pnpm clean && tsc -w -p tsconfig.cjs.json",
+    "dev:test": "pnpm test --watch",
     "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test": "cross-env FORCE_COLOR=1 jest",
     "clean": "rm -rf dist-cjs dist-esm *.tsbuildinfo",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
     "@prisma-labs/prettier-config": "0.1.0",
