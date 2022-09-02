@@ -1,4 +1,4 @@
-import * as OS from 'os'
+import * as OS from 'node:os'
 import { chalk } from '../chalk'
 import { LogRecord } from '../logger'
 import { spanChar } from '../utils'

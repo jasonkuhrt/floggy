@@ -1,4 +1,4 @@
-import * as Os from 'os'
+import * as Os from 'node:os'
 import stripAnsi from 'strip-ansi'
 import * as util from 'util'
 import { chalk, Chalk } from '../chalk'
