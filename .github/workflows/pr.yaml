@@ -9,21 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-  format-imports:
+  format:
     needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup
-      - run: pnpm format:check:imports
-  prettier:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup
-      - run: pnpm format:check:prettier
-  eslint:
+      - run: pnpm format:check
+  lint:
     needs: setup
     runs-on: ubuntu-latest
     steps:
