@@ -70,7 +70,6 @@
     "typescript-snapshots-plugin": "1.7.0"
   },
   "dependencies": {
-    "fp-ts": "^2.11.3",
     "kleur": "^4.1.4",
     "lodash": "^4.17.21",
     "strip-ansi": "6",

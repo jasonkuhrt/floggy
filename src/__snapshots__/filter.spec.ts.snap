@@ -3,18 +3,15 @@
 exports[`parse !a 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": true,
-      "originalInput": "!a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": true,
+    "originalInput": "!a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
@@ -23,20 +20,17 @@ exports[`parse !a 1`] = `
 exports[`parse * 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -45,20 +39,17 @@ exports[`parse * 1`] = `
 exports[`parse *@* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "*",
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*@*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -67,20 +58,17 @@ exports[`parse *@* 1`] = `
 exports[`parse *@1 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "trace",
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*@1",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -89,18 +77,15 @@ exports[`parse *@1 1`] = `
 exports[`parse , ,  a, 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
@@ -109,33 +94,27 @@ exports[`parse , ,  a, 1`] = `
 exports[`parse ,,a,b 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "b",
-      "path": {
-        "descendants": false,
-        "value": ".:b",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "b",
+    "path": {
+      "descendants": false,
+      "value": ".:b",
     },
   },
 ]
@@ -144,18 +123,15 @@ exports[`parse ,,a,b 1`] = `
 exports[`parse . 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": ".",
-      "path": {
-        "descendants": false,
-        "value": ".",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".",
+    "path": {
+      "descendants": false,
+      "value": ".",
     },
   },
 ]
@@ -164,20 +140,17 @@ exports[`parse . 1`] = `
 exports[`parse .:* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -186,20 +159,17 @@ exports[`parse .:* 1`] = `
 exports[`parse .:*@1 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "trace",
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:*@1",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -208,20 +178,17 @@ exports[`parse .:*@1 1`] = `
 exports[`parse .::* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".::*",
+    "path": {
+      "descendants": {
+        "includeParent": false,
       },
-      "negate": false,
-      "originalInput": ".::*",
-      "path": {
-        "descendants": {
-          "includeParent": false,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
@@ -230,18 +197,15 @@ exports[`parse .::* 1`] = `
 exports[`parse .:a 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": ".:a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
@@ -250,20 +214,17 @@ exports[`parse .:a 1`] = `
 exports[`parse .:a:* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:a:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:a:*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:a",
-      },
+      "value": ".:a",
     },
   },
 ]
@@ -272,18 +233,15 @@ exports[`parse .:a:* 1`] = `
 exports[`parse .@* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "*",
-      },
-      "negate": false,
-      "originalInput": ".@*",
-      "path": {
-        "descendants": false,
-        "value": ".",
-      },
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": ".@*",
+    "path": {
+      "descendants": false,
+      "value": ".",
     },
   },
 ]
@@ -292,18 +250,15 @@ exports[`parse .@* 1`] = `
 exports[`parse a 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
@@ -312,33 +267,27 @@ exports[`parse a 1`] = `
 exports[`parse a,b 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": {
-        "descendants": false,
-        "value": ".:a",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "b",
-      "path": {
-        "descendants": false,
-        "value": ".:b",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "b",
+    "path": {
+      "descendants": false,
+      "value": ".:b",
     },
   },
 ]
@@ -347,18 +296,15 @@ exports[`parse a,b 1`] = `
 exports[`parse a:b 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a:b",
-      "path": {
-        "descendants": false,
-        "value": ".:a:b",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b",
+    "path": {
+      "descendants": false,
+      "value": ".:a:b",
     },
   },
 ]
@@ -367,20 +313,17 @@ exports[`parse a:b 1`] = `
 exports[`parse a:b:* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "a:b:*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:a:b",
-      },
+      "value": ".:a:b",
     },
   },
 ]
@@ -389,20 +332,17 @@ exports[`parse a:b:* 1`] = `
 exports[`parse a:b:*@info 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "trace",
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b:*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "a:b:*@1",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:a:b",
-      },
+      "value": ".:a:b",
     },
   },
 ]
@@ -411,20 +351,17 @@ exports[`parse a:b:*@info 1`] = `
 exports[`parse app:* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
@@ -433,20 +370,17 @@ exports[`parse app:* 1`] = `
 exports[`parse app:*@* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "*",
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app:*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*@*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
@@ -455,20 +389,17 @@ exports[`parse app:*@* 1`] = `
 exports[`parse app:*@1 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "*",
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app:*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*@*",
-      "path": {
-        "descendants": {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
@@ -477,20 +408,17 @@ exports[`parse app:*@1 1`] = `
 exports[`parse app::* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app::*",
+    "path": {
+      "descendants": {
+        "includeParent": false,
       },
-      "negate": false,
-      "originalInput": "app::*",
-      "path": {
-        "descendants": {
-          "includeParent": false,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
@@ -499,18 +427,15 @@ exports[`parse app::* 1`] = `
 exports[`parse app@* 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "eq",
-        "value": "*",
-      },
-      "negate": false,
-      "originalInput": "app@*",
-      "path": {
-        "descendants": false,
-        "value": ".:app",
-      },
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app@*",
+    "path": {
+      "descendants": false,
+      "value": ".:app",
     },
   },
 ]
@@ -519,18 +444,15 @@ exports[`parse app@* 1`] = `
 exports[`parse app1 1`] = `
 [
   {
-    "_tag": "Right",
-    "right": {
-      "level": {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "app1",
-      "path": {
-        "descendants": false,
-        "value": ".:app1",
-      },
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app1",
+    "path": {
+      "descendants": false,
+      "value": ".:app1",
     },
   },
 ]
@@ -538,181 +460,121 @@ exports[`parse app1 1`] = `
 
 exports[`parse syntax errors ! 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "!"],
-  },
+  [Error: Invalid filter pattern: "!"],
 ]
 `;
 
 exports[`parse syntax errors ** 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "**"],
-  },
+  [Error: Invalid filter pattern: "**"],
 ]
 `;
 
 exports[`parse syntax errors *+ 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*+"],
-  },
+  [Error: Invalid filter pattern: "*+"],
 ]
 `;
 
 exports[`parse syntax errors *a 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*a"],
-  },
+  [Error: Invalid filter pattern: "*a"],
 ]
 `;
 
 exports[`parse syntax errors , 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ",. There must be at least one pattern present."],
-  },
+  [Error: Invalid filter pattern: ",. There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors .. 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ".."],
-  },
+  [Error: Invalid filter pattern: ".."],
 ]
 `;
 
 exports[`parse syntax errors .a. 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ".a."],
-  },
+  [Error: Invalid filter pattern: ".a."],
 ]
 `;
 
 exports[`parse syntax errors <empty> 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ". There must be at least one pattern present."],
-  },
+  [Error: Invalid filter pattern: ". There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors <whitespace> 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: " . There must be at least one pattern present."],
-  },
+  [Error: Invalid filter pattern: " . There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors @ 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "@"],
-  },
+  [Error: Invalid filter pattern: "@"],
 ]
 `;
 
 exports[`parse syntax errors @1 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "@1"],
-  },
+  [Error: Invalid filter pattern: "@1"],
 ]
 `;
 
 exports[`parse syntax errors a! 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a!"],
-  },
+  [Error: Invalid filter pattern: "a!"],
 ]
 `;
 
 exports[`parse syntax errors a+ 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a+"],
-  },
+  [Error: Invalid filter pattern: "a+"],
 ]
 `;
 
 exports[`parse syntax errors a. 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a."],
-  },
+  [Error: Invalid filter pattern: "a."],
 ]
 `;
 
 exports[`parse syntax errors a:@1 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a:@1"],
-  },
+  [Error: Invalid filter pattern: "a:@1"],
 ]
 `;
 
 exports[`parse syntax errors a@ 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@"],
-  },
+  [Error: Invalid filter pattern: "a@"],
 ]
 `;
 
 exports[`parse syntax errors a@*! 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*!"],
-  },
+  [Error: Invalid filter pattern: "a@*!"],
 ]
 `;
 
 exports[`parse syntax errors a@*+ 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*+"],
-  },
+  [Error: Invalid filter pattern: "a@*+"],
 ]
 `;
 
 exports[`parse syntax errors a@*- 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*-"],
-  },
+  [Error: Invalid filter pattern: "a@*-"],
 ]
 `;
 
 exports[`parse syntax errors a@+* 1`] = `
 [
-  {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@+*"],
-  },
+  [Error: Invalid filter pattern: "a@+*"],
 ]
 `;
 

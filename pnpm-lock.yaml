@@ -17,7 +17,6 @@ specifiers:
   eslint-config-prettier: 8.3.0
   eslint-plugin-only-warn: 1.0.3
   format-imports: 2.4.1
-  fp-ts: ^2.11.3
   jest: 29.0.1
   jest-watch-select-projects: ^2.0.0
   jest-watch-suspend: 1.1.2
@@ -34,7 +33,6 @@ specifiers:
   typescript-snapshots-plugin: 1.7.0
 
 dependencies:
-  fp-ts: 2.11.3
   kleur: 4.1.4
   lodash: 4.17.21
   strip-ansi: 6.0.1
@@ -2350,10 +2348,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /fp-ts/2.11.3:
-    resolution: {integrity: sha512-qHI5iaVSFNFmdl6yDensWfFMk32iafAINCnqx8m486DV1+Jht/bTnA9CyahL+Xm7h2y3erinviVBIAWvv5bPYw==}
-    dev: false
 
   /fs-extra/8.1.0:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}
