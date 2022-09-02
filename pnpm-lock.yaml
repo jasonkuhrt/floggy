@@ -26,7 +26,7 @@ specifiers:
   jest-watch-select-projects: ^2.0.0
   jest-watch-suspend: 1.1.2
   jest-watch-typeahead: 2.1.1
-  kleur: ^4.1.4
+  kleur: ^4.1.5
   lodash: ^4.17.21
   prettier: 2.7.1
   strip-ansi: '6'
@@ -36,7 +36,7 @@ specifiers:
   typescript-snapshots-plugin: 1.7.0
 
 dependencies:
-  kleur: 4.1.4
+  kleur: 4.1.5
   lodash: 4.17.21
   strip-ansi: 6.0.1
 
@@ -3353,7 +3353,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.8
     dev: true
 
   /jsprim/1.4.1:
@@ -3371,8 +3371,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /kleur/4.1.4:
-    resolution: {integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==}
+  /kleur/4.1.5:
+    resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
     dev: false
 
