@@ -1,6 +1,7 @@
 import { execaCommandSync } from 'execa'
-import * as Glob from 'fast-glob'
-import * as Fs from 'fs-jetpack'
+import Glob from 'fast-glob'
+import Fs from 'fs-jetpack'
+import * as Path from 'node:path'
 
 // eslint-disable-next-line
 const mode = process.argv[2]!.slice(2) as Mode
@@ -22,11 +23,19 @@ if (mode === `esm`) {
   process.exit(0)
 }
 
-const changeImportFilePathMode = (mode: Mode, string: string) =>
-  string.replace(new RegExp(`\\.${extensions[oppositeMode[mode]].node}'$`, `g`), `.${extensions[mode].node}'`)
+const changeImportFilePathMode = (mode: Mode, string: string) => {
+  return string.replace(
+    new RegExp(`\\.${extensions[oppositeMode[mode]].node}'$`, `gm`),
+    `.${extensions[mode].node}'`
+  )
+}
 
-const changeFilePathMode = (mode: Mode, string: string) =>
-  string.replace(new RegExp(`\\.${extensions[oppositeMode[mode]].ts}$`, `g`), `.${extensions[mode].ts}`)
+const changeFilePathMode = (mode: Mode, string: string) => {
+  return string.replace(
+    new RegExp(`\\.${extensions[oppositeMode[mode]].ts}$`, `g`),
+    `.${extensions[mode].ts}`
+  )
+}
 
 execaCommandSync(`pnpm tsc --project tsconfig.esm.json`, { stdio: `inherit` })
 
@@ -39,7 +48,7 @@ if (files.length === 0) {
 
 files.forEach((oldFilePath) => {
   const newFilePath = changeFilePathMode(mode, oldFilePath)
-  Fs.rename(oldFilePath, newFilePath)
+  Fs.rename(oldFilePath, Path.basename(newFilePath))
   // filePath comes from glob so we know it exists
   // eslint-disable-next-line
   const oldFileContents = Fs.read(newFilePath)!
@@ -51,7 +60,7 @@ execaCommandSync(`pnpm tsc --project tsconfig.${mode}.json`, { stdio: `inherit` 
 
 files.forEach((oldFilePath) => {
   const newFilePath = changeFilePathMode(mode, oldFilePath)
-  Fs.rename(newFilePath, oldFilePath)
+  Fs.rename(newFilePath, Path.basename(oldFilePath))
   // filePath comes from glob so we know it exists
   // eslint-disable-next-line
   const newFileContents = Fs.read(oldFilePath)!
