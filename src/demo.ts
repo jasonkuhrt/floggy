@@ -1,4 +1,4 @@
-import * as RootLogger from './root-logger'
+import * as RootLogger from './root-logger.js'
 
 export function demo(log?: RootLogger.RootLogger): void {
   console.log('')

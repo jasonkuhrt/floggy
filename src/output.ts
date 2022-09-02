@@ -1,7 +1,7 @@
-import * as Os from 'os'
-import { SettingsData } from './'
-import { LogRecord } from './logger'
-import { Renderer } from './Renderer'
+import * as Os from 'node:os'
+import { SettingsData } from './index.js'
+import { LogRecord } from './logger.js'
+import { Renderer } from './Renderer/index.js'
 
 export type Output = {
   write: (record: LogRecord, settings: SettingsData) => void

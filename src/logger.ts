@@ -1,9 +1,9 @@
 import * as Lo from 'lodash'
-import * as OS from 'os'
-import { validPathSegmentNameRegex } from './data'
-import * as Filter from './filter'
-import { LEVELS, Name, Num } from './level'
-import * as RootLogger from './root-logger'
+import * as OS from 'node:os'
+import { validPathSegmentNameRegex } from './data.js'
+import * as Filter from './filter.js'
+import { LEVELS, Name, Num } from './level.js'
+import * as RootLogger from './root-logger.js'
 
 type Context = Record<string, unknown>
 
