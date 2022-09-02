@@ -13,7 +13,6 @@ jobs:
     uses: ./.github/workflows/test.yaml
   release-canary:
     needs: [test]
-    if: needs.checkNpmTokenSet.outputs.isNpmTokenSet == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: prisma-labs/dripip@master
