@@ -1,8 +1,8 @@
-import { chalk } from './chalk.js'
-import { validPathSegmentNameRegex } from './data.js'
-import * as Level from './level.js'
-import type { LogRecord } from './logger.js'
-import { casesHandled, ContextualError, createContextualError } from './utils.js'
+import { chalk } from './chalk.mjs'
+import { validPathSegmentNameRegex } from './data.mjs'
+import * as Level from './level.mjs'
+import type { LogRecord } from './logger.mjs'
+import { casesHandled, ContextualError, createContextualError } from './utils.mjs'
 
 // failed to get a singular regex solution https://regex101.com/r/6g6BHc/6
 // const validPattern = '...'

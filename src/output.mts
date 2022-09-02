@@ -1,6 +1,6 @@
-import { SettingsData } from './index.js'
-import { LogRecord } from './logger.js'
-import { Renderer } from './Renderer/index.js'
+import { SettingsData } from './index.mjs'
+import { LogRecord } from './logger.mjs'
+import { Renderer } from './Renderer/index.mjs'
 import * as Os from 'node:os'
 
 export type Output = {

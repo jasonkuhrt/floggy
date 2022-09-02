@@ -1,4 +1,4 @@
-import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.js'
+import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.mjs'
 import * as Filter from './filter'
 import { LogRecord } from './logger'
 

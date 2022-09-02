@@ -1,5 +1,5 @@
-import * as Logger from './logger.js'
-import * as Settings from './settings.js'
+import * as Logger from './logger.mjs'
+import * as Settings from './settings.mjs'
 
 export type SettingsManager = Settings.Data & {
   (newSettings: Settings.Input): RootLogger
