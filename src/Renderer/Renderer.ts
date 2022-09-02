@@ -1,10 +1,26 @@
-import * as Os from 'node:os'
-import * as util from 'node:util'
-import stripAnsi from 'strip-ansi'
-import { chalk, Chalk } from '../chalk.js'
+import { Chalk, chalk } from '../chalk.js'
 import * as Level from '../level.js'
 import * as Logger from '../logger.js'
 import * as utils from '../utils.js'
+import * as Os from 'node:os'
+import * as util from 'node:util'
+import stripAnsi from 'strip-ansi'
+
+/**
+ * Create a stop watch. Makes it simple to calculate elapsed time on every
+ * invocation of `lap`.
+ */
+const createStopWatch = () => {
+  let prev = Date.now()
+  return {
+    lap: (): number => {
+      const curr = Date.now()
+      const elapsed = curr - prev
+      prev = curr
+      return elapsed
+    }
+  }
+}
 
 const stopWatch = createStopWatch()
 
@@ -16,25 +32,25 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
   fatal: {
     // badge: '⚰',
     // badge: '☠',
-    badge: '✕',
+    badge: `✕`,
     color: chalk.red
   },
   error: {
-    badge: '■',
+    badge: `■`,
     color: chalk.red
   },
   warn: {
-    badge: '▲',
+    badge: `▲`,
     color: chalk.yellow
   },
   info: {
     // badge: '↣',
-    badge: '●',
+    badge: `●`,
     color: chalk.green
   },
   debug: {
     // badge: '◒',
-    badge: '○',
+    badge: `○`,
 
     // badge: '⚒',
     // badge: '↺',
@@ -43,7 +59,7 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
     color: chalk.blue
   },
   trace: {
-    badge: '—',
+    badge: `—`,
     // badge: '~',
     // badge: '⟣',
     // badge: '⟛',
@@ -54,14 +70,14 @@ const LEVEL_STYLES: Record<Level.Name, { badge: string; color: Chalk }> = {
 
 export const separators = {
   path: {
-    symbol: ':'
+    symbol: `:`
   },
   event: {
-    symbol: ' '
+    symbol: ` `
   },
   context: {
     singleLine: {
-      symbol: '  --  ',
+      symbol: `  --  `,
       // context = ` ${chalk.gray('⸬')}  ` + context
       // context = ` ${chalk.gray('•')}  ` + context
       // context = ` ${chalk.gray('⑊')}  ` + context
@@ -79,20 +95,20 @@ export const separators = {
       color: chalk.gray
     },
     multiline: {
-      symbol: ''
+      symbol: ``
     }
   },
   contextKeyVal: {
     singleLine: {
-      symbol: ': ',
+      symbol: `: `,
       color: chalk.gray
     },
     multiline: {
-      symbol: '  '
+      symbol: `  `
     }
   },
   contextEntry: {
-    singleLine: '  ',
+    singleLine: `  `,
     multiline: (
       gutterSpace: string
     ): {
@@ -111,7 +127,7 @@ export type Options = {
   color: boolean
 }
 
-export function render(opts: Options, logRecord: Logger.LogRecord): string {
+export const render = (opts: Options, logRecord: Logger.LogRecord): string => {
   const terminalWidth = process.stdout.columns ?? 80
   const levelLabel = Level.LEVELS_BY_NUM[logRecord.level].label
   const style = LEVEL_STYLES[levelLabel]
@@ -120,38 +136,38 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // render time diff
   //
 
-  let timeDiff = ''
-  let timeDiffRendered = ''
+  let timeDiff = ``
+  let timeDiffRendered = ``
   if (opts.timeDiff) {
     let elapsedTime = stopWatch.lap()
     let unit: 'ms' | 's' | 'm' | 'h' | 'd' | 'max'
     // <10s
     if (elapsedTime < 1000 * 10) {
-      unit = 'ms'
+      unit = `ms`
       // 10s-100s (exclusive)
     } else if (elapsedTime >= 1000 * 10 && elapsedTime < 1000 * 100) {
       elapsedTime = Math.round(elapsedTime / 1000)
-      unit = 's'
+      unit = `s`
       // 100s-60m (exclusive)
     } else if (elapsedTime >= 1000 * 100 && elapsedTime < 1000 * 60 * 60) {
       elapsedTime = Math.round(elapsedTime / 1000 / 60)
-      unit = 'm'
+      unit = `m`
       // 1h-24h (exclusive)
     } else if (elapsedTime >= 1000 * 60 * 60 && elapsedTime < 1000 * 60 * 60 * 24) {
       elapsedTime = Math.round(elapsedTime / 1000 / 60 / 60)
-      unit = 'h'
+      unit = `h`
       // 1d-999d (exclusive)
     } else if (elapsedTime >= 1000 * 60 * 60 * 24 && elapsedTime < 1000 * 60 * 60 * 24 * 10) {
       elapsedTime = Math.round(elapsedTime / 1000 / 60 / 60 / 24)
-      unit = 'd'
+      unit = `d`
     } else {
-      unit = 'max'
+      unit = `max`
     }
 
-    if (unit === 'ms') {
+    if (unit === `ms`) {
       timeDiff = `${utils.spanSpaceRight(4, String(elapsedTime))} `
-    } else if (unit === 'max') {
-      timeDiff = ' ∞ '
+    } else if (unit === `max`) {
+      timeDiff = ` ∞ `
     } else {
       timeDiff = `${unit} ${utils.spanSpaceRight(2, String(elapsedTime))} `
     }
@@ -162,7 +178,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
   // render gutter
   //
 
-  const levelLabelSized = opts.levelLabel ? ' ' + utils.clampSpace(5, levelLabel) + ' ' : ' '
+  const levelLabelSized = opts.levelLabel ? ` ` + utils.clampSpace(5, levelLabel) + ` ` : ` `
 
   const gutterRendered = `${timeDiffRendered}${style.color(`${style.badge}${levelLabelSized}`)}`
 
@@ -175,7 +191,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
    * Path is null when log came from root.
    */
 
-  const path = logRecord.path?.join(renderEl(separators.path)) ?? ''
+  const path = logRecord.path?.join(renderEl(separators.path)) ?? ``
   const preContextWidth = path
     ? path.length + separators.event.symbol.length + logRecord.event.length
     : logRecord.event.length
@@ -224,7 +240,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
 
   const contextFitsSingleLine = contextColumnsConsumed <= availableSinglelineContextColumns
 
-  let contextRendered = ''
+  let contextRendered = ``
   if (contextEntries.length > 0) {
     if (contextFitsSingleLine) {
       contextRendered =
@@ -239,7 +255,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
       const spineRendered = renderEl(separators.contextEntry.multiline(utils.spanSpace(gutterWidth)))
       contextRendered =
         renderEl(separators.context.multiline) +
-        '\n' +
+        `\n` +
         spineRendered +
         contextEntriesRendered
           .map(
@@ -254,7 +270,7 @@ export function render(opts: Options, logRecord: Logger.LogRecord): string {
                 indent: widestKey + separators.contextKeyVal.multiline.symbol.length
               })}`
           )
-          .join('\n' + spineRendered)
+          .join(`\n` + spineRendered)
     }
   }
 
@@ -270,7 +286,7 @@ type El = {
   color?: Chalk
 }
 
-function renderEl(el: El) {
+const renderEl = (el: El) => {
   return el.color ? el.color(el.symbol) : el.symbol
 }
 
@@ -280,43 +296,27 @@ function renderEl(el: El) {
  *
  * If singleline given, returned as-is.
  */
-function formatBlock(
+const formatBlock = (
   block: string,
   opts: {
     indent?: number
     excludeFirstLine?: boolean
     leftSpineSymbol?: string | El
   }
-): string {
-  const [first, ...rest] = block.split('\n')
+): string => {
+  const [first, ...rest] = block.split(`\n`)
   // eslint-disable-next-line
   if (rest.length === 0) return first!
   // eslint-disable-next-line
   const linesToProcess = opts.excludeFirstLine === true ? rest : (rest.unshift(first!), rest)
   const prefix =
-    typeof opts.leftSpineSymbol === 'string' ? opts.leftSpineSymbol : opts.leftSpineSymbol?.symbol ?? ''
-  const indent = opts.indent !== undefined ? utils.spanSpace(opts.indent) : ''
+    typeof opts.leftSpineSymbol === `string` ? opts.leftSpineSymbol : opts.leftSpineSymbol?.symbol ?? ``
+  const indent = opts.indent !== undefined ? utils.spanSpace(opts.indent) : ``
   const linesProcessed = opts.excludeFirstLine === true ? [first] : []
   for (const line of linesToProcess) {
     const prefixRendered =
-      typeof opts.leftSpineSymbol === 'object' ? opts.leftSpineSymbol?.color?.(prefix) ?? prefix : prefix
+      typeof opts.leftSpineSymbol === `object` ? opts.leftSpineSymbol?.color?.(prefix) ?? prefix : prefix
     linesProcessed.push(prefixRendered + indent + line)
   }
-  return linesProcessed.join('\n')
-}
-
-/**
- * Create a stop watch. Makes it simple to calculate elapsed time on every
- * invocation of `lap`.
- */
-function createStopWatch() {
-  let prev = Date.now()
-  return {
-    lap(): number {
-      const curr = Date.now()
-      const elapsed = curr - prev
-      prev = curr
-      return elapsed
-    }
-  }
+  return linesProcessed.join(`\n`)
 }

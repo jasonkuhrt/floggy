@@ -19,7 +19,7 @@ export type State = {
 /**
  * Create a root logger.
  */
-export function create(opts?: Options): RootLogger {
+export const create = (opts?: Options): RootLogger => {
   const settings = Settings.create(opts)
   const settingsManager = ((newSettings) => {
     settings(newSettings)

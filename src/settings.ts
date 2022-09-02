@@ -43,7 +43,7 @@ export type Input = {
    *  2. 'info' if NODE_ENV envar set to 'production'
    *  3. 'debug'
    *
-   * @examples
+   * @example
    *
    * Logs from foo logger
    *
@@ -88,9 +88,9 @@ export type Input = {
         /**
          * Filter logs by path and/or level.
          *
-         * @default '*'
+         * @defaultValue '*'
          *
-         * @examples
+         * @example
          *
          * Logs from foo logger
          *
@@ -137,7 +137,7 @@ export type Input = {
          * This level setting has highest precedence of all logger level configuration
          * tiers.
          *
-         * @default
+         * @defaultValue
          *
          * Takes the first value found, searching in the following order:
          *
@@ -175,7 +175,7 @@ export type Input = {
         /**
          * Should logs be colored?
          *
-         * @default `true`
+         * @defaultValue `true`
          *
          * Disabling can be useful when pretty logs are going to a destination that
          * does not support rendering ANSI color codes (consequence being very
@@ -185,7 +185,7 @@ export type Input = {
         /**
          * Should logs include the level label?
          *
-         * @default `false`
+         * @defaultValue `false`
          *
          * Enable this if understanding the level of a log is important to you
          * and the icon+color system is insufficient for you to do so. Can be
@@ -195,7 +195,7 @@ export type Input = {
         /**
          * Should the logs include the time between it and previous log?
          *
-         * @default `true`
+         * @defaultValue `true`
          */
         timeDiff?: boolean
       }
@@ -207,20 +207,20 @@ export type Input = {
      * The Unix timestamp in milliseconds when the log was written to the
      * output.
      *
-     * @default `true` if NODE_ENV="production"
+     * @defaultValue `true` if NODE_ENV="production"
      */
     time?: boolean
     /**
      * The current node process ID assigned by the operating system. Acquired
      * via `process.pid`.
      *
-     * @default `true` if NODE_ENV="production"
+     * @defaultValue `true` if NODE_ENV="production"
      */
     pid?: boolean
     /**
      * The host name of the machine this process is running on. Acquired via `OS.hostname()`.
      *
-     * @default `true` if NODE_ENV="production"
+     * @defaultValue `true` if NODE_ENV="production"
      */
     hostname?: boolean
   }
@@ -229,10 +229,10 @@ export type Input = {
 /**
  * Process data setting input.
  */
-export function processSettingInputData(
+export const processSettingInputData = (
   data: NonNullable<Input['data']>,
   previous: null | Data['data']
-): Data['data'] {
+): Data['data'] => {
   if (!previous) {
     return {
       ...defaultSettingData(),
@@ -246,8 +246,8 @@ export function processSettingInputData(
   }
 }
 
-function defaultSettingData(): Data['data'] {
-  if (process.env?.NODE_ENV === 'production') {
+const defaultSettingData = (): Data['data'] => {
+  if (process.env?.NODE_ENV === `production`) {
     return {
       hostname: true,
       pid: true,
@@ -265,28 +265,28 @@ function defaultSettingData(): Data['data'] {
 /**
  * Process pretty setting input.
  */
-export function processSettingInputPretty(
+export const processSettingInputPretty = (
   pretty: Input['pretty'],
   previous: null | Data['pretty']
-): Data['pretty'] {
+): Data['pretty'] => {
   // todo no semantic to "unset back to default"
   // consider using `null` for that purpose...
-  const color = (typeof pretty === 'object' ? pretty.color : undefined) ?? previous?.color ?? true
+  const color = (typeof pretty === `object` ? pretty.color : undefined) ?? previous?.color ?? true
 
   const enabled =
-    (typeof pretty === 'object' ? pretty.enabled : undefined) ??
+    (typeof pretty === `object` ? pretty.enabled : undefined) ??
     previous?.enabled ??
     // todo nice is-defined-but-parse-error feedback
-    (process.env?.LOG_PRETTY?.toLowerCase() === 'true'
+    (process.env?.LOG_PRETTY?.toLowerCase() === `true`
       ? true
-      : process.env?.LOG_PRETTY?.toLowerCase() === 'false'
+      : process.env?.LOG_PRETTY?.toLowerCase() === `false`
       ? false
       : process.stdout?.isTTY)
 
   const levelLabel =
-    (typeof pretty === 'object' ? pretty.levelLabel : undefined) ?? previous?.levelLabel ?? false
+    (typeof pretty === `object` ? pretty.levelLabel : undefined) ?? previous?.levelLabel ?? false
 
-  const timeDiff = (typeof pretty === 'object' ? pretty.timeDiff : undefined) ?? previous?.timeDiff ?? true
+  const timeDiff = (typeof pretty === `object` ? pretty.timeDiff : undefined) ?? previous?.timeDiff ?? true
 
   if (pretty === undefined) {
     return { enabled, color, levelLabel, timeDiff }
@@ -300,18 +300,20 @@ export function processSettingInputPretty(
     return { enabled: false, color, levelLabel, timeDiff }
   }
 
-  if (typeof pretty === 'object') {
+  if (typeof pretty === `object`) {
     return { enabled, color, levelLabel, timeDiff }
   }
 
   casesHandled(pretty)
+  // TODO type error if removed, why?
+  return { enabled, color, levelLabel, timeDiff }
 }
 
-export function create(opts?: Input): Manager {
+export const create = (opts?: Input): Manager => {
   const state: Data = {
     pretty: processSettingInputPretty(opts?.pretty, null),
     filter:
-      !opts || !opts.filter || opts.filter === '' || Object.keys(opts).length === 0
+      !opts || !opts.filter || opts.filter === `` || Object.keys(opts).length === 0
         ? defaultFilterSetting()
         : processSettingInputFilter(opts.filter, null),
     output: opts?.output ?? Output.defaultOutput,
@@ -324,7 +326,7 @@ export function create(opts?: Input): Manager {
       settings.output = newSettings.output
     }
 
-    if ('pretty' in newSettings) {
+    if (`pretty` in newSettings) {
       // @ts-expect-error ...
       settings.pretty = processSettingInputPretty(newSettings.pretty, settings.pretty)
       // Sync chalk
@@ -332,7 +334,7 @@ export function create(opts?: Input): Manager {
       chalk.level = settings.pretty.color ? 3 : 0
     }
 
-    if ('data' in newSettings) {
+    if (`data` in newSettings) {
       // @ts-expect-error ...
       settings.data = processSettingInputData(newSettings.data, settings.data)
     }
@@ -348,19 +350,19 @@ export function create(opts?: Input): Manager {
   return settings
 }
 
-export function processSettingInputFilter(
+export const processSettingInputFilter = (
   newSettingsFilter: NonNullable<Input['filter']>,
   prev: null | Data['filter']
-): Data['filter'] {
+): Data['filter'] => {
   if (!prev) prev = defaultFilterSetting()
   newSettingsFilter =
-    typeof newSettingsFilter === 'string' ? { pattern: newSettingsFilter } : newSettingsFilter
+    typeof newSettingsFilter === `string` ? { pattern: newSettingsFilter } : newSettingsFilter
   const pattern = newSettingsFilter.pattern ?? prev.originalInput
   const defaults = newSettingsFilter?.level
-    ? ({ level: { value: newSettingsFilter.level, comp: 'gte' } } as const)
+    ? ({ level: { value: newSettingsFilter.level, comp: `gte` } } as const)
     : prev.defaults
 
-  const patterns = Filter.processLogFilterInput(defaults, pattern) || Filter.parseUnsafe(defaults, '*')
+  const patterns = Filter.processLogFilterInput(defaults, pattern) || Filter.parseUnsafe(defaults, `*`)
 
   return {
     defaults,
@@ -369,34 +371,34 @@ export function processSettingInputFilter(
   }
 }
 
-export function defaultFilterSetting(): Data['filter'] {
+export const defaultFilterSetting = (): Data['filter'] => {
   let level: Level.Name
   if (process.env?.LOG_LEVEL) {
-    level = parseFromEnvironment<Level.Name>('LOG_LEVEL', Level.parser)
+    level = parseFromEnvironment<Level.Name>(`LOG_LEVEL`, Level.parser)
   } else {
-    level = process.env?.NODE_ENV === 'production' ? Level.LEVELS.info.label : Level.LEVELS.debug.label
+    level = process.env?.NODE_ENV === `production` ? Level.LEVELS.info.label : Level.LEVELS.debug.label
   }
   let originalInput: string
   let patterns
 
   if (process.env?.LOG_FILTER) {
     patterns = Filter.processLogFilterInput(
-      { level: { value: level, comp: 'gte' } },
+      { level: { value: level, comp: `gte` } },
       process.env?.LOG_FILTER,
-      'environment variable LOG_FILTER.'
+      `environment variable LOG_FILTER.`
     )
   }
 
   if (!patterns) {
-    originalInput = '*'
-    patterns = Filter.parseUnsafe({ level: { value: level, comp: 'gte' } }, originalInput)
+    originalInput = `*`
+    patterns = Filter.parseUnsafe({ level: { value: level, comp: `gte` } }, originalInput)
   }
 
   return {
     // TODO looks like it actually can be undefined, bug?
     // eslint-disable-next-line
     originalInput: originalInput!,
-    defaults: { level: { value: level, comp: 'gte' } },
+    defaults: { level: { value: level, comp: `gte` } },
     patterns
   }
 }

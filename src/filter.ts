@@ -12,13 +12,13 @@ const validTargetRegex =
   /^((?:[A-z_]+[A-z_0-9]*)+|\*|\.)(?:(?:@(1|2|3|4|5|6|trace|debug|info|warn|error|fatal)([-+]?))|(@\*))?$/
 
 const symbols = {
-  negate: '!',
-  pathDelim: ':',
-  patternDelim: ',',
-  descendants: '*',
-  levelDelim: '@',
-  levelGte: '+',
-  levelLte: '-'
+  negate: `!`,
+  pathDelim: `:`,
+  patternDelim: `,`,
+  descendants: `*`,
+  levelDelim: `@`,
+  levelGte: `+`,
+  levelLte: `-`
 }
 
 export type Parsed = {
@@ -52,16 +52,16 @@ export type Defaults = {
 /**
  * Parse a full pattern. This accounts for lists of patterns. This is the parsing entrypoint.
  */
-export function parse(defaults: Defaults, pattern: string): (ParseError | Parsed)[] {
+export const parse = (defaults: Defaults, pattern: string): (ParseError | Parsed)[] => {
   // Allow sloppy lists so long as there is at least one pattern given
   const patterns = pattern
     .split(symbols.patternDelim)
     .map((p) => p.trim())
-    .filter((p) => p !== '')
+    .filter((p) => p !== ``)
 
   // todo error is at level of group, not single pattern, ...
   if (!patterns.length) {
-    return [createInvalidPattern(pattern, 'There must be at least one pattern present.')]
+    return [createInvalidPattern(pattern, `There must be at least one pattern present.`)]
   }
 
   return patterns.map((p) => parseOne(defaults, p))
@@ -71,27 +71,27 @@ export function parse(defaults: Defaults, pattern: string): (ParseError | Parsed
  * Parse a single pattern. This assumes parsing of "," has already been handled
  * including whitespace trimming around the pattern.
  */
-export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseError | Parsed {
+export const parseOne = (criteriaDefaults: Defaults, pattern: string): ParseError | Parsed => {
   // todo maybe level default should be wildcard instead...
   const originalInput = pattern
   const level = { ...criteriaDefaults.level } as Parsed['level']
-  const path: Parsed['path'] = { value: '', descendants: false }
+  const path: Parsed['path'] = { value: ``, descendants: false }
 
-  if (pattern === '') {
+  if (pattern === ``) {
     return createInvalidPattern(originalInput)
   }
 
-  const negate = pattern[0] === '!'
+  const negate = pattern[0] === `!`
   if (negate) {
     pattern = pattern.slice(1)
   }
 
-  const parts = pattern.split(':')
-  if (parts[0] !== '.') {
-    parts.unshift('.')
+  const parts = pattern.split(`:`)
+  if (parts[0] !== `.`) {
+    parts.unshift(`.`)
   }
 
-  const ex = parts[parts.length - 2] === '' && parts[parts.length - 1]?.[0] === '*'
+  const ex = parts[parts.length - 2] === `` && parts[parts.length - 1]?.[0] === `*`
   if (ex) {
     parts.splice(parts.length - 2, 1)
   }
@@ -102,7 +102,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseErro
     return createInvalidPattern(originalInput)
   }
 
-  const prefix = parts.join(':')
+  const prefix = parts.join(`:`)
 
   const targetm = validTargetRegex.exec(target)
 
@@ -114,11 +114,11 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseErro
    * build path
    */
 
-  if (targetm[1] === '*') {
+  if (targetm[1] === `*`) {
     path.descendants = { includeParent: !ex }
     path.value = prefix
-  } else if (targetm[1] === '.') {
-    path.value = '.'
+  } else if (targetm[1] === `.`) {
+    path.value = `.`
   } else {
     // eslint-disable-next-line
     path.value = prefix.length ? `${prefix}:${targetm[1]!}` : targetm[1]!
@@ -132,15 +132,15 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseErro
   const levelWildCard = Boolean(targetm[4])
   // encode invariants
   const levelm = levelWildCard
-    ? ({ type: 'wildcard' } as const)
+    ? ({ type: `wildcard` } as const)
     : levelValue
-    ? ({ type: 'value', value: levelValue, dir: levelDir } as const)
+    ? ({ type: `value`, value: levelValue, dir: levelDir } as const)
     : undefined
 
   if (levelm) {
-    if (levelm.type === 'wildcard') {
-      level.value = '*'
-      level.comp = 'eq'
+    if (levelm.type === `wildcard`) {
+      level.value = `*`
+      level.comp = `eq`
     } else {
       // the original regex guarantees 1-5 so we don't have to validate that now
       if (/\d/.exec(levelm.value)) {
@@ -148,10 +148,10 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseErro
       } else {
         level.value = levelm.value as Level.Name
       }
-      if (levelm.dir === '+') level.comp = 'gte'
-      else if (levelm.dir === '-') level.comp = 'lte'
-      else if (levelm.dir === '') level.comp = 'eq'
-      else if (levelm.dir === undefined) level.comp = 'eq'
+      if (levelm.dir === `+`) level.comp = `gte`
+      else if (levelm.dir === `-`) level.comp = `lte`
+      else if (levelm.dir === ``) level.comp = `eq`
+      else if (levelm.dir === undefined) level.comp = `eq`
       else casesHandled(levelm.dir)
     }
   }
@@ -187,7 +187,7 @@ export function parseOne(criteriaDefaults: Defaults, pattern: string): ParseErro
 /**
  * Test if a log matches the pattern.
  */
-export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
+export const test = (patterns: Readonly<Parsed[]>, log: LogRecord): boolean => {
   let yaynay: null | boolean = null
   for (const pattern of patterns) {
     // if log already passed then we can skip rest except negations
@@ -197,7 +197,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     // while as an nth pattern it means to remove things previously included
     if (yaynay === false && pattern.negate === true) continue
 
-    const logPath = log.path ? ['.', ...log.path].join(symbols.pathDelim) : '.'
+    const logPath = log.path ? [`.`, ...log.path].join(symbols.pathDelim) : `.`
     // const patternPath = pattern.path.value.replace(/^\.:?/, '')
     let isPass = false
 
@@ -205,7 +205,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
 
     // level
 
-    if (pattern.level.value === '*') {
+    if (pattern.level.value === `*`) {
       isPass = true
     } else {
       isPass = comp(pattern.level.comp, log.level, Level.LEVELS[pattern.level.value].number)
@@ -229,9 +229,9 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
     //   )
     // )
     if (isPass) {
-      if (pattern.path.descendants && !pattern.path.descendants.includeParent && pattern.path.value === '.') {
+      if (pattern.path.descendants && !pattern.path.descendants.includeParent && pattern.path.value === `.`) {
         // case of :*
-        if (logPath === '.') {
+        if (logPath === `.`) {
           // log from root logger
           isPass = false
         } else {
@@ -240,21 +240,21 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
       } else if (
         pattern.path.descendants &&
         pattern.path.descendants.includeParent &&
-        pattern.path.value === '.'
+        pattern.path.value === `.`
       ) {
         // case of *
         isPass = true
       } else if (
         pattern.path.descendants &&
         pattern.path.descendants.includeParent &&
-        pattern.path.value !== '.'
+        pattern.path.value !== `.`
       ) {
         // case of <path>:*
         isPass = logPath ? logPath.startsWith(pattern.path.value) : false
       } else if (
         pattern.path.descendants &&
         !pattern.path.descendants.includeParent &&
-        pattern.path.value !== '.'
+        pattern.path.value !== `.`
       ) {
         // case of <path>::*
         isPass = logPath ? logPath !== pattern.path.value && logPath.startsWith(pattern.path.value) : false
@@ -262,7 +262,7 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
         isPass = logPath === pattern.path.value
         // isPass = logPath ? logPath === pattern.path.value : false
       } else {
-        throw new Error('this should never happen')
+        throw new Error(`this should never happen`)
       }
     }
 
@@ -270,17 +270,18 @@ export function test(patterns: Readonly<Parsed[]>, log: LogRecord): boolean {
   }
 
   if (yaynay === null) {
-    throw new Error('Invariant violation: pattern processing did not convert into pass calculation')
+    throw new Error(`Invariant violation: pattern processing did not convert into pass calculation`)
   }
 
   return yaynay
 }
 
-function comp(kind: Parsed['level']['comp'], a: number, b: number): boolean {
-  if (kind === 'eq') return a === b
-  if (kind === 'gte') return a >= b
-  if (kind === 'lte') return a <= b
+const comp = (kind: Parsed['level']['comp'], a: number, b: number): boolean => {
+  if (kind === `eq`) return a === b
+  if (kind === `gte`) return a >= b
+  if (kind === `lte`) return a <= b
   casesHandled(kind)
+  return true // todo why?
 }
 
 /**
@@ -290,7 +291,7 @@ function comp(kind: Parsed['level']['comp'], a: number, b: number): boolean {
  *
  * Only use this if you know what you're doing.
  */
-export function parseUnsafe(defaults: Defaults, pattern: string): Parsed[] {
+export const parseUnsafe = (defaults: Defaults, pattern: string): Parsed[] => {
   return parse(defaults, pattern).map((value) => {
     if (value instanceof Error) throw value
     return value
@@ -299,8 +300,8 @@ export function parseUnsafe(defaults: Defaults, pattern: string): Parsed[] {
 
 type ParseError = ContextualError<{ pattern: string; hint?: string }>
 
-function createInvalidPattern(pattern: string, hint?: string): ParseError {
-  return createContextualError(`Invalid filter pattern: "${pattern}${hint ? `. ${hint}` : ''}"`, {
+const createInvalidPattern = (pattern: string, hint?: string): ParseError => {
+  return createContextualError(`Invalid filter pattern: "${pattern}${hint ? `. ${hint}` : ``}"`, {
     pattern,
     hint
   })
@@ -309,7 +310,7 @@ function createInvalidPattern(pattern: string, hint?: string): ParseError {
 /**
  * Get the string contents of a manual showing how to write filters.
  */
-export function renderSyntaxManual(): string {
+export const renderSyntaxManual = (): string => {
   const m = chalk.magenta
   const b = chalk.blue
   const gray = chalk.gray
@@ -317,8 +318,8 @@ export function renderSyntaxManual(): string {
   const bold = chalk.bold
   const subtle = (x: string) => gray(x)
   const subtitle = (x: string) => bold(m(x))
-  const pipe = gray('|')
-  return `${bold(b('LOG FILTERING SYNTAX MANUAL  ⟁'))}
+  const pipe = gray(`|`)
+  return `${bold(b(`LOG FILTERING SYNTAX MANUAL  ⟁`))}
 ${bold(b(`▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬`))}
 
 ${bold(b(`Grammar`))}
@@ -384,23 +385,23 @@ const getError = <T>(value: unknown): null | T => {
   return null
 }
 
-export function renderSyntaxError(input: {
+export const renderSyntaxError = (input: {
   errPatterns: (ParseError | Parsed)[]
   foundIn?: string
   some?: boolean
-}): string {
+}): string => {
   const badOnes = input.errPatterns.filter(isParseError)
   const multipleInputs = input.errPatterns.length > 1
   const multipleErrors = badOnes.length > 1
   const allBad = badOnes.length === input.errPatterns.length
-  const foundIn = `${input.foundIn ? ` found in ${input.foundIn}` : ''}`
+  const foundIn = `${input.foundIn ? ` found in ${input.foundIn}` : ``}`
   let message
 
   if (!multipleInputs) {
     // eslint-disable-next-line
     const e = getError<ParseError>(badOnes[0]!)
     const pattern = e?.context.pattern
-    const hint = e?.context.hint ? `. ${e.context.hint}` : ''
+    const hint = e?.context.hint ? `. ${e.context.hint}` : ``
     message = `Your log filter's pattern${foundIn} was invalid: "${chalk.red(
       pattern
     )}${hint}"\n\n${renderSyntaxManual()}`
@@ -408,17 +409,17 @@ export function renderSyntaxError(input: {
     // eslint-disable-next-line
     const e = getError<ParseError>(badOnes[0]!)
     const pattern = e?.context.pattern
-    const hint = e?.context.hint ? `. ${e.context.hint}` : ''
+    const hint = e?.context.hint ? `. ${e.context.hint}` : ``
     message = `One of the patterns in your log filter${foundIn} was invalid: "${chalk.red(
       pattern
     )}"${hint}\n\n${renderSyntaxManual()}`
   } else {
     const patterns = badOnes
       .map((e) => {
-        const hint = e.context.hint ? chalk.gray(`  ${e.context.hint}`) : ''
+        const hint = e.context.hint ? chalk.gray(`  ${e.context.hint}`) : ``
         return `    ${chalk.red(e.context.pattern)}${hint}`
       })
-      .join('\n')
+      .join(`\n`)
     const intro = allBad
       ? `All of the patterns in your log filter`
       : `Some (${badOnes.length}) of the patterns in your log filter`
@@ -428,11 +429,11 @@ export function renderSyntaxError(input: {
   return message
 }
 
-export function processLogFilterInput(
+export const processLogFilterInput = (
   defaults: Defaults,
   pattern: string,
   foundIn?: string
-): null | Parsed[] {
+): null | Parsed[] => {
   const errPatterns = parse(defaults, pattern)
   const goodOnes = errPatterns.filter((value): value is Parsed => !(value instanceof Error))
   const badOnes = errPatterns.filter((value): value is ParseError => value instanceof Error)

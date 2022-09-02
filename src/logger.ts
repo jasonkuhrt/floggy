@@ -1,9 +1,9 @@
-import * as OS from 'node:os'
-import * as Lo from 'lodash'
 import { validPathSegmentNameRegex } from './data.js'
 import * as Filter from './filter.js'
 import { LEVELS, Name, Num } from './level.js'
 import * as RootLogger from './root-logger.js'
+import * as Lo from 'lodash'
+import * as OS from 'node:os'
 
 type Context = Record<string, unknown>
 
@@ -33,11 +33,11 @@ export type Logger = {
 /**
  * Create a logger.
  */
-export function create(
+export const create = (
   rootState: RootLogger.State,
   path: null | string[],
   parentContext?: Context
-): { logger: Logger; link: Link } {
+): { logger: Logger; link: Link } => {
   if (path) validatePath(path)
   const state: State = {
     // Copy as addToContext will mutate it
@@ -45,7 +45,7 @@ export function create(
     children: []
   }
 
-  function updateContextAndPropagate(newContext: Context) {
+  const updateContextAndPropagate = (newContext: Context) => {
     state.pinnedAndParentContext = newContext
     state.children.forEach((child) => {
       // eslint-disable-next-line
@@ -53,7 +53,7 @@ export function create(
     })
   }
 
-  function send(levelLabel: Name, event: string, localContext: undefined | Context) {
+  const send = (levelLabel: Name, event: string, localContext: undefined | Context) => {
     const level = LEVELS[levelLabel].number
     const logRec: LogRecord = {
       event,
@@ -86,7 +86,7 @@ export function create(
   }
 
   const link: Link = {
-    onNewParentContext(newParentContext: Context) {
+    onNewParentContext: (newParentContext: Context) => {
       updateContextAndPropagate(
         Lo.merge(
           // Copy so that we don't mutate parent while maintaining local overrides...
@@ -100,25 +100,25 @@ export function create(
   }
 
   const logger: Logger = {
-    fatal(event, context) {
-      send('fatal', event, context)
+    fatal: (event, context) => {
+      send(`fatal`, event, context)
     },
-    error(event, context) {
-      send('error', event, context)
+    error: (event, context) => {
+      send(`error`, event, context)
     },
-    warn(event, context) {
-      send('warn', event, context)
+    warn: (event, context) => {
+      send(`warn`, event, context)
     },
-    info(event, context) {
-      send('info', event, context)
+    info: (event, context) => {
+      send(`info`, event, context)
     },
-    debug(event, context) {
-      send('debug', event, context)
+    debug: (event, context) => {
+      send(`debug`, event, context)
     },
-    trace(event, context) {
-      send('trace', event, context)
+    trace: (event, context) => {
+      send(`trace`, event, context)
     },
-    addToContext(context: Context) {
+    addToContext: (context: Context) => {
       // Can safely mutate here, save some electricity...
       updateContextAndPropagate(Lo.merge(state.pinnedAndParentContext, context))
       return logger
@@ -149,7 +149,7 @@ type State = {
   children: Link[]
 }
 
-function validatePath(path: string[]) {
+const validatePath = (path: string[]) => {
   path.forEach((part) => {
     if (!validPathSegmentNameRegex.test(part)) {
       throw new Error(`Invalid logger path segment: ${part}`)
