@@ -1,5 +1,5 @@
-import * as Lo from 'lodash'
 import * as OS from 'node:os'
+import * as Lo from 'lodash'
 import { validPathSegmentNameRegex } from './data.js'
 import * as Filter from './filter.js'
 import { LEVELS, Name, Num } from './level.js'

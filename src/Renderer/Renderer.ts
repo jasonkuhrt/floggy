@@ -1,6 +1,6 @@
 import * as Os from 'node:os'
-import stripAnsi from 'strip-ansi'
 import * as util from 'node:util'
+import stripAnsi from 'strip-ansi'
 import { chalk, Chalk } from '../chalk.js'
 import * as Level from '../level.js'
 import * as Logger from '../logger.js'
