@@ -1,19 +1,19 @@
-import * as OS from 'node:os'
 import { chalk } from '../chalk'
 import { LogRecord } from '../logger'
 import { spanChar } from '../utils'
 import { Renderer } from './'
+import * as OS from 'node:os'
 
-function makeRec(data?: Omit<Partial<LogRecord>, 'event'>): LogRecord {
+const makeRec = (data?: Omit<Partial<LogRecord>, 'event'>): LogRecord => {
   return {
     level: 1,
-    path: ['foob'],
+    path: [`foob`],
     ...data,
-    event: 'foo' // do not allow changing b/c headers width below depends on this value
+    event: `foo` // do not allow changing b/c headers width below depends on this value
   }
 }
 
-function render(): string {
+const render = (): string => {
   return Renderer.render(options, rec)
 }
 
@@ -23,7 +23,7 @@ let terminalWidth: number
 let terminalContextWidth: number
 
 beforeEach(() => {
-  const logHeadersWidth = ('● root foo' + Renderer.separators.context.singleLine.symbol).length
+  const logHeadersWidth = (`● root foo` + Renderer.separators.context.singleLine.symbol).length
   chalk.level = 0 // disable color
   options = {
     color: false, // only disables color of util.inspect
@@ -36,8 +36,8 @@ beforeEach(() => {
   process.stdout.columns = terminalWidth
 })
 
-describe('singleline', () => {
-  it('used if context does fit singleline', () => {
+describe(`singleline`, () => {
+  it(`used if context does fit singleline`, () => {
     rec.context = createContext({
       key: { size: terminalContextWidth }
     })
@@ -48,7 +48,7 @@ describe('singleline', () => {
 `)
     expect(trimTrailingNewline(l).length).toBeLessThanOrEqual(terminalWidth)
   })
-  it('used if context does fit singleline (multiple key-values)', () => {
+  it(`used if context does fit singleline (multiple key-values)`, () => {
     rec.context = createContext({
       ke1: { size: terminalContextWidth / 2 },
       ke2: {
@@ -69,8 +69,8 @@ describe('singleline', () => {
   // })
 })
 
-describe('multiline', () => {
-  it('used if context does not fit singleline', () => {
+describe(`multiline`, () => {
+  it(`used if context does not fit singleline`, () => {
     rec.context = createContext({
       key: { size: terminalContextWidth + 1 /* force multi */ }
     })
@@ -81,7 +81,7 @@ describe('multiline', () => {
 `)
   })
 
-  it('used if context does fit singleline (multiple key-values)', () => {
+  it(`used if context does fit singleline (multiple key-values)`, () => {
     rec.context = createContext({
       ke1: { size: terminalContextWidth / 2 },
       ke2: {
@@ -115,13 +115,13 @@ describe('multiline', () => {
 
 // helpers for building content for tests against log formatting
 
-function stringSpan(size: number): string {
+const stringSpan = (size: number): string => {
   const actualSize = size - 2 // -2 for quote rendering "'...'"
-  const value = spanChar(actualSize, 'x')
+  const value = spanChar(actualSize, `x`)
   return value
 }
 
-function createContext(spec: Record<string, { size: number }>) {
+const createContext = (spec: Record<string, { size: number }>) => {
   return Object.entries(spec).reduce((acc, [k, v]) => {
     return {
       ...acc,
@@ -130,7 +130,7 @@ function createContext(spec: Record<string, { size: number }>) {
   }, {})
 }
 
-function stringSpanKey(keyName: string, size: number): string {
+const stringSpanKey = (keyName: string, size: number): string => {
   const KeyWidth = keyName.length + Renderer.separators.contextKeyVal.singleLine.symbol.length
   return stringSpan(size - KeyWidth)
 }
@@ -138,6 +138,6 @@ function stringSpanKey(keyName: string, size: number): string {
 /**
  * Remove traiing newline. Strict alternative to .trim().
  */
-function trimTrailingNewline(s: string): string {
-  return s.replace(new RegExp(OS.EOL + '$'), '')
+const trimTrailingNewline = (s: string): string => {
+  return s.replace(new RegExp(OS.EOL + `$`), ``)
 }

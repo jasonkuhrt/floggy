@@ -6,27 +6,27 @@ export type Num = 6 | 5 | 4 | 3 | 2 | 1
 
 export const LEVELS: Record<Name, { label: Name; number: Num }> = {
   fatal: {
-    label: 'fatal',
+    label: `fatal`,
     number: 6
   },
   error: {
-    label: 'error',
+    label: `error`,
     number: 5
   },
   warn: {
-    label: 'warn',
+    label: `warn`,
     number: 4
   },
   info: {
-    label: 'info',
+    label: `info`,
     number: 3
   },
   debug: {
-    label: 'debug',
+    label: `debug`,
     number: 2
   },
   trace: {
-    label: 'trace',
+    label: `trace`,
     number: 1
   }
 }
@@ -41,10 +41,10 @@ export const LEVELS_BY_NUM = Object.values(LEVELS).reduce(
  */
 export const parser = {
   info: {
-    typeName: 'LogLevel',
+    typeName: `LogLevel`,
     valid: Object.entries(LEVELS)
       .map(([label]) => label)
-      .join(', ')
+      .join(`, `)
   },
   run: (raw: string): null | Name => {
     // eslint-disable-next-line

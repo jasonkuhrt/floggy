@@ -9,7 +9,7 @@ export type MemoryOutput = Output.Output & {
   memory: Record<string, any>[]
 }
 
-export function createMemoryOutput(): MemoryOutput {
+export const createMemoryOutput = (): MemoryOutput => {
   const output: MemoryOutput = {
     memory: [],
     write(record) {
@@ -24,7 +24,7 @@ export function createMemoryOutput(): MemoryOutput {
  * Restore the key on given object before each test. Useful for permiting tests
  * to modify the environment and so on.
  */
-export function resetBeforeEachTest(object: any, key: string) {
+export const resetBeforeEachTest = (object: any, key: string) => {
   const orig = object[key]
   beforeEach(() => {
     if (typeof orig === 'object') {
@@ -35,13 +35,13 @@ export function resetBeforeEachTest(object: any, key: string) {
   })
 }
 
-export function mockConsoleLog(): any[][] {
+export const mockConsoleLog = (): any[][] => {
   ;(console as any).logOriginal = console.log
   const calls = [] as Array<Array<any>>
   console.log = (...args: any[]) => calls.push(args)
   return calls
 }
 
-export function unmockConsoleLog() {
+export const unmockConsoleLog = () => {
   console.log = (console as any).logOriginal
 }
