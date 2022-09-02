@@ -5,9 +5,9 @@
 // either remove them, rewrite them to be agnostic, or find way to run them only
 // in v12 test suite
 
-import * as Logger from '../src'
-import * as RootLogger from '../src/root-logger'
-import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers'
+import * as Logger from '../src/index.mjs'
+import * as RootLogger from '../src/root-logger.mjs'
+import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers.mjs'
 
 // shows up in snapshots of json-mode logs
 require('os').hostname = () => 'mock-host'

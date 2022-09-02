@@ -1,12 +1,12 @@
-import * as Logger from '../src'
-import * as RootLogger from '../src/root-logger'
+import * as Logger from '../src/index.mjs'
+import * as RootLogger from '../src/root-logger.mjs'
 import {
   createMemoryOutput,
   MemoryOutput,
   mockConsoleLog,
   resetBeforeEachTest,
   unmockConsoleLog
-} from './__helpers'
+} from './__helpers.mjs'
 
 let l: Logger.RootLogger
 let output: MemoryOutput

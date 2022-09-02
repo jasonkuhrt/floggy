@@ -3,7 +3,7 @@ import { Config } from '@jest/types'
 const config: Config.InitialOptions = {
   preset: `ts-jest/presets/default-esm`,
   moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': `$1`
+    '^(\\.{1,2}/.*)\\.mjs$': `$1`
   },
   watchPlugins: [
     `jest-watch-typeahead/filename`,

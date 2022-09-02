@@ -1,6 +1,6 @@
 import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.mjs'
-import * as Filter from './filter'
-import { LogRecord } from './logger'
+import * as Filter from './filter.mjs'
+import { LogRecord } from './logger.mjs'
 
 /**
  * Secondary Helpers

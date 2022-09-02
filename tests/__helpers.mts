@@ -1,5 +1,5 @@
 import * as Lo from 'lodash'
-import * as Output from '../src/output.js'
+import * as Output from '../src/output.mjs'
 
 /**
  * A mock output stream useful for passing to logger and later reflecting on the
