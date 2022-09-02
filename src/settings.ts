@@ -1,8 +1,8 @@
-import { chalk } from './chalk'
-import * as Filter from './filter'
-import * as Level from './level'
-import * as Output from './output'
-import { casesHandled, omitUndefinedKeys, parseFromEnvironment } from './utils'
+import { chalk } from './chalk.js'
+import * as Filter from './filter.js'
+import * as Level from './level.js'
+import * as Output from './output.js'
+import { casesHandled, omitUndefinedKeys, parseFromEnvironment } from './utils.js'
 
 export type Manager = Data & {
   (newSettings: Input): void

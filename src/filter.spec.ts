@@ -1,9 +1,6 @@
-import { map, right } from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/pipeable'
 import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers'
 import * as Filter from './filter'
 import { LogRecord } from './logger'
-import { rightOrThrow } from './utils'
 
 // prevent color from being disabled on CI
 // so that snapshots pass there.
@@ -71,7 +68,9 @@ describe('parse', () => {
   ] as ([string,Filter.Parsed['level']])[])
   ('%s', (pattern, expectedLevel) => {
     // eslint-disable-next-line
-    expect(pipe(parse(pattern)[0]!, map(p => p.level))).toEqual(right(expectedLevel))
+    const result = parse(pattern)[0]!
+    if (result instanceof Error) throw result
+    expect(result.level).toEqual(expectedLevel)
   })
   // wildcard/levels + paths
   it('a:b:*',       () => { expect(parse('a:b:*')).toMatchSnapshot() })
@@ -157,7 +156,15 @@ describe('test', () => {
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 3 }), false],
     [{ level: { comp: 'eq', value: 'debug' } }, 'foo', rec({ path: ['foo'], level: 2 }), true]
   ] as Cases)('%j %s %j %s', (defaults, pattern, rec, shouldPassOrNot) => {
-    expect(Filter.test(Filter.parse(defaults, pattern).map(rightOrThrow), rec)).toBe(shouldPassOrNot)
+    expect(
+      Filter.test(
+        Filter.parse(defaults, pattern).map((value) => {
+          if (value instanceof Error) throw value
+          return value
+        }),
+        rec
+      )
+    ).toBe(shouldPassOrNot)
   })
 })
 

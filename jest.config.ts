@@ -1,16 +1,16 @@
-import type { InitialOptionsTsJest } from 'ts-jest/dist/types'
+import { Config } from '@jest/types'
 
-const config: InitialOptionsTsJest = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
-  globals: {
-    'ts-jest': {
-      // diagnostics: Boolean(process.env.CI),
-      babelConfig: false,
-      tsconfig: '<rootDir>/tests/tsconfig.json'
-    }
-  }
+const config: Config.InitialOptions = {
+  preset: `ts-jest/presets/default-esm`,
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': `$1`
+  },
+  watchPlugins: [
+    `jest-watch-typeahead/filename`,
+    `jest-watch-typeahead/testname`,
+    `jest-watch-select-projects`,
+    `jest-watch-suspend`
+  ]
 }
 
 export default config

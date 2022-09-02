@@ -1,1 +1,1 @@
-export * as Renderer from './Renderer'
+export * as Renderer from './Renderer.js'

@@ -1,9 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "outDir": "dist-esm",
-    "module": "ES2015",
-    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo.esm"
-  }
+    "outDir": "dist/esm",
+    "rootDir": "src",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src"],
+  "exclude": ["**/*.spec.ts"]
 }

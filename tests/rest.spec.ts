@@ -193,11 +193,11 @@ describe('filtering', () => {
     log.settings({ filter: { pattern: 'qux' } })
     foobar.info('berp') // should be filtered out
     expect(output.memory).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "event": "boop",
           "level": 3,
-          "path": Array [
+          "path": [
             "foo",
             "bar",
           ],

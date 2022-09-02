@@ -1,725 +1,587 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parse !a 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": true,
-      "originalInput": "!a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": true,
+    "originalInput": "!a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
 `;
 
 exports[`parse * 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse *@* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*@*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse *@1 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "*@1",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse , ,  a, 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
 `;
 
 exports[`parse ,,a,b 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "b",
-      "path": Object {
-        "descendants": false,
-        "value": ".:b",
-      },
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "b",
+    "path": {
+      "descendants": false,
+      "value": ".:b",
     },
   },
 ]
 `;
 
 exports[`parse . 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": ".",
-      "path": Object {
-        "descendants": false,
-        "value": ".",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".",
+    "path": {
+      "descendants": false,
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse .:* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse .:*@1 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:*@1",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse .::* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".::*",
+    "path": {
+      "descendants": {
+        "includeParent": false,
       },
-      "negate": false,
-      "originalInput": ".::*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": false,
-        },
-        "value": ".",
-      },
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse .:a 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": ".:a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
 `;
 
 exports[`parse .:a:* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": ".:a:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": ".:a:*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:a",
-      },
+      "value": ".:a",
     },
   },
 ]
 `;
 
 exports[`parse .@* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
-      },
-      "negate": false,
-      "originalInput": ".@*",
-      "path": Object {
-        "descendants": false,
-        "value": ".",
-      },
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": ".@*",
+    "path": {
+      "descendants": false,
+      "value": ".",
     },
   },
 ]
 `;
 
 exports[`parse a 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
 ]
 `;
 
 exports[`parse a,b 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a",
+    "path": {
+      "descendants": false,
+      "value": ".:a",
     },
   },
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "b",
-      "path": Object {
-        "descendants": false,
-        "value": ".:b",
-      },
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "b",
+    "path": {
+      "descendants": false,
+      "value": ".:b",
     },
   },
 ]
 `;
 
 exports[`parse a:b 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "a:b",
-      "path": Object {
-        "descendants": false,
-        "value": ".:a:b",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b",
+    "path": {
+      "descendants": false,
+      "value": ".:a:b",
     },
   },
 ]
 `;
 
 exports[`parse a:b:* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "a:b:*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:a:b",
-      },
+      "value": ".:a:b",
     },
   },
 ]
 `;
 
 exports[`parse a:b:*@info 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "a:b:*@1",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "a:b:*@1",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:a:b",
-      },
+      "value": ".:a:b",
     },
   },
 ]
 `;
 
 exports[`parse app:* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app:*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
 `;
 
 exports[`parse app:*@* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app:*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*@*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
 `;
 
 exports[`parse app:*@1 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app:*@*",
+    "path": {
+      "descendants": {
+        "includeParent": true,
       },
-      "negate": false,
-      "originalInput": "app:*@*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": true,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
 `;
 
 exports[`parse app::* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app::*",
+    "path": {
+      "descendants": {
+        "includeParent": false,
       },
-      "negate": false,
-      "originalInput": "app::*",
-      "path": Object {
-        "descendants": Object {
-          "includeParent": false,
-        },
-        "value": ".:app",
-      },
+      "value": ".:app",
     },
   },
 ]
 `;
 
 exports[`parse app@* 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "eq",
-        "value": "*",
-      },
-      "negate": false,
-      "originalInput": "app@*",
-      "path": Object {
-        "descendants": false,
-        "value": ".:app",
-      },
+[
+  {
+    "level": {
+      "comp": "eq",
+      "value": "*",
+    },
+    "negate": false,
+    "originalInput": "app@*",
+    "path": {
+      "descendants": false,
+      "value": ".:app",
     },
   },
 ]
 `;
 
 exports[`parse app1 1`] = `
-Array [
-  Object {
-    "_tag": "Right",
-    "right": Object {
-      "level": Object {
-        "comp": "gte",
-        "value": "trace",
-      },
-      "negate": false,
-      "originalInput": "app1",
-      "path": Object {
-        "descendants": false,
-        "value": ".:app1",
-      },
+[
+  {
+    "level": {
+      "comp": "gte",
+      "value": "trace",
+    },
+    "negate": false,
+    "originalInput": "app1",
+    "path": {
+      "descendants": false,
+      "value": ".:app1",
     },
   },
 ]
 `;
 
 exports[`parse syntax errors ! 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "!"],
-  },
+[
+  [Error: Invalid filter pattern: "!"],
 ]
 `;
 
 exports[`parse syntax errors ** 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "**"],
-  },
+[
+  [Error: Invalid filter pattern: "**"],
 ]
 `;
 
 exports[`parse syntax errors *+ 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*+"],
-  },
+[
+  [Error: Invalid filter pattern: "*+"],
 ]
 `;
 
 exports[`parse syntax errors *a 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "*a"],
-  },
+[
+  [Error: Invalid filter pattern: "*a"],
 ]
 `;
 
 exports[`parse syntax errors , 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ",. There must be at least one pattern present."],
-  },
+[
+  [Error: Invalid filter pattern: ",. There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors .. 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ".."],
-  },
+[
+  [Error: Invalid filter pattern: ".."],
 ]
 `;
 
 exports[`parse syntax errors .a. 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ".a."],
-  },
+[
+  [Error: Invalid filter pattern: ".a."],
 ]
 `;
 
 exports[`parse syntax errors <empty> 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: ". There must be at least one pattern present."],
-  },
+[
+  [Error: Invalid filter pattern: ". There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors <whitespace> 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: " . There must be at least one pattern present."],
-  },
+[
+  [Error: Invalid filter pattern: " . There must be at least one pattern present."],
 ]
 `;
 
 exports[`parse syntax errors @ 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "@"],
-  },
+[
+  [Error: Invalid filter pattern: "@"],
 ]
 `;
 
 exports[`parse syntax errors @1 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "@1"],
-  },
+[
+  [Error: Invalid filter pattern: "@1"],
 ]
 `;
 
 exports[`parse syntax errors a! 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a!"],
-  },
+[
+  [Error: Invalid filter pattern: "a!"],
 ]
 `;
 
 exports[`parse syntax errors a+ 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a+"],
-  },
+[
+  [Error: Invalid filter pattern: "a+"],
 ]
 `;
 
 exports[`parse syntax errors a. 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a."],
-  },
+[
+  [Error: Invalid filter pattern: "a."],
 ]
 `;
 
 exports[`parse syntax errors a:@1 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a:@1"],
-  },
+[
+  [Error: Invalid filter pattern: "a:@1"],
 ]
 `;
 
 exports[`parse syntax errors a@ 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@"],
-  },
+[
+  [Error: Invalid filter pattern: "a@"],
 ]
 `;
 
 exports[`parse syntax errors a@*! 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*!"],
-  },
+[
+  [Error: Invalid filter pattern: "a@*!"],
 ]
 `;
 
 exports[`parse syntax errors a@*+ 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*+"],
-  },
+[
+  [Error: Invalid filter pattern: "a@*+"],
 ]
 `;
 
 exports[`parse syntax errors a@*- 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@*-"],
-  },
+[
+  [Error: Invalid filter pattern: "a@*-"],
 ]
 `;
 
 exports[`parse syntax errors a@+* 1`] = `
-Array [
-  Object {
-    "_tag": "Left",
-    "left": [Error: Invalid filter pattern: "a@+*"],
-  },
+[
+  [Error: Invalid filter pattern: "a@+*"],
 ]
 `;
 
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to 1 pattern 1 error 1`] = `
-Array [
-  Array [
-    "Your log filter's pattern was invalid: \\"[31m![39m\\"
+[
+  [
+    "Your log filter's pattern was invalid: "[31m![39m"
 
 [1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
 [1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
@@ -775,16 +637,16 @@ Array [
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as \\"app\\"[39m
-    .:*         [90mSame as \\"*\\"[39m
+    .:app       [90mSame as "app"[39m
+    .:*         [90mSame as "*"[39m
   ",
   ],
 ]
 `;
 
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns <n errors 1`] = `
-Array [
-  Array [
+[
+  [
     "Some (2) of the patterns in your log filter were invalid:
 
     [31m![39m
@@ -844,16 +706,16 @@ Array [
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as \\"app\\"[39m
-    .:*         [90mSame as \\"*\\"[39m
+    .:app       [90mSame as "app"[39m
+    .:*         [90mSame as "*"[39m
   ",
   ],
 ]
 `;
 
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns =n errors 1`] = `
-Array [
-  Array [
+[
+  [
     "All of the patterns in your log filter were invalid:
 
     [31m![39m
@@ -913,17 +775,17 @@ Array [
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as \\"app\\"[39m
-    .:*         [90mSame as \\"*\\"[39m
+    .:app       [90mSame as "app"[39m
+    .:*         [90mSame as "*"[39m
   ",
   ],
 ]
 `;
 
 exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns 1 error 1`] = `
-Array [
-  Array [
-    "One of the patterns in your log filter was invalid: \\"[31m![39m\\"
+[
+  [
+    "One of the patterns in your log filter was invalid: "[31m![39m"
 
 [1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
 [1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
@@ -979,8 +841,8 @@ Array [
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as \\"app\\"[39m
-    .:*         [90mSame as \\"*\\"[39m
+    .:app       [90mSame as "app"[39m
+    .:*         [90mSame as "*"[39m
   ",
   ],
 ]

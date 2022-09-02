@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`filter LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
-Array [
-  Array [
-    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: \\"**\\"
+[
+  [
+    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: "**"
 
 LOG FILTERING SYNTAX MANUAL  ⟁
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
@@ -59,23 +59,23 @@ Examples
     Explicit Root
     .           root path at defualt level
     .@info      root path at info level
-    .:app       Same as \\"app\\"
-    .:*         Same as \\"*\\"
+    .:app       Same as "app"
+    .:*         Same as "*"
   ",
   ],
 ]
 `;
 
 exports[`filter precedence considers instance time config first 1`] = `
-Array [
-  Object {
-    "level": Object {
+[
+  {
+    "level": {
       "comp": "gte",
       "value": "debug",
     },
     "negate": false,
     "originalInput": "foo",
-    "path": Object {
+    "path": {
       "descendants": false,
       "value": ".:foo",
     },
@@ -84,23 +84,23 @@ Array [
 `;
 
 exports[`filter precedence then considers LOG_FILTER env var 1`] = `
-Object {
-  "defaults": Object {
-    "level": Object {
+{
+  "defaults": {
+    "level": {
       "comp": "gte",
       "value": "debug",
     },
   },
   "originalInput": undefined,
-  "patterns": Array [
-    Object {
-      "level": Object {
+  "patterns": [
+    {
+      "level": {
         "comp": "gte",
         "value": "debug",
       },
       "negate": false,
       "originalInput": "from_env_var",
-      "path": Object {
+      "path": {
         "descendants": false,
         "value": ".:from_env_var",
       },
@@ -110,24 +110,24 @@ Object {
 `;
 
 exports[`filter precedence then considers construction time config 1`] = `
-Object {
-  "defaults": Object {
-    "level": Object {
+{
+  "defaults": {
+    "level": {
       "comp": "gte",
       "value": "debug",
     },
   },
   "originalInput": "*@fatal",
-  "patterns": Array [
-    Object {
-      "level": Object {
+  "patterns": [
+    {
+      "level": {
         "comp": "eq",
         "value": "fatal",
       },
       "negate": false,
       "originalInput": "*@fatal",
-      "path": Object {
-        "descendants": Object {
+      "path": {
+        "descendants": {
           "includeParent": true,
         },
         "value": ".",
@@ -138,24 +138,24 @@ Object {
 `;
 
 exports[`filter precedence then defaults to "* 1`] = `
-Object {
-  "defaults": Object {
-    "level": Object {
+{
+  "defaults": {
+    "level": {
       "comp": "gte",
       "value": "debug",
     },
   },
   "originalInput": "*",
-  "patterns": Array [
-    Object {
-      "level": Object {
+  "patterns": [
+    {
+      "level": {
         "comp": "gte",
         "value": "debug",
       },
       "negate": false,
       "originalInput": "*",
-      "path": Object {
-        "descendants": Object {
+      "path": {
+        "descendants": {
           "includeParent": true,
         },
         "value": ".",

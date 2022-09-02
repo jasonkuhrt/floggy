@@ -1,10 +1,10 @@
 import * as Os from 'node:os'
+import * as util from 'node:util'
 import stripAnsi from 'strip-ansi'
-import * as util from 'util'
-import { chalk, Chalk } from '../chalk'
-import * as Level from '../level'
-import * as Logger from '../logger'
-import * as utils from '../utils'
+import { chalk, Chalk } from '../chalk.js'
+import * as Level from '../level.js'
+import * as Logger from '../logger.js'
+import * as utils from '../utils.js'
 
 const stopWatch = createStopWatch()
 
