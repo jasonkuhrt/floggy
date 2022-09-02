@@ -25,6 +25,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "lint:check": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "types:check": "pnpm tsc --noEmit",
     "dev": "pnpm clean && tsc -w -p tsconfig.cjs.json",
     "dev:test": "pnpm test --watch",
     "build": "pnpm clean && pnpm build:cjs && pnpm build:esm",
