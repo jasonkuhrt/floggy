@@ -16,6 +16,7 @@ specifiers:
   dripip: 0.10.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-only-warn: 1.0.3
+  execa: ^5.1.1
   format-imports: 2.4.1
   jest: 29.0.1
   jest-watch-select-projects: ^2.0.0
@@ -52,6 +53,7 @@ devDependencies:
   dripip: 0.10.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-only-warn: 1.0.3
+  execa: 5.1.1
   format-imports: 2.4.1
   jest: 29.0.1_gsb7asu77en4txj3es3i65pxci
   jest-watch-select-projects: 2.0.0
@@ -3331,7 +3333,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.10
     dev: true
 
   /jsonfile/6.1.0:
@@ -3339,7 +3341,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.10
     dev: true
 
   /jsprim/1.4.1:
