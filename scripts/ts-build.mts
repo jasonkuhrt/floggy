@@ -2,7 +2,8 @@ import { execaCommandSync } from 'execa'
 import * as Glob from 'fast-glob'
 import * as Fs from 'fs-jetpack'
 
-console.log(process.argv)
+// eslint-disable-next-line
+const mode = process.argv[2]!.slice(2) as Mode
 
 type Mode = 'cjs' | 'esm'
 
@@ -16,6 +17,11 @@ const extensions = {
   esm: { node: `mjs`, ts: `mts` }
 } as const
 
+if (mode === `esm`) {
+  execaCommandSync(`pnpm tsc --project tsconfig.${mode}.json`, { stdio: `inherit` })
+  process.exit(0)
+}
+
 const changeImportFilePathMode = (mode: Mode, string: string) =>
   string.replace(new RegExp(`\\.${extensions[oppositeMode[mode]].node}'$`, `g`), `.${extensions[mode].node}'`)
 
@@ -23,8 +29,6 @@ const changeFilePathMode = (mode: Mode, string: string) =>
   string.replace(new RegExp(`\\.${extensions[oppositeMode[mode]].ts}$`, `g`), `.${extensions[mode].ts}`)
 
 execaCommandSync(`pnpm tsc --project tsconfig.esm.json`, { stdio: `inherit` })
-
-const mode: Mode = `cjs`
 
 const files = Glob.sync(`src/**/*.${extensions[oppositeMode[mode]].ts}`)
 

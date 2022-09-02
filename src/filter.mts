@@ -379,7 +379,7 @@ ${bold(b(`Examples`))}
 }
 
 const isParseError = (value: unknown): value is ParseError => value instanceof Error
-const getError = <T>(value: unknown): null | T => {
+const getError = <T extends unknown>(value: unknown): null | T => {
   // @ts-expect-error ignore
   if (value instanceof Error) return value
   return null

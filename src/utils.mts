@@ -64,7 +64,7 @@ export const casesHandled = (x: never): never => {
 /**
  * Create a function that will only ever return the given value when called.
  */
-export const constant = <T>(x: T): (() => T) => {
+export const constant = <T extends unknown>(x: T): (() => T) => {
   return () => {
     return x
   }
@@ -93,7 +93,7 @@ export const omitUndefinedKeys = <T extends Record<string, unknown>>(data: T): T
 /**
  * Get the last item of an array.
  */
-export const last = <T>(xs: T[]): T | undefined => {
+export const last = <T extends unknown>(xs: T[]): T | undefined => {
   return xs[xs.length - 1]
 }
 
@@ -108,7 +108,7 @@ export const isEmpty = (x?: object | string): boolean => {
  * Run a given parser over an environment variable. If parsing fails, throw a
  * contextual error message.
  */
-export const parseFromEnvironment = <T>(
+export const parseFromEnvironment = <T extends unknown>(
   key: string,
   parser: {
     info: { valid: string; typeName: string }
