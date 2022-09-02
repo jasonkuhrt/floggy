@@ -1,0 +1,35 @@
+name: pr
+
+on:
+  - pull_request
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+  format-imports:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup
+      - run: pnpm format:check:imports
+  prettier:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup
+      - run: pnpm format:check:prettier
+  eslint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup
+      - run: pnpm lint:check
+  test:
+    needs: setup
+    uses: ./.github/workflows/test.yaml

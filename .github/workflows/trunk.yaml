@@ -1,0 +1,22 @@
+name: trunk
+on:
+  push:
+    branches: [main]
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+  test:
+    needs: setup
+    uses: ./.github/workflows/test.yaml
+  release-canary:
+    needs: [test]
+    if: needs.checkNpmTokenSet.outputs.isNpmTokenSet == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: prisma-labs/dripip@master
+        with:
+          npmToken: ${{secrets.NPM_TOKEN}}
+          githubToken: ${{secrets.GITHUB_TOKEN}}
