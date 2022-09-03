@@ -47,7 +47,6 @@
     "@types/node": "18.7.14",
     "@typescript-eslint/eslint-plugin": "5.36.1",
     "@typescript-eslint/parser": "5.36.1",
-    "chalk": "4.1.2",
     "cross-env": "7.0.3",
     "dripip": "0.10.0",
     "eslint": "8.23.0",
@@ -66,6 +65,7 @@
     "vitest": "^0.22.1"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
     "kleur": "^4.1.5",
     "lodash": "^4.17.21",
     "strip-ansi": "6"
