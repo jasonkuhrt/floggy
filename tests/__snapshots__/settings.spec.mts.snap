@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`filter LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
+exports[`filter > LOG_FILTER envar config when invalid triggers readable log warning 1`] = `
 [
   [
-    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: "**"
+    "Your log filter's pattern found in environment variable LOG_FILTER. was invalid: \\"**\\"
 
 LOG FILTERING SYNTAX MANUAL  ⟁
 ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
@@ -59,14 +59,14 @@ Examples
     Explicit Root
     .           root path at defualt level
     .@info      root path at info level
-    .:app       Same as "app"
-    .:*         Same as "*"
+    .:app       Same as \\"app\\"
+    .:*         Same as \\"*\\"
   ",
   ],
 ]
 `;
 
-exports[`filter precedence considers instance time config first 1`] = `
+exports[`filter > precedence > considers instance time config first 1`] = `
 [
   {
     "level": {
@@ -83,7 +83,7 @@ exports[`filter precedence considers instance time config first 1`] = `
 ]
 `;
 
-exports[`filter precedence then considers LOG_FILTER env var 1`] = `
+exports[`filter > precedence > then considers LOG_FILTER env var 1`] = `
 {
   "defaults": {
     "level": {
@@ -109,7 +109,7 @@ exports[`filter precedence then considers LOG_FILTER env var 1`] = `
 }
 `;
 
-exports[`filter precedence then considers construction time config 1`] = `
+exports[`filter > precedence > then considers construction time config 1`] = `
 {
   "defaults": {
     "level": {
@@ -137,7 +137,7 @@ exports[`filter precedence then considers construction time config 1`] = `
 }
 `;
 
-exports[`filter precedence then defaults to "* 1`] = `
+exports[`filter > precedence > then defaults to "* 1`] = `
 {
   "defaults": {
     "level": {

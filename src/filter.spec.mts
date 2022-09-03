@@ -1,6 +1,7 @@
-import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.js'
-import * as Filter from './filter'
-import { LogRecord } from './logger'
+import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.mjs'
+import * as Filter from './filter.mjs'
+import { LogRecord } from './logger.mjs'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 /**
  * Secondary Helpers

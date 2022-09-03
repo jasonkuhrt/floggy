@@ -1,12 +1,13 @@
-import * as Logger from '../src'
-import * as RootLogger from '../src/root-logger'
+import { beforeEach, describe, expect, it } from 'vitest'
+import * as Logger from '../src/index.mjs'
+import * as RootLogger from '../src/root-logger.mjs'
 import {
   createMemoryOutput,
   MemoryOutput,
   mockConsoleLog,
   resetBeforeEachTest,
   unmockConsoleLog
-} from './__helpers'
+} from './__helpers.mjs'
 
 let l: Logger.RootLogger
 let output: MemoryOutput
@@ -154,7 +155,7 @@ describe('pretty', () => {
       expect(l.settings.pretty.timeDiff).toBe(true)
     })
     // todo these tests as unit level to some pure logic functions would be
-    // easy... e.g. prettifier.spec.ts ... But then we run the risk of sliding
+    // easy... e.g. prettifier.spec.mts ... But then we run the risk of sliding
     // toward testing internals too much :\
     it.todo('renders as secodns if >= 10s')
     it.todo('renders as minutes if >= 100s')

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`parse !a 1`] = `
+exports[`parse > !a 1`] = `
 [
   {
     "level": {
@@ -17,7 +17,7 @@ exports[`parse !a 1`] = `
 ]
 `;
 
-exports[`parse * 1`] = `
+exports[`parse > * 1`] = `
 [
   {
     "level": {
@@ -36,7 +36,7 @@ exports[`parse * 1`] = `
 ]
 `;
 
-exports[`parse *@* 1`] = `
+exports[`parse > *@* 1`] = `
 [
   {
     "level": {
@@ -55,7 +55,7 @@ exports[`parse *@* 1`] = `
 ]
 `;
 
-exports[`parse *@1 1`] = `
+exports[`parse > *@1 1`] = `
 [
   {
     "level": {
@@ -74,7 +74,7 @@ exports[`parse *@1 1`] = `
 ]
 `;
 
-exports[`parse , ,  a, 1`] = `
+exports[`parse > , ,  a, 1`] = `
 [
   {
     "level": {
@@ -91,7 +91,7 @@ exports[`parse , ,  a, 1`] = `
 ]
 `;
 
-exports[`parse ,,a,b 1`] = `
+exports[`parse > ,,a,b 1`] = `
 [
   {
     "level": {
@@ -120,7 +120,7 @@ exports[`parse ,,a,b 1`] = `
 ]
 `;
 
-exports[`parse . 1`] = `
+exports[`parse > . 1`] = `
 [
   {
     "level": {
@@ -137,7 +137,7 @@ exports[`parse . 1`] = `
 ]
 `;
 
-exports[`parse .:* 1`] = `
+exports[`parse > .:* 1`] = `
 [
   {
     "level": {
@@ -156,7 +156,7 @@ exports[`parse .:* 1`] = `
 ]
 `;
 
-exports[`parse .:*@1 1`] = `
+exports[`parse > .:*@1 1`] = `
 [
   {
     "level": {
@@ -175,7 +175,7 @@ exports[`parse .:*@1 1`] = `
 ]
 `;
 
-exports[`parse .::* 1`] = `
+exports[`parse > .::* 1`] = `
 [
   {
     "level": {
@@ -194,7 +194,7 @@ exports[`parse .::* 1`] = `
 ]
 `;
 
-exports[`parse .:a 1`] = `
+exports[`parse > .:a 1`] = `
 [
   {
     "level": {
@@ -211,7 +211,7 @@ exports[`parse .:a 1`] = `
 ]
 `;
 
-exports[`parse .:a:* 1`] = `
+exports[`parse > .:a:* 1`] = `
 [
   {
     "level": {
@@ -230,7 +230,7 @@ exports[`parse .:a:* 1`] = `
 ]
 `;
 
-exports[`parse .@* 1`] = `
+exports[`parse > .@* 1`] = `
 [
   {
     "level": {
@@ -247,7 +247,7 @@ exports[`parse .@* 1`] = `
 ]
 `;
 
-exports[`parse a 1`] = `
+exports[`parse > a 1`] = `
 [
   {
     "level": {
@@ -264,7 +264,7 @@ exports[`parse a 1`] = `
 ]
 `;
 
-exports[`parse a,b 1`] = `
+exports[`parse > a,b 1`] = `
 [
   {
     "level": {
@@ -293,7 +293,7 @@ exports[`parse a,b 1`] = `
 ]
 `;
 
-exports[`parse a:b 1`] = `
+exports[`parse > a:b 1`] = `
 [
   {
     "level": {
@@ -310,7 +310,7 @@ exports[`parse a:b 1`] = `
 ]
 `;
 
-exports[`parse a:b:* 1`] = `
+exports[`parse > a:b:* 1`] = `
 [
   {
     "level": {
@@ -329,7 +329,7 @@ exports[`parse a:b:* 1`] = `
 ]
 `;
 
-exports[`parse a:b:*@info 1`] = `
+exports[`parse > a:b:*@info 1`] = `
 [
   {
     "level": {
@@ -348,7 +348,7 @@ exports[`parse a:b:*@info 1`] = `
 ]
 `;
 
-exports[`parse app:* 1`] = `
+exports[`parse > app:* 1`] = `
 [
   {
     "level": {
@@ -367,7 +367,7 @@ exports[`parse app:* 1`] = `
 ]
 `;
 
-exports[`parse app:*@* 1`] = `
+exports[`parse > app:*@* 1`] = `
 [
   {
     "level": {
@@ -386,7 +386,7 @@ exports[`parse app:*@* 1`] = `
 ]
 `;
 
-exports[`parse app:*@1 1`] = `
+exports[`parse > app:*@1 1`] = `
 [
   {
     "level": {
@@ -405,7 +405,7 @@ exports[`parse app:*@1 1`] = `
 ]
 `;
 
-exports[`parse app::* 1`] = `
+exports[`parse > app::* 1`] = `
 [
   {
     "level": {
@@ -424,7 +424,7 @@ exports[`parse app::* 1`] = `
 ]
 `;
 
-exports[`parse app@* 1`] = `
+exports[`parse > app@* 1`] = `
 [
   {
     "level": {
@@ -441,7 +441,7 @@ exports[`parse app@* 1`] = `
 ]
 `;
 
-exports[`parse app1 1`] = `
+exports[`parse > app1 1`] = `
 [
   {
     "level": {
@@ -458,130 +458,130 @@ exports[`parse app1 1`] = `
 ]
 `;
 
-exports[`parse syntax errors ! 1`] = `
+exports[`parse syntax errors > ! 1`] = `
 [
   [Error: Invalid filter pattern: "!"],
 ]
 `;
 
-exports[`parse syntax errors ** 1`] = `
+exports[`parse syntax errors > ** 1`] = `
 [
   [Error: Invalid filter pattern: "**"],
 ]
 `;
 
-exports[`parse syntax errors *+ 1`] = `
+exports[`parse syntax errors > *+ 1`] = `
 [
   [Error: Invalid filter pattern: "*+"],
 ]
 `;
 
-exports[`parse syntax errors *a 1`] = `
+exports[`parse syntax errors > *a 1`] = `
 [
   [Error: Invalid filter pattern: "*a"],
 ]
 `;
 
-exports[`parse syntax errors , 1`] = `
+exports[`parse syntax errors > , 1`] = `
 [
   [Error: Invalid filter pattern: ",. There must be at least one pattern present."],
 ]
 `;
 
-exports[`parse syntax errors .. 1`] = `
+exports[`parse syntax errors > .. 1`] = `
 [
   [Error: Invalid filter pattern: ".."],
 ]
 `;
 
-exports[`parse syntax errors .a. 1`] = `
+exports[`parse syntax errors > .a. 1`] = `
 [
   [Error: Invalid filter pattern: ".a."],
 ]
 `;
 
-exports[`parse syntax errors <empty> 1`] = `
+exports[`parse syntax errors > <empty> 1`] = `
 [
   [Error: Invalid filter pattern: ". There must be at least one pattern present."],
 ]
 `;
 
-exports[`parse syntax errors <whitespace> 1`] = `
+exports[`parse syntax errors > <whitespace> 1`] = `
 [
   [Error: Invalid filter pattern: " . There must be at least one pattern present."],
 ]
 `;
 
-exports[`parse syntax errors @ 1`] = `
+exports[`parse syntax errors > @ 1`] = `
 [
   [Error: Invalid filter pattern: "@"],
 ]
 `;
 
-exports[`parse syntax errors @1 1`] = `
+exports[`parse syntax errors > @1 1`] = `
 [
   [Error: Invalid filter pattern: "@1"],
 ]
 `;
 
-exports[`parse syntax errors a! 1`] = `
+exports[`parse syntax errors > a! 1`] = `
 [
   [Error: Invalid filter pattern: "a!"],
 ]
 `;
 
-exports[`parse syntax errors a+ 1`] = `
+exports[`parse syntax errors > a+ 1`] = `
 [
   [Error: Invalid filter pattern: "a+"],
 ]
 `;
 
-exports[`parse syntax errors a. 1`] = `
+exports[`parse syntax errors > a. 1`] = `
 [
   [Error: Invalid filter pattern: "a."],
 ]
 `;
 
-exports[`parse syntax errors a:@1 1`] = `
+exports[`parse syntax errors > a:@1 1`] = `
 [
   [Error: Invalid filter pattern: "a:@1"],
 ]
 `;
 
-exports[`parse syntax errors a@ 1`] = `
+exports[`parse syntax errors > a@ 1`] = `
 [
   [Error: Invalid filter pattern: "a@"],
 ]
 `;
 
-exports[`parse syntax errors a@*! 1`] = `
+exports[`parse syntax errors > a@*! 1`] = `
 [
   [Error: Invalid filter pattern: "a@*!"],
 ]
 `;
 
-exports[`parse syntax errors a@*+ 1`] = `
+exports[`parse syntax errors > a@*+ 1`] = `
 [
   [Error: Invalid filter pattern: "a@*+"],
 ]
 `;
 
-exports[`parse syntax errors a@*- 1`] = `
+exports[`parse syntax errors > a@*- 1`] = `
 [
   [Error: Invalid filter pattern: "a@*-"],
 ]
 `;
 
-exports[`parse syntax errors a@+* 1`] = `
+exports[`parse syntax errors > a@+* 1`] = `
 [
   [Error: Invalid filter pattern: "a@+*"],
 ]
 `;
 
-exports[`processLogFilterInput renders log when invalid filter given renders sensitive to 1 pattern 1 error 1`] = `
+exports[`processLogFilterInput > renders log when invalid filter given > renders sensitive to 1 pattern 1 error 1`] = `
 [
   [
-    "Your log filter's pattern was invalid: "[31m![39m"
+    "Your log filter's pattern was invalid: \\"[31m![39m\\"
 
 [1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
 [1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
@@ -637,14 +637,14 @@ exports[`processLogFilterInput renders log when invalid filter given renders sen
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as "app"[39m
-    .:*         [90mSame as "*"[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
   ",
   ],
 ]
 `;
 
-exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns <n errors 1`] = `
+exports[`processLogFilterInput > renders log when invalid filter given > renders sensitive to n patterns <n errors 1`] = `
 [
   [
     "Some (2) of the patterns in your log filter were invalid:
@@ -706,14 +706,14 @@ exports[`processLogFilterInput renders log when invalid filter given renders sen
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as "app"[39m
-    .:*         [90mSame as "*"[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
   ",
   ],
 ]
 `;
 
-exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns =n errors 1`] = `
+exports[`processLogFilterInput > renders log when invalid filter given > renders sensitive to n patterns =n errors 1`] = `
 [
   [
     "All of the patterns in your log filter were invalid:
@@ -775,17 +775,17 @@ exports[`processLogFilterInput renders log when invalid filter given renders sen
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as "app"[39m
-    .:*         [90mSame as "*"[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
   ",
   ],
 ]
 `;
 
-exports[`processLogFilterInput renders log when invalid filter given renders sensitive to n patterns 1 error 1`] = `
+exports[`processLogFilterInput > renders log when invalid filter given > renders sensitive to n patterns 1 error 1`] = `
 [
   [
-    "One of the patterns in your log filter was invalid: "[31m![39m"
+    "One of the patterns in your log filter was invalid: \\"[31m![39m\\"
 
 [1m[34mLOG FILTERING SYNTAX MANUAL  ⟁[39m[22m
 [1m[34m▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[39m[22m
@@ -841,8 +841,8 @@ exports[`processLogFilterInput renders log when invalid filter given renders sen
     [1m[35mExplicit Root[39m[22m
     .           [90mroot path at defualt level[39m
     .@info      [90mroot path at info level[39m
-    .:app       [90mSame as "app"[39m
-    .:*         [90mSame as "*"[39m
+    .:app       [90mSame as \\"app\\"[39m
+    .:*         [90mSame as \\"*\\"[39m
   ",
   ],
 ]

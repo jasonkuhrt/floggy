@@ -1,8 +1,9 @@
-import { chalk } from '../chalk'
-import { LogRecord } from '../logger'
-import { spanChar } from '../utils'
-import { Renderer } from './'
+import { chalk } from '../chalk.mjs'
+import { LogRecord } from '../logger.mjs'
+import { spanChar } from '../utils.mjs'
+import { Renderer } from './index.mjs'
 import * as OS from 'node:os'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 const makeRec = (data?: Omit<Partial<LogRecord>, 'event'>): LogRecord => {
   return {
