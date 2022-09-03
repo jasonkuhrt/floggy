@@ -1,4 +1,5 @@
 import * as Lo from 'lodash'
+import { beforeEach } from 'vitest'
 import * as Output from '../src/output.mjs'
 
 /**

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from 'vitest'
 import * as Logger from '../src/index.mjs'
 import * as RootLogger from '../src/root-logger.mjs'
 import {

@@ -5,6 +5,7 @@
 // either remove them, rewrite them to be agnostic, or find way to run them only
 // in v12 test suite
 
+import { beforeEach, describe, expect, it } from 'vitest'
 import * as Logger from '../src/index.mjs'
 import * as RootLogger from '../src/root-logger.mjs'
 import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers.mjs'

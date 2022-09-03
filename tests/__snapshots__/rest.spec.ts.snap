@@ -1,4 +1,51 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`.<level> log methods > accept an event name and optional context 1`] = `
+[
+  {
+    "context": {
+      "user": {
+        "id": 1,
+      },
+    },
+    "event": "hi",
+    "level": 3,
+  },
+  {
+    "event": "bye",
+    "level": 3,
+  },
+]
+`;
+
+exports[`.<level> log methods > one for each log level 1`] = `
+[
+  {
+    "event": "hi-fatal",
+    "level": 6,
+  },
+  {
+    "event": "hi-error",
+    "level": 5,
+  },
+  {
+    "event": "hi-warn",
+    "level": 4,
+  },
+  {
+    "event": "hi-info",
+    "level": 3,
+  },
+  {
+    "event": "hi-debug",
+    "level": 2,
+  },
+  {
+    "event": "hi-trace",
+    "level": 1,
+  },
+]
+`;
 
 exports[`.<level> log methods accept an event name and optional context 1`] = `
 [
@@ -43,6 +90,64 @@ exports[`.<level> log methods one for each log level 1`] = `
   {
     "event": "hi-trace",
     "level": 1,
+  },
+]
+`;
+
+exports[`.addToContext > can be called multiple times, merging deeply 1`] = `
+[
+  {
+    "context": {
+      "user": {
+        "id": 1,
+        "name": "Jill",
+      },
+    },
+    "event": "hi",
+    "level": 3,
+  },
+]
+`;
+
+exports[`.addToContext > gets deeply merged with local context 1`] = `
+[
+  {
+    "context": {
+      "user": {
+        "id": 1,
+        "name": "Jill",
+      },
+    },
+    "event": "hi",
+    "level": 3,
+  },
+]
+`;
+
+exports[`.addToContext > local context takes prescedence over pinned context 1`] = `
+[
+  {
+    "context": {
+      "user": {
+        "id": 2,
+      },
+    },
+    "event": "hi",
+    "level": 3,
+  },
+]
+`;
+
+exports[`.addToContext > pins context for all subsequent logs from the logger 1`] = `
+[
+  {
+    "context": {
+      "user": {
+        "id": 1,
+      },
+    },
+    "event": "hi",
+    "level": 3,
   },
 ]
 `;
@@ -101,6 +206,80 @@ exports[`.addToContext pins context for all subsequent logs from the logger 1`] 
     },
     "event": "hi",
     "level": 3,
+  },
+]
+`;
+
+exports[`.child > creates a sub logger 1`] = `
+[
+  {
+    "event": "hi",
+    "level": 3,
+    "path": [
+      "tim",
+    ],
+  },
+]
+`;
+
+exports[`.child > inherits level from parent 1`] = `
+[
+  {
+    "event": "hi",
+    "level": 1,
+    "path": [
+      "tim",
+    ],
+  },
+]
+`;
+
+exports[`.child > is unable to change context of siblings 1`] = `
+[
+  {
+    "context": {
+      "foo": "bar",
+      "from": "b1",
+    },
+    "event": "foo",
+    "level": 3,
+    "path": [
+      "b1",
+    ],
+  },
+  {
+    "context": {
+      "foo": "bar",
+      "from": "b2",
+    },
+    "event": "foo",
+    "level": 3,
+    "path": [
+      "b2",
+    ],
+  },
+  {
+    "context": {
+      "foo": "bar",
+      "from": "b3",
+    },
+    "event": "foo",
+    "level": 3,
+    "path": [
+      "b3",
+    ],
+  },
+]
+`;
+
+exports[`.child > reacts to level changes in root logger 1`] = `
+[
+  {
+    "event": "foo",
+    "level": 1,
+    "path": [
+      "b",
+    ],
   },
 ]
 `;
@@ -175,6 +354,15 @@ exports[`.child reacts to level changes in root logger 1`] = `
     "path": [
       "b",
     ],
+  },
+]
+`;
+
+exports[`output > defaults to stdout for all levels 1`] = `
+[
+  {
+    "event": "foo",
+    "level": 6,
   },
 ]
 `;
