@@ -155,7 +155,7 @@ describe('pretty', () => {
       expect(l.settings.pretty.timeDiff).toBe(true)
     })
     // todo these tests as unit level to some pure logic functions would be
-    // easy... e.g. prettifier.spec.ts ... But then we run the risk of sliding
+    // easy... e.g. prettifier.spec.mts ... But then we run the risk of sliding
     // toward testing internals too much :\
     it.todo('renders as secodns if >= 10s')
     it.todo('renders as minutes if >= 100s')
