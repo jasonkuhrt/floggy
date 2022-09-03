@@ -9,7 +9,6 @@
     // Use ESM
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "esModuleInterop": true,
 
     // Make the compiler stricter, catch more errors
     "noImplicitReturns": true,
