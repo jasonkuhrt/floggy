@@ -9,16 +9,16 @@
     "build"
   ],
   "type": "module",
-  "types": "./dist/esm/index.d.ts",
+  "types": "./build/esm/index.d.ts",
   "exports": {
     ".": {
       "require": {
-        "types": "./dist/cjs/index.d.cts",
-        "default": "./dist/cjs/index.cjs"
+        "types": "./build/cjs/index.d.cts",
+        "default": "./build/cjs/index.cjs"
       },
       "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
       }
     }
   },
@@ -34,7 +34,7 @@
     "build:cjs": "ts-node scripts/build-cjs.ts",
     "build:esm": "pnpm tsc --project tsconfig.esm.json",
     "test": "cross-env FORCE_COLOR=1 vitest",
-    "clean": "rm -rf dist node_modules/.cache",
+    "clean": "rm -rf build node_modules/.cache",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",
