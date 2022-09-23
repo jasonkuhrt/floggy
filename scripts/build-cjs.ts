@@ -11,13 +11,13 @@ type Mode = 'cjs' | 'esm'
 
 const oppositeMode = {
   esm: `cjs`,
-  cjs: `esm`,
+  cjs: `esm`
 } as const
 
 const typeScriptExtensions = {
   cjs: { node: `cjs`, ts: `cts` },
   esm: { node: `mjs`, ts: `mts` },
-  default: { node: `js`, ts: `ts` },
+  default: { node: `js`, ts: `ts` }
 } as const
 
 const getOppositeExtension = (mode: Mode) => {
