@@ -1,7 +1,7 @@
-import { validPathSegmentNameRegex } from './data.mjs'
-import * as Filter from './filter.mjs'
-import { LEVELS, Name, Num } from './level.mjs'
-import * as RootLogger from './root-logger.mjs'
+import { validPathSegmentNameRegex } from './data.js'
+import * as Filter from './filter.js'
+import { LEVELS, Name, Num } from './level.js'
+import * as RootLogger from './root-logger.js'
 import * as Lo from 'lodash'
 import * as OS from 'node:os'
 

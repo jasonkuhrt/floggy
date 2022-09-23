@@ -1,11 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist/esm",
-    "rootDir": "src",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true
+    "outDir": "build/esm",
+    "rootDir": "src"
   },
   "include": ["src"],
   "exclude": ["**/*.spec.*"]

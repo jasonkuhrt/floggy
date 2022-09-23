@@ -1,4 +1,4 @@
-import * as RootLogger from './root-logger.mjs'
+import * as RootLogger from './root-logger.js'
 
 export const demo = (log?: RootLogger.RootLogger): void => {
   console.log(``)
@@ -59,6 +59,6 @@ export const demo = (log?: RootLogger.RootLogger): void => {
   console.log(``)
 }
 
-if (process.env.LOG_DEMO) {
+if (process.env[`LOG_DEMO`]) {
   demo()
 }

@@ -1,6 +1,6 @@
-import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.mjs'
-import * as Filter from './filter.mjs'
-import { LogRecord } from './logger.mjs'
+import { mockConsoleLog, unmockConsoleLog } from '../tests/__helpers.js'
+import * as Filter from './filter.js'
+import { LogRecord } from './logger.js'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 /**
@@ -20,7 +20,7 @@ const rec = (data?: Partial<Pick<LogRecord, 'level' | 'path'>>): LogRecord => {
 
 // prevent color from being disabled on CI
 // so that snapshots pass there.
-process.env.FORCE_COLOR = `3`
+process.env[`FORCE_COLOR`] = `3`
 
 /**
  * State

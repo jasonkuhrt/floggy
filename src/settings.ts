@@ -1,8 +1,8 @@
-import { chalk } from './chalk.mjs'
-import * as Filter from './filter.mjs'
-import * as Level from './level.mjs'
-import * as Output from './output.mjs'
-import { casesHandled, omitUndefinedKeys, parseFromEnvironment } from './utils.mjs'
+import { chalk } from './chalk.js'
+import * as Filter from './filter.js'
+import * as Level from './level.js'
+import * as Output from './output.js'
+import { casesHandled, omitUndefinedKeys, parseFromEnvironment } from './utils.js'
 
 export type Manager = Data & {
   (newSettings: Input): void
@@ -247,7 +247,7 @@ export const processSettingInputData = (
 }
 
 const defaultSettingData = (): Data['data'] => {
-  if (process.env?.NODE_ENV === `production`) {
+  if (process.env?.[`NODE_ENV`] === `production`) {
     return {
       hostname: true,
       pid: true,
@@ -277,9 +277,9 @@ export const processSettingInputPretty = (
     (typeof pretty === `object` ? pretty.enabled : undefined) ??
     previous?.enabled ??
     // todo nice is-defined-but-parse-error feedback
-    (process.env?.LOG_PRETTY?.toLowerCase() === `true`
+    (process.env?.[`LOG_PRETTY`]?.toLowerCase() === `true`
       ? true
-      : process.env?.LOG_PRETTY?.toLowerCase() === `false`
+      : process.env?.[`LOG_PRETTY`]?.toLowerCase() === `false`
       ? false
       : process.stdout?.isTTY)
 
@@ -373,18 +373,18 @@ export const processSettingInputFilter = (
 
 export const defaultFilterSetting = (): Data['filter'] => {
   let level: Level.Name
-  if (process.env?.LOG_LEVEL) {
+  if (process.env?.[`LOG_LEVEL`]) {
     level = parseFromEnvironment<Level.Name>(`LOG_LEVEL`, Level.parser)
   } else {
-    level = process.env?.NODE_ENV === `production` ? Level.LEVELS.info.label : Level.LEVELS.debug.label
+    level = process.env?.[`NODE_ENV`] === `production` ? Level.LEVELS.info.label : Level.LEVELS.debug.label
   }
   let originalInput: string
   let patterns
 
-  if (process.env?.LOG_FILTER) {
+  if (process.env?.[`LOG_FILTER`]) {
     patterns = Filter.processLogFilterInput(
       { level: { value: level, comp: `gte` } },
-      process.env?.LOG_FILTER,
+      process.env?.[`LOG_FILTER`],
       `environment variable LOG_FILTER.`
     )
   }

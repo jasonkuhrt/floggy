@@ -6,8 +6,10 @@
   "license": "MIT",
   "files": [
     "src",
-    "dist"
+    "build"
   ],
+  "type": "module",
+  "types": "./dist/esm/index.d.ts",
   "exports": {
     ".": {
       "require": {
@@ -15,22 +17,22 @@
         "default": "./dist/cjs/index.cjs"
       },
       "import": {
-        "types": "./dist/esm/index.d.mts",
-        "default": "./dist/esm/index.mjs"
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
       }
     }
   },
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . --ext .mts --fix",
-    "lint:check": "eslint . --ext .mts --max-warnings 0",
+    "lint": "eslint . --ext .ts --fix",
+    "lint:check": "eslint . --ext .ts --max-warnings 0",
     "types:check": "pnpm tsc --noEmit",
     "dev": "pnpm clean && tsc -w -p tsconfig.cjs.json",
     "dev:test": "pnpm test --watch",
     "build": "pnpm clean && pnpm build:cjs && pnpm build:esm",
-    "build:cjs": "ts-node scripts/ts-build.mts --cjs",
-    "build:esm": "ts-node scripts/ts-build.mts --esm",
+    "build:cjs": "ts-node scripts/build-cjs.ts",
+    "build:esm": "pnpm tsc --project tsconfig.esm.json",
     "test": "cross-env FORCE_COLOR=1 vitest",
     "clean": "rm -rf dist node_modules/.cache",
     "release:stable": "dripip stable",
@@ -42,6 +44,7 @@
     "@prisma-labs/prettier-config": "0.1.0",
     "@swc/core": "1.2.246",
     "@tsconfig/node14": "1.0.3",
+    "@tsconfig/node16": "^1.0.3",
     "@types/chalk": "2.2.0",
     "@types/lodash": "4.14.184",
     "@types/node": "18.7.14",

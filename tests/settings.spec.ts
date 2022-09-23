@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import * as Logger from '../src/index.mjs'
-import * as RootLogger from '../src/root-logger.mjs'
+import * as Logger from '../src/index.js'
+import * as RootLogger from '../src/root-logger.js'
 import {
   createMemoryOutput,
   MemoryOutput,
   mockConsoleLog,
   resetBeforeEachTest,
   unmockConsoleLog
-} from './__helpers.mjs'
+} from './__helpers.js'
 
 let l: Logger.RootLogger
 let output: MemoryOutput
@@ -15,7 +15,7 @@ let output: MemoryOutput
 resetBeforeEachTest(process, 'env')
 
 beforeEach(() => {
-  process.env.LOG_PRETTY = 'false'
+  process.env['LOG_PRETTY'] = 'false'
   output = createMemoryOutput()
   l = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
@@ -46,25 +46,25 @@ describe('pretty', () => {
     describe('precedence', () => {
       it('considers instnace time config first', () => {
         process.stdout.isTTY = false
-        process.env.LOG_PRETTY = 'false'
+        process.env['LOG_PRETTY'] = 'false'
         const l = RootLogger.create({ pretty: false })
         l.settings({ pretty: true })
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then considers construction time config', () => {
         process.stdout.isTTY = false
-        process.env.LOG_PRETTY = 'false'
+        process.env['LOG_PRETTY'] = 'false'
         const l = RootLogger.create({ pretty: true })
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then considers LOG_PRETTY env var true|false (case insensitive)', () => {
         process.stdout.isTTY = false
-        process.env.LOG_PRETTY = 'tRuE'
+        process.env['LOG_PRETTY'] = 'tRuE'
         const l = RootLogger.create()
         expect(l.settings.pretty.enabled).toEqual(true)
       })
       it('then defaults to process.stdout.isTTY', () => {
-        delete process.env.LOG_PRETTY // pre-test logic forces false otherwise
+        delete process.env['LOG_PRETTY'] // pre-test logic forces false otherwise
         process.stdout.isTTY = true
         const l = RootLogger.create()
         expect(l.settings.pretty.enabled).toEqual(true)
@@ -187,20 +187,20 @@ describe('pretty', () => {
 describe('filter', () => {
   describe('precedence', () => {
     it('considers instance time config first', () => {
-      process.env.LOG_FILTER = 'from_env_var'
+      process.env['LOG_FILTER'] = 'from_env_var'
       const l = RootLogger.create({ filter: { pattern: '*@fatal' } })
       l.settings({ filter: { pattern: 'foo' } })
       expect(l.settings.filter.patterns).toMatchSnapshot()
     })
 
     it('then considers construction time config', () => {
-      process.env.LOG_FILTER = 'from_env_var'
+      process.env['LOG_FILTER'] = 'from_env_var'
       const l = RootLogger.create({ filter: { pattern: '*@fatal' } })
       expect(l.settings.filter).toMatchSnapshot()
     })
 
     it('then considers LOG_FILTER env var', () => {
-      process.env.LOG_FILTER = 'from_env_var'
+      process.env['LOG_FILTER'] = 'from_env_var'
       const l = RootLogger.create()
       expect(l.settings.filter).toMatchSnapshot()
     })
@@ -224,7 +224,7 @@ describe('filter', () => {
 
   it('LOG_FILTER envar config when invalid triggers readable log warning', () => {
     const calls = mockConsoleLog()
-    process.env.LOG_FILTER = '**'
+    process.env['LOG_FILTER'] = '**'
     RootLogger.create()
     expect(calls).toMatchSnapshot()
     unmockConsoleLog()
@@ -234,29 +234,29 @@ describe('filter', () => {
 describe('level', () => {
   describe('precedence', () => {
     it('considers instance time config first', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'fatal'
+      process.env['NODE_ENV'] = 'production'
+      process.env['LOG_LEVEL'] = 'fatal'
       const l = RootLogger.create({ filter: { level: 'fatal' } })
       l.settings({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers construction time config', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'fatal'
+      process.env['NODE_ENV'] = 'production'
+      process.env['LOG_LEVEL'] = 'fatal'
       const l = RootLogger.create({ filter: { level: 'trace' } })
       expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers LOG_LEVEL env var', () => {
-      process.env.NODE_ENV = 'production'
-      process.env.LOG_LEVEL = 'trace'
+      process.env['NODE_ENV'] = 'production'
+      process.env['LOG_LEVEL'] = 'trace'
       const l = RootLogger.create()
       expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
     })
 
     it('then considers NODE_ENV=production', () => {
-      process.env.NODE_ENV = 'production'
+      process.env['NODE_ENV'] = 'production'
       const l = RootLogger.create()
       expect(l.settings.filter.patterns[0]?.level.value).toEqual('info')
     })
@@ -273,14 +273,14 @@ describe('level', () => {
   })
 
   it('LOG_LEVEL env var config is treated case insensitive', () => {
-    process.env.NODE_ENV = 'production'
-    process.env.LOG_LEVEL = 'TRACE'
+    process.env['NODE_ENV'] = 'production'
+    process.env['LOG_LEVEL'] = 'TRACE'
     const l = RootLogger.create()
     expect(l.settings.filter.patterns[0]?.level.value).toEqual('trace')
   })
 
   it('LOG_LEVEL env var config when invalid triggers thrown readable error', () => {
-    process.env.LOG_LEVEL = 'ttrace'
+    process.env['LOG_LEVEL'] = 'ttrace'
     expect(() => RootLogger.create()).toThrowErrorMatchingInlineSnapshot(
       `"Could not parse environment variable LOG_LEVEL into LogLevel. The environment variable was: ttrace. A valid environment variable must be like: fatal, error, warn, info, debug, trace"`
     )
@@ -296,7 +296,7 @@ describe('data', () => {
         "time": false,
       }
     `)
-    process.env.NODE_ENV = 'not production'
+    process.env['NODE_ENV'] = 'not production'
     expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
       {
         "hostname": false,
@@ -305,7 +305,7 @@ describe('data', () => {
       }
     `)
 
-    process.env.NODE_ENV = 'production'
+    process.env['NODE_ENV'] = 'production'
     expect(RootLogger.create().settings.data).toMatchInlineSnapshot(`
       {
         "hostname": true,
@@ -323,7 +323,7 @@ describe('data', () => {
         "time": true,
       }
     `)
-    process.env.NODE_ENV = 'not production'
+    process.env['NODE_ENV'] = 'not production'
     expect(RootLogger.create({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       {
         "hostname": false,
@@ -331,7 +331,7 @@ describe('data', () => {
         "time": true,
       }
     `)
-    process.env.NODE_ENV = 'production'
+    process.env['NODE_ENV'] = 'production'
     expect(RootLogger.create({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
       {
         "hostname": true,
@@ -349,7 +349,7 @@ describe('data', () => {
         "time": true,
       }
     `)
-    process.env.NODE_ENV = 'not production'
+    process.env['NODE_ENV'] = 'not production'
     expect(RootLogger.create().settings({ data: { time: true } }).settings.data).toMatchInlineSnapshot(`
       {
         "hostname": false,
@@ -357,7 +357,7 @@ describe('data', () => {
         "time": true,
       }
     `)
-    process.env.NODE_ENV = 'production'
+    process.env['NODE_ENV'] = 'production'
     expect(RootLogger.create().settings({ data: { time: false } }).settings.data).toMatchInlineSnapshot(`
       {
         "hostname": true,

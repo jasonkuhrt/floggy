@@ -1,6 +1,6 @@
 import * as Lo from 'lodash'
 import { beforeEach } from 'vitest'
-import * as Output from '../src/output.mjs'
+import * as Output from '../src/output.js'
 
 /**
  * A mock output stream useful for passing to logger and later reflecting on the

@@ -1,7 +1,7 @@
-import { chalk } from '../chalk.mjs'
-import { LogRecord } from '../logger.mjs'
-import { spanChar } from '../utils.mjs'
-import { Renderer } from './index.mjs'
+import { chalk } from '../chalk.js'
+import { LogRecord } from '../logger.js'
+import { spanChar } from '../utils.js'
+import { Renderer } from './index.js'
 import * as OS from 'node:os'
 import { beforeEach, describe, expect, it } from 'vitest'
 

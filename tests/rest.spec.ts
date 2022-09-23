@@ -6,9 +6,9 @@
 // in v12 test suite
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import * as Logger from '../src/index.mjs'
-import * as RootLogger from '../src/root-logger.mjs'
-import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers.mjs'
+import * as Logger from '../src/index.js'
+import * as RootLogger from '../src/root-logger.js'
+import { createMemoryOutput, MemoryOutput, resetBeforeEachTest } from './__helpers.js'
 
 // shows up in snapshots of json-mode logs
 require('os').hostname = () => 'mock-host'
@@ -21,7 +21,7 @@ let log: Logger.RootLogger
 let output: MemoryOutput
 
 beforeEach(() => {
-  process.env.LOG_PRETTY = 'false'
+  process.env['LOG_PRETTY'] = 'false'
   output = createMemoryOutput()
   log = RootLogger.create({ output, pretty: { timeDiff: false } })
   process.stdout.columns = 200
@@ -112,19 +112,19 @@ describe('.child', () => {
 
   it('log output includes path field showing the logger namespacing', () => {
     log.child('b').child('c').child('d').info('foo')
-    expect(output.memory[0]?.path).toEqual(['b', 'c', 'd'])
+    expect(output.memory[0]?.['path']).toEqual(['b', 'c', 'd'])
   })
 
   it('inherits context from parent', () => {
     log.addToContext({ foo: 'bar' }).child('tim').info('hi')
-    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.['context']).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context', () => {
     const b = log.child('b')
     log.addToContext({ foo: 'bar' })
     b.info('lop')
-    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.['context']).toEqual({ foo: 'bar' })
   })
 
   it('at log time reflects the current state of parent context even from further up the chain', () => {
@@ -133,7 +133,7 @@ describe('.child', () => {
     const d = c.child('d')
     log.addToContext({ foo: 'bar' })
     d.info('lop')
-    expect(output.memory[0]?.context).toEqual({ foo: 'bar' })
+    expect(output.memory[0]?.['context']).toEqual({ foo: 'bar' })
   })
 
   it('inherits level from parent', () => {
@@ -159,11 +159,11 @@ describe('.child', () => {
   it('is unable to change context of parent', () => {
     log.child('b').addToContext({ foo1: 'bar' })
     log.info('qux1')
-    expect(output.memory[0]?.context).toEqual(undefined)
+    expect(output.memory[0]?.['context']).toEqual(undefined)
     log.addToContext({ toto: 'one' })
     log.child('b').addToContext({ foo2: 'bar' })
     log.info('qux2')
-    expect(output.memory[1]?.context).toEqual({ toto: 'one' })
+    expect(output.memory[1]?.['context']).toEqual({ toto: 'one' })
   })
 
   it('is unable to change context of siblings', () => {
