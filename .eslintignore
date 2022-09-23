@@ -2,5 +2,5 @@
 .vscode
 .github
 node_modules
-dist
+build
 tests
