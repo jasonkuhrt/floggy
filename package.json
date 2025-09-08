@@ -71,7 +71,7 @@
     "chalk": "^4.1.2",
     "kleur": "^4.1.5",
     "lodash": "^4.17.21",
-    "strip-ansi": "6"
+    "strip-ansi": "7"
   },
   "importSorter": {
     "emptyLinesBetweenGroups": false,
